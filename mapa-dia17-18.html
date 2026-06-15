@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>🗺 Mapa Día 17 + 18 · Viaje Nápoles</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>🗺</text></svg>">
+<style>
+  :root {
+    --mar: #1e6091;
+    --mar-dark: #154766;
+    --crema: #fdfaf3;
+    --sol: #f4a261;
+    --buga: #ef476f;
+    --green: #2a9d8f;
+    --red: #e74c3c;
+    --purple: #9b59b6;
+    --orange: #f39c12;
+  }
+  * { box-sizing: border-box; }
+  body, html { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif; }
+  #map { height: 100vh; width: 100vw; background: #d8e3ec; }
+
+  /* Panel lateral */
+  .panel {
+    position: absolute;
+    top: 12px; left: 12px; z-index: 1000;
+    background: white;
+    padding: 14px 16px;
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+    max-width: 320px;
+    max-height: calc(100vh - 24px);
+    overflow-y: auto;
+  }
+  .panel h2 { margin: 0 0 4px; font-size: 16px; color: var(--mar-dark); letter-spacing: -0.01em; }
+  .panel p.sub { margin: 0 0 12px; font-size: 12px; color: #6e6a62; }
+
+  .legend {
+    display: flex; flex-direction: column; gap: 8px;
+    margin-top: 8px; padding-top: 10px;
+    border-top: 1px solid #f0ece0;
+  }
+  .legend label {
+    font-size: 13px; cursor: pointer;
+    display: flex; align-items: center; gap: 8px;
+    user-select: none;
+    padding: 4px 6px;
+    border-radius: 8px;
+  }
+  .legend label:hover { background: #f7f5f1; }
+  .legend label.disabled { opacity: 0.45; }
+  .legend .color-dot {
+    width: 14px; height: 14px; border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
+  .legend input[type=checkbox] { margin: 0; }
+  .legend .count {
+    margin-left: auto;
+    font-size: 11px;
+    background: #f0ece0;
+    color: #6e6a62;
+    padding: 1px 6px;
+    border-radius: 999px;
+  }
+
+  .focus-buttons {
+    display: flex; flex-wrap: wrap; gap: 4px;
+    margin-top: 10px; padding-top: 10px;
+    border-top: 1px solid #f0ece0;
+  }
+  .focus-buttons button {
+    background: #f7f5f1; color: var(--mar);
+    border: none; padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 11.5px; font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .focus-buttons button:hover { background: var(--mar); color: white; }
+
+  .back-btn {
+    position: absolute; bottom: 18px; left: 12px; z-index: 1000;
+    background: white;
+    padding: 10px 16px;
+    border-radius: 999px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+    text-decoration: none;
+    color: var(--mar);
+    font-weight: 700;
+    font-size: 13px;
+    border: 1px solid var(--mar);
+  }
+
+  /* Popups */
+  .leaflet-popup-content-wrapper { border-radius: 12px; }
+  .leaflet-popup-content { margin: 12px 14px; line-height: 1.45; font-size: 13.5px; }
+  .leaflet-popup-content b { color: var(--mar-dark); }
+  .leaflet-popup-content .meta {
+    font-size: 11.5px; color: #6e6a62;
+    margin-top: 4px;
+  }
+  .leaflet-popup-content .hora {
+    background: var(--mar);
+    color: white;
+    padding: 1px 8px;
+    border-radius: 999px;
+    font-size: 11px; font-weight: 700;
+    display: inline-block;
+    margin-right: 6px;
+  }
+  .leaflet-popup-content .hora.tarde { background: var(--purple); }
+  .leaflet-popup-content .hora.noche { background: var(--orange); }
+  .leaflet-popup-content .hora.dia18 { background: var(--green); }
+
+  /* Custom div icons */
+  .marker-icon {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    background: white;
+    border: 3px solid var(--mar);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  }
+  .marker-icon.tarde { border-color: var(--purple); }
+  .marker-icon.noche { border-color: var(--orange); }
+  .marker-icon.dia18 { border-color: var(--green); }
+  .marker-icon.start { background: var(--red); color: white; border-color: white; }
+  .marker-icon.end { background: var(--green); color: white; border-color: white; }
+
+  @media (max-width: 700px) {
+    .panel { max-width: 280px; padding: 10px 12px; }
+    .panel h2 { font-size: 14px; }
+    .legend label { font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<div class="panel">
+  <h2>🗺 Mapa Día 17 + 18</h2>
+  <p class="sub">Toca cualquier marcador para detalles. Activa/desactiva capas para limpiar el mapa.</p>
+
+  <div class="legend">
+    <label data-layer="manana">
+      <input type="checkbox" checked>
+      <span class="color-dot" style="background:#e74c3c"></span>
+      <span>🌋 Mañana 17 · Pompeya</span>
+      <span class="count" id="cnt-manana">0</span>
+    </label>
+    <label data-layer="tarde">
+      <input type="checkbox" checked>
+      <span class="color-dot" style="background:#9b59b6"></span>
+      <span>🍕 Tarde 17 · Ver Nápoles</span>
+      <span class="count" id="cnt-tarde">0</span>
+    </label>
+    <label data-layer="noche">
+      <input type="checkbox" checked>
+      <span class="color-dot" style="background:#f39c12"></span>
+      <span>🌅 Noche 17 · Sunset + Cena</span>
+      <span class="count" id="cnt-noche">0</span>
+    </label>
+    <label data-layer="dia18">
+      <input type="checkbox" checked>
+      <span class="color-dot" style="background:#2a9d8f"></span>
+      <span>🌊 Día 18 · Nápoles → Meta</span>
+      <span class="count" id="cnt-dia18">0</span>
+    </label>
+  </div>
+
+  <div class="focus-buttons">
+    <button onclick="focusOn('apt')">🏠 Apartamento</button>
+    <button onclick="focusOn('napoles')">🏛 Nápoles tarde</button>
+    <button onclick="focusOn('pompeya')">🌋 Pompeya</button>
+    <button onclick="focusOn('rutadia18')">⛴ Día 18</button>
+    <button onclick="focusOn('todo')">🌍 Ver todo</button>
+  </div>
+</div>
+
+<a class="back-btn" href="index.html">← Volver a la app</a>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+  // ═══════════════════════════════════════════
+  // Inicialización del mapa
+  // ═══════════════════════════════════════════
+  const map = L.map('map', {
+    zoomControl: false,
+    attributionControl: true
+  }).setView([40.8470, 14.2560], 14);
+
+  // Zoom control bottom right
+  L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+  // Tile layer · CartoDB Voyager (limpio, bonito)
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> · © <a href="https://carto.com/">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 19
+  }).addTo(map);
+
+  // ═══════════════════════════════════════════
+  // Helper para crear iconos
+  // ═══════════════════════════════════════════
+  function emoji(emojiChar, layer, extraClass = '') {
+    return L.divIcon({
+      html: `<div class="marker-icon ${layer} ${extraClass}">${emojiChar}</div>`,
+      className: '',
+      iconSize: [30, 30],
+      iconAnchor: [15, 15],
+      popupAnchor: [0, -15]
+    });
+  }
+
+  // ═══════════════════════════════════════════
+  // POIs DÍA 17 MAÑANA · Pompeya (rojo)
+  // ═══════════════════════════════════════════
+  const layerManana = L.layerGroup();
+
+  const POIS_MANANA = [
+    { coords:[40.8466, 14.2618], emoji:'🏠', extra:'start',
+      title:'<span class="hora">07:30</span><b>Apartamento Vico Croce</b>',
+      text:'Vico Croce a Sant\'Agostino, 1<br>Centro Histórico, 80139 Nápoles' },
+    { coords:[40.8505, 14.2706], emoji:'🚂',
+      title:'<span class="hora">08:30</span><b>Stazione Porta Nolana</b>',
+      text:'Circumvesuviana origen.<br>📍 Andén 3 dirección Sorrento.<br>🎫 Billete 3,20€/p en máquina amarilla EAV.<br>⚠️ Validar antes de subir.' },
+    { coords:[40.7501, 14.4827], emoji:'🏛',
+      title:'<span class="hora">09:13</span><b>Pompei Scavi - Villa dei Misteri</b>',
+      text:'Llegada del tren. La estación está literalmente enfrente de la entrada a Pompeya.<br>🚶 2 min andando a Porta Marina Superiore.' },
+    { coords:[40.7494, 14.4823], emoji:'🎫', extra:'end',
+      title:'<span class="hora">10:00</span><b>Porta Marina Superiore</b>',
+      text:'⭐ <b>Punto encuentro Civitatis</b><br>"Visita guiada por Pompeya" (Askos Tours)<br>Buscar cartel amarillo, guía con cartel "ASKOS" o "Civitatis"<br>📞 Datos en tu PDF reserva' }
+  ];
+
+  POIS_MANANA.forEach(p => {
+    const marker = L.marker(p.coords, { icon: emoji(p.emoji, 'manana', p.extra||'') })
+      .bindPopup(`<div class="info-popup">${p.title}<br><div class="meta">${p.text}</div></div>`);
+    layerManana.addLayer(marker);
+  });
+
+  // Ruta apt → Porta Nolana (caminando)
+  layerManana.addLayer(L.polyline([
+    [40.8466, 14.2618],   // Apartamento
+    [40.8462, 14.2628],   // baja a Via Sant'Agostino alla Zecca
+    [40.8454, 14.2640],   // llega a Corso Umberto I
+    [40.8478, 14.2680],   // sube por Corso Umberto I dirección este
+    [40.8495, 14.2700],   // entra en Piazza Garibaldi
+    [40.8505, 14.2706]    // Porta Nolana
+  ], { color:'#e74c3c', weight:5, opacity:0.75, dashArray:'8 6' })
+    .bindPopup('🚶 <b>Andando al tren</b><br>Vico Croce → Porta Nolana<br>~10 min · 700m<br>Vía Corso Umberto I (segura)'));
+
+  // Ruta tren Naples → Pompei (línea esquemática)
+  layerManana.addLayer(L.polyline([
+    [40.8505, 14.2706],
+    [40.8400, 14.2900],
+    [40.8200, 14.3100],
+    [40.7900, 14.3400],
+    [40.7700, 14.3800],
+    [40.7600, 14.4200],
+    [40.7501, 14.4827]
+  ], { color:'#e74c3c', weight:4, opacity:0.6 })
+    .bindPopup('🚂 <b>Circumvesuviana</b><br>Porta Nolana → Pompei Scavi<br>08:41 → 09:13 · 32 min<br>3,20€/p · cada 30 min'));
+
+  // ═══════════════════════════════════════════
+  // POIs DÍA 17 TARDE · Comer + Ver (morado)
+  // ═══════════════════════════════════════════
+  const layerTarde = L.layerGroup();
+
+  const POIS_TARDE = [
+    { coords:[40.8505, 14.2706], emoji:'🚂',
+      title:'<span class="hora tarde">14:05</span><b>Vuelta Porta Nolana</b>',
+      text:'Llegada de Pompei.<br>🚶 10 min andando al apartamento' },
+    { coords:[40.8466, 14.2618], emoji:'🏠',
+      title:'<span class="hora tarde">14:30</span><b>Apartamento · Ducha rápida</b>',
+      text:'Recarga + cambio de ropa para la tarde' },
+    { coords:[40.8483, 14.2535], emoji:'🍕',
+      title:'<span class="hora tarde">15:00</span><b>La Masardona</b>',
+      text:'⭐ Pizza fritta legendaria<br>Via Capitelli 27<br>~5€ · comer de pie<br>Comida callejera napolitana' },
+    { coords:[40.8497, 14.2570], emoji:'🛍',
+      title:'<span class="hora tarde">16:00</span><b>Via San Gregorio Armeno</b>',
+      text:'La calle de los belenes ⭐<br>Talleres artesanales tradicionales<br>~30-40 min paseando' },
+    { coords:[40.8482, 14.2528], emoji:'⛪',
+      title:'<span class="hora tarde">16:45</span><b>Piazza del Gesù + Santa Chiara</b>',
+      text:'Una de las plazas más bonitas<br>Claustro Santa Chiara 6€/p<br>Rincón mágico de Nápoles' },
+    { coords:[40.8525, 14.2592], emoji:'🏰',
+      title:'<span class="hora tarde">17:30</span><b>Duomo di Napoli</b>',
+      text:'Catedral · gratis · 15-20 min<br>La iglesia más importante de la ciudad' },
+    { coords:[40.8388, 14.2500], emoji:'🥐',
+      title:'<span class="hora tarde">17:50</span><b>Sfogliatella Mary</b>',
+      text:'Galleria Umberto I<br>⭐ Sfogliatella legendaria<br>Para llevar mientras paseas' },
+    { coords:[40.8357, 14.2483], emoji:'🏛',
+      title:'<span class="hora tarde">18:30</span><b>Piazza del Plebiscito</b>',
+      text:'⭐ LA plaza más impresionante de Nápoles<br>Palazzo Reale + San Francesco di Paola<br>15-20 min foto' },
+    { coords:[40.8383, 14.2532], emoji:'🏯',
+      title:'<span class="hora tarde">19:00</span><b>Castel Nuovo</b>',
+      text:'Castillo medieval emblemático<br>Foto exterior · no hace falta entrar' }
+  ];
+
+  POIS_TARDE.forEach(p => {
+    const marker = L.marker(p.coords, { icon: emoji(p.emoji, 'tarde') })
+      .bindPopup(`<div class="info-popup">${p.title}<br><div class="meta">${p.text}</div></div>`);
+    layerTarde.addLayer(marker);
+  });
+
+  // Recorrido tarde (caminando por el centro)
+  layerTarde.addLayer(L.polyline([
+    [40.8466, 14.2618],   // Apartamento
+    [40.8483, 14.2535],   // La Masardona
+    [40.8497, 14.2570],   // San Gregorio Armeno
+    [40.8482, 14.2528],   // Gesù Nuovo + Santa Chiara
+    [40.8525, 14.2592],   // Duomo
+    [40.8480, 14.2530],   // bajamos por Toledo
+    [40.8440, 14.2510],   // Via Toledo
+    [40.8400, 14.2495],   // Via Toledo
+    [40.8388, 14.2500],   // Sfogliatella Mary
+    [40.8370, 14.2490],   // bajando
+    [40.8357, 14.2483],   // Plebiscito
+    [40.8383, 14.2532]    // Castel Nuovo
+  ], { color:'#9b59b6', weight:5, opacity:0.75 })
+    .bindPopup('🚶 <b>Recorrido tarde</b><br>Spaccanapoli → Plebiscito → Castel Nuovo<br>~3.5 km caminando<br>Llevar zapatillas planas'));
+
+  // ═══════════════════════════════════════════
+  // POIs DÍA 17 NOCHE · Sunset + Cena (naranja)
+  // ═══════════════════════════════════════════
+  const layerNoche = L.layerGroup();
+
+  const POIS_NOCHE = [
+    { coords:[40.8290, 14.2403], emoji:'🌅',
+      title:'<span class="hora noche">19:30</span><b>Lungomare Caracciolo</b>',
+      text:'⭐ EL paseo más bonito de Nápoles<br>Vistas Vesubio + Capri + bahía<br>Sunset 20:34 · golden hour' },
+    { coords:[40.8281, 14.2475], emoji:'🏯',
+      title:'<span class="hora noche">20:00</span><b>Castel dell\'Ovo</b>',
+      text:'Castillo del huevo<br>Foto desde el muelle<br>Acceso gratis al patio' },
+    { coords:[40.8281, 14.2480], emoji:'🍹',
+      title:'<span class="hora noche">20:45</span><b>Borgo Marinari · APEROL SPRITZ</b>',
+      text:'⭐ Mejor zona aperitivo de Nápoles<br>Junto al Castel dell\'Ovo<br>Terrazas con vista al mar<br>Aperitivo italiano + antipasti' },
+    { coords:[40.8344, 14.2389], emoji:'🍝',
+      title:'<span class="hora noche">21:30</span><b>CENA en Chiaia</b>',
+      text:'⭐ Zona elegante de Nápoles<br>Opciones top:<br>• Umberto (clásico 1916)<br>• Concettina (pizza Michelin)<br>• 50 Kalò (Mergellina, pizza brutal)<br>⚠️ RESERVAR con días' },
+    { coords:[40.8340, 14.2425], emoji:'🚶',
+      title:'<span class="hora noche">22:30</span><b>Paseo Via Chiaia + Piazza dei Martiri</b>',
+      text:'Después de la cena<br>Zona elegante de cócteles<br>Vuelta a Vico Croce: taxi 10€ o metro M6' }
+  ];
+
+  POIS_NOCHE.forEach(p => {
+    const marker = L.marker(p.coords, { icon: emoji(p.emoji, 'noche') })
+      .bindPopup(`<div class="info-popup">${p.title}<br><div class="meta">${p.text}</div></div>`);
+    layerNoche.addLayer(marker);
+  });
+
+  // Conexión Castel Nuovo → Lungomare → Borgo → Chiaia
+  layerNoche.addLayer(L.polyline([
+    [40.8383, 14.2532],   // desde Castel Nuovo
+    [40.8350, 14.2500],   // bajando
+    [40.8310, 14.2450],   // hacia el lungomare
+    [40.8290, 14.2403],   // Lungomare Caracciolo
+    [40.8281, 14.2475],   // Castel dell'Ovo
+    [40.8281, 14.2480],   // Borgo Marinari (aperol)
+    [40.8290, 14.2440],
+    [40.8310, 14.2400],
+    [40.8344, 14.2389],   // Chiaia (cena)
+    [40.8340, 14.2425]    // Via Chiaia paseo
+  ], { color:'#f39c12', weight:5, opacity:0.80 })
+    .bindPopup('🚶🌅 <b>Recorrido sunset + cena</b><br>Castel Nuovo → Lungomare → Borgo Marinari → Chiaia<br>Magia napolitana al atardecer'));
+
+  // ═══════════════════════════════════════════
+  // POIs DÍA 18 · Nápoles → Meta (verde)
+  // 3 opciones: tren / bus / ferry
+  // ═══════════════════════════════════════════
+  const layerDia18 = L.layerGroup();
+
+  const POIS_DIA18 = [
+    { coords:[40.8466, 14.2618], emoji:'🏠',
+      title:'<span class="hora dia18">10:00</span><b>Check-out Vico Croce</b>',
+      text:'Salida del apartamento con maletas<br>Pide guardar equipaje si vais a desayunar largo' },
+
+    // OPCIÓN A · Curreri Bus desde Centrale
+    { coords:[40.8525, 14.2725], emoji:'🚌',
+      title:'<span class="hora dia18">12:00</span><b>OPCIÓN A · Curreri Bus</b>',
+      text:'<b>Napoli Centrale (Piazza Garibaldi)</b><br>Salida cada 1-2h<br>10€/p · 75-90 min directo a Sorrento<br>⭐ Lo más cómodo si llevas maletas<br>📞 curreriviaggi.it' },
+
+    // OPCIÓN B · Circumvesuviana
+    { coords:[40.8505, 14.2706], emoji:'🚂',
+      title:'<span class="hora dia18">12:30</span><b>OPCIÓN B · Circumvesuviana</b>',
+      text:'<b>Porta Nolana → Sorrento</b> (1h 17min)<br>Para en Meta (1h 6min) ⭐<br>5€/p · cada 30 min<br>⚠️ Lleva pocas maletas (no hay espacio)' },
+
+    // OPCIÓN C · Ferry
+    { coords:[40.8410, 14.2557], emoji:'⛴',
+      title:'<span class="hora dia18">13:30</span><b>OPCIÓN C · Ferry Beverello</b>',
+      text:'<b>Molo Beverello → Sorrento</b><br>40 min · 18€/p · Alilauro<br>⭐ La opción más bonita (mar)<br>⚠️ Verifica el día antes el estado del mar<br>📞 ferryhopper.com' },
+
+    // Llegadas
+    { coords:[40.6262, 14.3753], emoji:'🚉',
+      title:'<span class="hora dia18">~14:00</span><b>Sorrento estación / centro</b>',
+      text:'Llegada con Curreri o Circumvesuviana.<br>De aquí Circumvesuviana 1 parada a Meta (5 min, 1,30€/p) o taxi 8€' },
+
+    { coords:[40.6235, 14.3811], emoji:'⚓',
+      title:'<span class="hora dia18">~14:15</span><b>Marina Piccola Sorrento</b>',
+      text:'Llegada del ferry.<br>15 min andando al centro o microbús B (1,80€/p)' },
+
+    { coords:[40.6391, 14.4044], emoji:'🏖', extra:'end',
+      title:'<span class="hora dia18">~14:30</span><b>META · Estación + Apartamento</b>',
+      text:'⭐ Destino final<br>Apartamento Dipintodiblù vista mar<br>Check-in 15:00<br>3 noches Meta + Sorrento' }
+  ];
+
+  POIS_DIA18.forEach(p => {
+    const marker = L.marker(p.coords, { icon: emoji(p.emoji, 'dia18', p.extra||'') })
+      .bindPopup(`<div class="info-popup">${p.title}<br><div class="meta">${p.text}</div></div>`);
+    layerDia18.addLayer(marker);
+  });
+
+  // Ruta A · Bus Curreri (autopista A3)
+  layerDia18.addLayer(L.polyline([
+    [40.8525, 14.2725],   // Napoli Centrale
+    [40.8300, 14.3000],
+    [40.8000, 14.3300],
+    [40.7700, 14.3500],
+    [40.7400, 14.3700],
+    [40.7100, 14.3900],
+    [40.6800, 14.4050],
+    [40.6500, 14.4050],
+    [40.6391, 14.4044],   // Meta
+    [40.6262, 14.3753]    // Sorrento
+  ], { color:'#2a9d8f', weight:4, opacity:0.7 })
+    .bindPopup('🚌 <b>Ruta A · Curreri Bus</b><br>Centrale → Sorrento por A3<br>75-90 min · 10€/p'));
+
+  // Ruta B · Circumvesuviana (vía costa este)
+  layerDia18.addLayer(L.polyline([
+    [40.8505, 14.2706],   // Porta Nolana
+    [40.8200, 14.3100],
+    [40.7800, 14.3400],
+    [40.7600, 14.3800],
+    [40.7400, 14.4100],
+    [40.7200, 14.4400],
+    [40.6800, 14.4400],
+    [40.6391, 14.4044],   // Meta
+    [40.6262, 14.3753]    // Sorrento
+  ], { color:'#2a9d8f', weight:4, opacity:0.7, dashArray:'10 5' })
+    .bindPopup('🚂 <b>Ruta B · Circumvesuviana</b><br>Porta Nolana → Meta → Sorrento<br>1h 6min a Meta · 5€/p'));
+
+  // Ruta C · Ferry Beverello → Sorrento
+  layerDia18.addLayer(L.polyline([
+    [40.8410, 14.2557],   // Beverello
+    [40.8200, 14.2900],
+    [40.7800, 14.3200],
+    [40.7400, 14.3500],
+    [40.7000, 14.3700],
+    [40.6500, 14.3800],
+    [40.6235, 14.3811]    // Marina Piccola Sorrento
+  ], { color:'#2a9d8f', weight:4, opacity:0.7, dashArray:'2 6' })
+    .bindPopup('⛴ <b>Ruta C · Ferry Alilauro</b><br>Beverello → Sorrento<br>40 min · 18€/p · bonito mar'));
+
+  // Mini conexión Sorrento → Meta (paso final)
+  layerDia18.addLayer(L.polyline([
+    [40.6262, 14.3753],   // Sorrento centro
+    [40.6391, 14.4044]    // Meta
+  ], { color:'#2a9d8f', weight:5, opacity:0.9 })
+    .bindPopup('🚂 <b>Sorrento → Meta</b><br>1 parada Circumvesuviana · 5 min · 1,30€/p<br>O taxi 8€'));
+
+  // ═══════════════════════════════════════════
+  // Add all layers
+  // ═══════════════════════════════════════════
+  layerManana.addTo(map);
+  layerTarde.addTo(map);
+  layerNoche.addTo(map);
+  layerDia18.addTo(map);
+
+  const LAYERS = {
+    manana: layerManana,
+    tarde: layerTarde,
+    noche: layerNoche,
+    dia18: layerDia18
+  };
+
+  // Count POIs per layer
+  document.getElementById('cnt-manana').textContent = POIS_MANANA.length;
+  document.getElementById('cnt-tarde').textContent = POIS_TARDE.length;
+  document.getElementById('cnt-noche').textContent = POIS_NOCHE.length;
+  document.getElementById('cnt-dia18').textContent = POIS_DIA18.length;
+
+  // ═══════════════════════════════════════════
+  // Toggle layers
+  // ═══════════════════════════════════════════
+  document.querySelectorAll('.legend label').forEach(label => {
+    const layerName = label.dataset.layer;
+    const checkbox = label.querySelector('input');
+    checkbox.addEventListener('change', () => {
+      const layer = LAYERS[layerName];
+      if (checkbox.checked) {
+        layer.addTo(map);
+        label.classList.remove('disabled');
+      } else {
+        map.removeLayer(layer);
+        label.classList.add('disabled');
+      }
+    });
+  });
+
+  // ═══════════════════════════════════════════
+  // Focus buttons
+  // ═══════════════════════════════════════════
+  function focusOn(target) {
+    const focuses = {
+      apt:        { center:[40.8470, 14.2620], zoom:17 },
+      napoles:    { center:[40.8420, 14.2530], zoom:14 },
+      pompeya:    { center:[40.7497, 14.4825], zoom:17 },
+      rutadia18:  { bounds:[[40.6235, 14.2550], [40.8530, 14.4050]] },
+      todo:       { bounds:[[40.6235, 14.2370], [40.8530, 14.4830]] }
+    };
+    const f = focuses[target];
+    if (f.bounds) {
+      map.fitBounds(f.bounds, { padding:[50, 50] });
+    } else {
+      map.flyTo(f.center, f.zoom, { duration:1.2 });
+    }
+  }
+  window.focusOn = focusOn;
+
+  // Default view: Nápoles tarde (centro de la acción)
+  setTimeout(() => focusOn('napoles'), 200);
+</script>
+
+</body>
+</html>

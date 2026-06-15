@@ -1,0 +1,2155 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="description" content="Viaje a Nápoles + Sorrento + Costa Amalfitana · Ale y Lucía · 16-23 jun 2026 · Itinerario completo, hoteles, restaurantes, ferries, pronóstico tiempo">
+<meta property="og:title" content="Viaje Nápoles + Amalfi · Ale & Lucía">
+<meta property="og:description" content="Plan completo · 7 noches · Nápoles, Meta, Sorrento, Capri, Positano, Amalfi">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>🇮🇹</text></svg>">
+<title>Viaje Nápoles & Amalfi · Ale + Lucía · 16-23 jun 2026</title>
+<!-- Supabase deshabilitado en versión simplificada -->
+<style>
+  :root {
+    color-scheme: light;
+    --mar: #1e6091;
+    --mar-dark: #154766;
+    --mar-light: #e6f0f7;
+    --sol: #f4a261;
+    --sol-light: #fce5cc;
+    --limon: #ffd166;
+    --buganvilla: #ef476f;
+    --crema: #fdfaf3;
+    --tierra: #d97757;
+    --dark: #1f2430;
+    --muted: #6e6a62;
+    --line: #e6e1d8;
+    --green: #2a9d8f;
+    --red: #d9534f;
+    --shadow: 0 4px 14px rgba(30,96,145,0.10);
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    overflow-x: hidden;       /* evita scroll horizontal accidental en iPad */
+    -webkit-overflow-scrolling: touch;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+    background: var(--crema);
+    color: var(--dark);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 18px 16px 80px; }
+
+  header.hero {
+    background: linear-gradient(135deg, #1e6091 0%, #2a9d8f 35%, #f4a261 75%, #ef476f 100%);
+    color: #fff;
+    border-radius: 24px;
+    padding: 28px 26px;
+    margin-bottom: 18px;
+    box-shadow: 0 10px 30px rgba(30,96,145,0.22);
+    position: relative;
+    overflow: hidden;
+  }
+  header.hero::after {
+    content: "";
+    position: absolute; right: -40px; top: -40px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(255,209,102,0.5), transparent 70%);
+    border-radius: 50%;
+  }
+  header.hero h1 { margin: 0 0 4px; font-size: 28px; letter-spacing: -0.02em; position: relative; }
+  header.hero .sub { margin: 0; opacity: 0.95; font-size: 15px; position: relative; }
+  header.hero .flights {
+    margin-top: 16px;
+    display: flex; flex-wrap: wrap; gap: 8px;
+    position: relative;
+  }
+  header.hero .flights div {
+    background: rgba(255,255,255,0.18);
+    backdrop-filter: blur(6px);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  header.hero .countdown {
+    margin-top: 14px;
+    display: inline-flex; align-items: center; gap: 10px;
+    background: rgba(255,255,255,0.92);
+    color: var(--mar-dark);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 14px;
+    position: relative;
+  }
+  header.hero .countdown .num {
+    background: var(--buganvilla);
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 16px;
+  }
+
+  nav.tabs {
+    background: #fff;
+    border-radius: 14px;
+    padding: 6px;
+    margin-bottom: 18px;
+    box-shadow: var(--shadow);
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x;
+    position: sticky; top: 8px; z-index: 10;
+    border: 1px solid var(--line);
+    scrollbar-width: thin;
+  }
+  nav.tabs::-webkit-scrollbar { height: 4px; }
+  nav.tabs::-webkit-scrollbar-thumb { background: var(--mar-light); border-radius: 2px; }
+  nav.tabs button {
+    background: transparent;
+    border: none;
+    padding: 9px 14px;
+    border-radius: 10px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s;
+  }
+  nav.tabs button:hover { background: var(--mar-light); color: var(--mar); }
+  nav.tabs button.active { background: var(--mar); color: #fff; }
+
+  section.tab-content { display: none; }
+  section.tab-content.active { display: block; }
+
+  h2 {
+    font-size: 18px;
+    margin: 0 0 12px;
+    color: var(--mar-dark);
+    letter-spacing: -0.01em;
+  }
+  h3 { font-size: 15px; margin: 0 0 6px; color: var(--dark); }
+  p.muted { color: var(--muted); font-size: 13.5px; margin: 0 0 12px; }
+
+  .card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 18px 20px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow);
+  }
+  .card.accent-sol { border-left: 4px solid var(--sol); }
+  .card.accent-mar { border-left: 4px solid var(--mar); }
+  .card.accent-buga { border-left: 4px solid var(--buganvilla); }
+  .card.accent-limon { border-left: 4px solid var(--limon); }
+  .card.accent-red { border-left: 4px solid var(--red); }
+  .card.accent-green { border-left: 4px solid var(--green); }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  @media (max-width: 720px) {
+    .grid2, .grid3 { grid-template-columns: 1fr; }
+    header.hero h1 { font-size: 22px; }
+    .wrap { padding: 12px; }
+  }
+
+  .day-card { background: #fff; border: 1px solid var(--line); border-radius: 14px; margin-bottom: 10px; overflow: hidden; box-shadow: var(--shadow); }
+  .day-head {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 16px;
+    cursor: pointer;
+    background: linear-gradient(90deg, var(--mar-light) 0%, #fff 100%);
+  }
+  .day-head .day-num { font-weight: 700; color: var(--mar); font-size: 15px; }
+  .day-head .day-date { color: var(--muted); font-size: 13px; }
+  .day-head .day-title { font-weight: 600; font-size: 14px; color: var(--dark); flex: 1; padding: 0 12px; }
+  .day-head .toggle { color: var(--mar); font-weight: 700; }
+  .day-body { padding: 14px 16px; border-top: 1px solid var(--line); display: none; }
+  .day-card.open .day-body { display: block; }
+  .day-body ul { padding-left: 18px; margin: 6px 0; }
+  .day-body li { margin: 4px 0; font-size: 14px; }
+  .day-body textarea {
+    width: 100%; min-height: 60px; padding: 8px 10px;
+    border: 1px solid var(--line); border-radius: 8px;
+    font-family: inherit; font-size: 13.5px; resize: vertical;
+    margin-top: 8px;
+  }
+
+  .pill { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 999px; font-weight: 600; margin-right: 4px; }
+  .pill.sol { background: var(--sol-light); color: #8b4a13; }
+  .pill.mar { background: var(--mar-light); color: var(--mar-dark); }
+  .pill.green { background: #d8eedb; color: #18602a; }
+  .pill.buga { background: #fde2ea; color: #8a1f3a; }
+  .pill.limon { background: #fff4cc; color: #7a5e00; }
+  .pill.red { background: #fde2e2; color: #882020; }
+  .pill.ale { background: linear-gradient(135deg, #f4a261, #ef476f); color: #fff; padding: 3px 10px; font-weight: 700; box-shadow: 0 2px 6px rgba(239,71,111,0.3); }
+
+  .hotel-card { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 16px; box-shadow: var(--shadow); }
+  .hotel-card .label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); font-weight: 600; }
+  .hotel-card h3 { margin: 4px 0 4px; }
+  .hotel-card input, .hotel-card select {
+    width: 100%; padding: 8px 10px;
+    border: 1px solid var(--line); border-radius: 8px;
+    font-family: inherit; font-size: 14px;
+    margin: 4px 0 10px;
+    background: #fff;
+  }
+  .hotel-card .status-row { display: flex; gap: 8px; align-items: center; margin: 6px 0; }
+  .hotel-card .status { padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+  .hotel-card .status.no { background: #f3eee5; color: var(--muted); }
+  .hotel-card .status.buscando { background: var(--sol-light); color: #8b4a13; }
+  .hotel-card .status.reservado { background: var(--mar-light); color: var(--mar-dark); }
+  .hotel-card .status.pagado { background: #d8eedb; color: var(--green); }
+
+  .item-row {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .item-row:last-child { border-bottom: none; }
+  .item-row input[type=checkbox] { margin-top: 4px; }
+  .item-row .content { flex: 1; }
+  .item-row .content .name { font-weight: 600; font-size: 14px; }
+  .item-row .content .name a { color: var(--mar); text-decoration: none; }
+  .item-row .content .name a:hover { text-decoration: underline; }
+  .item-row .content .meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .item-row.done .content .name { text-decoration: line-through; opacity: 0.55; }
+
+  .btn {
+    display: inline-block;
+    background: var(--mar); color: #fff !important;
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    border: none; cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn:hover { background: var(--mar-dark); }
+  .btn.alt { background: #fff; color: var(--mar) !important; border: 1px solid var(--mar); }
+  .btn.alt:hover { background: var(--mar-light); }
+  .btn.warm { background: var(--sol); color: #fff !important; }
+  .btn.warm:hover { background: #e08c45; }
+  .btn.buga { background: var(--buganvilla); color: #fff !important; }
+  .btn.buga:hover { background: #c93356; }
+  .btn.sm { padding: 6px 10px; font-size: 12px; }
+
+  .budget-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); }
+  .budget-row label { font-size: 14px; color: var(--dark); flex: 1; }
+  .budget-row input { width: 110px; padding: 6px 10px; border: 1px solid var(--line); border-radius: 6px; font-family: inherit; text-align: right; }
+  .budget-total { display: flex; justify-content: space-between; padding: 12px 0; font-weight: 700; font-size: 16px; color: var(--mar-dark); border-top: 2px solid var(--mar); margin-top: 6px; }
+
+  .agent-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 18px;
+    box-shadow: var(--shadow);
+    margin-bottom: 12px;
+  }
+  .agent-head { display: flex; gap: 14px; align-items: center; margin-bottom: 10px; }
+  .agent-avatar {
+    width: 48px; height: 48px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+    background: var(--mar-light);
+  }
+  .agent-chef .agent-avatar { background: var(--sol-light); }
+  .agent-guide .agent-avatar { background: var(--mar-light); }
+  .agent-logi .agent-avatar { background: #d8eedb; }
+  .agent-photo .agent-avatar { background: #fff4cc; }
+  .agent-lucia .agent-avatar { background: #fde2ea; }
+  .agent-name { font-weight: 700; font-size: 15px; }
+  .agent-bio { font-size: 12.5px; color: var(--muted); }
+  .agent-card textarea {
+    width: 100%; min-height: 60px;
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    font-family: inherit; font-size: 14px;
+    resize: vertical;
+  }
+  .agent-quick { display: flex; gap: 6px; flex-wrap: wrap; margin: 8px 0; }
+  .agent-quick button {
+    background: var(--mar-light); color: var(--mar); border: none;
+    padding: 6px 10px; border-radius: 999px;
+    font-size: 12px; font-weight: 600; cursor: pointer;
+  }
+  .agent-quick button:hover { background: var(--mar); color: #fff; }
+  .agent-response {
+    background: var(--crema);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 14px;
+    line-height: 1.55;
+    margin-top: 10px;
+    white-space: pre-wrap;
+    display: none;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  .agent-response.show { display: block; }
+  .agent-response.loading { color: var(--muted); font-style: italic; }
+
+  .notes-area textarea {
+    width: 100%; min-height: 140px;
+    padding: 14px;
+    border: 1px solid var(--line); border-radius: 12px;
+    font-family: inherit; font-size: 14px;
+    background: #fff;
+    resize: vertical;
+  }
+  .wish-list { display: flex; gap: 12px; }
+  .wish-list > div { flex: 1; }
+  .wish-list h3 { color: var(--buganvilla); margin-bottom: 6px; }
+  .wish-list ul { padding-left: 16px; margin: 0; }
+  .wish-list li { font-size: 13.5px; margin: 4px 0; }
+  .wish-add { display: flex; gap: 6px; margin-top: 8px; }
+  .wish-add input { flex: 1; padding: 6px 10px; border: 1px solid var(--line); border-radius: 8px; font-family: inherit; }
+  @media (max-width: 720px) { .wish-list { flex-direction: column; } }
+
+  /* MAP croquis */
+  .route-map {
+    background: linear-gradient(135deg, var(--mar-light) 0%, var(--sol-light) 100%);
+    border-radius: 14px;
+    padding: 18px;
+    font-family: monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    overflow-x: auto;
+    white-space: pre;
+    color: var(--dark);
+  }
+
+  footer { font-size: 12px; color: var(--muted); margin-top: 26px; text-align: center; }
+  footer .heart { color: var(--buganvilla); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <h1>🇮🇹 Nápoles &amp; Costa Sorrentina</h1>
+  <p class="sub">Ale + Lucía · 16–23 jun 2026 · 7 noches · Sorrento como base</p>
+  <div class="flights">
+    <div>✈ VLC → NAP · 16 jun 20:15 · FR6837</div>
+    <div>✈ NAP → VLC · 23 jun 17:25 · FR6836</div>
+    <div>2 Nápoles + 3 Meta + 2 Sorrento centro</div>
+  </div>
+  <div class="countdown"><span>Quedan</span><span class="num" id="cdNum">—</span><span id="cdUnit">días</span></div>
+  <div id="syncIndicator" style="position:absolute;top:14px;right:18px;background:rgba(255,255,255,0.92);color:var(--mar-dark);padding:6px 12px;border-radius:999px;font-size:11.5px;font-weight:600;display:flex;align-items:center;gap:6px">
+    <span id="syncDot" style="width:8px;height:8px;border-radius:50%;background:#999;display:inline-block"></span>
+    <span id="syncText">localStorage</span>
+    <button id="whoBtn" style="background:transparent;border:none;color:var(--mar);cursor:pointer;font-size:11.5px;font-weight:600;padding:0 0 0 4px">?</button>
+  </div>
+  <div style="position:absolute;bottom:8px;right:14px;font-size:10px;opacity:0.7;font-weight:600">v2026.06.16-SIMPLE</div>
+</header>
+
+<!-- Modal "Quién soy" -->
+<div id="whoModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:center;justify-content:center;padding:20px">
+  <div style="background:#fff;border-radius:16px;padding:24px;max-width:380px;width:100%">
+    <h3 style="margin:0 0 12px">¿Quién eres?</h3>
+    <p style="margin:0 0 14px;font-size:13.5px;color:var(--muted)">Para que veamos quién hace cada cambio. Solo lo escoges una vez en este dispositivo.</p>
+    <div style="display:flex;gap:8px;margin-bottom:14px">
+      <button class="btn" style="flex:1" onclick="setWho('Ale')">👨 Ale</button>
+      <button class="btn buga" style="flex:1" onclick="setWho('Lucía')">👩 Lucía</button>
+    </div>
+    <button class="btn alt sm" style="width:100%" onclick="closeWho()">Cerrar</button>
+  </div>
+</div>
+
+<nav class="tabs" id="tabs">
+  <button class="active" data-tab="itinerario">📅 Itinerario</button>
+  <button data-tab="mapas">🗺 Mapas</button>
+  <button data-tab="reservas">🎫 Reservas</button>
+  <button data-tab="hoteles">🏨 Hoteles</button>
+  <button data-tab="comer">🍝 Comer</button>
+  <button data-tab="missitios">💡 Mis sitios</button>
+  <button data-tab="ver">📍 Ver</button>
+  <button data-tab="logistica">⛴ Logística</button>
+  <button data-tab="maleta">🎒 Maleta</button>
+  <button data-tab="errores">⚠️ Errores</button>
+  <button data-tab="tiempo">🌤 Tiempo</button>
+  <button data-tab="presupuesto">💸 Presupuesto</button>
+  <button data-tab="asistentes">🤖 Asistentes</button>
+  <button data-tab="notas">💌 Notas</button>
+</nav>
+
+<main>
+
+<!-- ITINERARIO -->
+<section id="itinerario" class="tab-content active">
+  <h2>Itinerario día a día</h2>
+  <p class="muted"><b>Sorrento como base</b> (NO movemos a Amalfi) · El factor que decide: el día del vuelo desde Sorrento el bus al aeropuerto es fiable, desde Amalfi todo es más frágil. Costa siempre en ferry (sin curvas/atascos). Bus solo de plan B si el mar se pone feo.</p>
+
+  <div class="card accent-mar" style="margin-bottom:14px">
+    <h3>🗺 Croquis del viaje</h3>
+    <div class="route-map">NÁPOLES Vico Croce (mar 16 noche → jue 18 mañana)
+   │
+   │  🚂 Día 17: Pompeya (Circumvesuviana)
+   │
+   ▼
+META · Apartamento vista mar (jue 18 → dom 21 mañana)
+   │
+   │  Día 18 jue: traslado + tarde Meta + cena Sant'Agnello
+   │  Día 19 vie: ⛴ CAPRI todo el día ⭐
+   │  Día 20 sáb: 🏖 RELAX Meta + Sorrento + cena terraza
+   │
+   │  🚖 Día 21 dom: taxi a MIFRA Suites
+   ▼
+SORRENTO CENTRO · MIFRA Suites (dom 21 → mar 23 mañana)
+   │
+   │  Día 21 dom: Marina Grande Sorrento + pescado
+   │  Día 22 lun: ⛴ POSITANO + AMALFI + ATRANI ⭐ (mejor día)
+   │
+   │  🚌 Día 23 mar: Curreri Bus desde estación
+   ▼
+✈ NAP 17:25</div>
+  </div>
+
+  <div id="days"></div>
+</section>
+
+<!-- MAPAS -->
+<section id="mapas" class="tab-content">
+  <h2>🗺 Mapas interactivos</h2>
+  <p class="muted">Recorridos día a día con cada parada, tiempos y notas. Pincha cualquier marcador.</p>
+
+  <div class="card accent-mar">
+    <h3>🌋 Día 17 + 18 · Pompeya + Nápoles + Traslado Meta</h3>
+    <ul style="margin:8px 0">
+      <li>🔴 <b>Mañana 17:</b> ruta apartamento → Porta Nolana → tren a Pompeya → punto encuentro Civitatis</li>
+      <li>🟣 <b>Tarde 17:</b> recorrido andando Spaccanapoli → San Gregorio → Gesù Nuovo → Duomo → Sfogliatella Mary → Plebiscito → Castel Nuovo</li>
+      <li>🟠 <b>Noche 17:</b> Lungomare + Castel dell'Ovo + Aperol Borgo Marinari + Cena Chiaia</li>
+      <li>🟢 <b>Día 18:</b> 3 opciones de Nápoles → Meta (Bus Curreri, Circumvesuviana, Ferry)</li>
+    </ul>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+      <a class="btn" href="mapa-dia17-18.html" target="_blank" rel="noopener">🗺 Abrir mapa pantalla completa ⭐</a>
+      <button class="btn alt sm" id="cargarMapaBtn" type="button">📍 Cargar mapa aquí abajo</button>
+    </div>
+
+    <div id="mapaContainer" style="margin-top:14px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:linear-gradient(135deg,#d8e3ec,#e6f0f7);min-height:80px;display:flex;align-items:center;justify-content:center;padding:24px;text-align:center">
+      <div>
+        <p style="margin:0 0 6px;font-size:14px;color:var(--mar-dark)"><b>El mapa se carga al pulsar el botón</b></p>
+        <p style="margin:0;font-size:12px;color:var(--muted)">Para iPhone/iPad recomendamos "Abrir pantalla completa" (más fluido)</p>
+      </div>
+    </div>
+    <p class="muted" style="font-size:12px;margin-top:6px">💡 Para móvil/iPad: mejor abrir en pantalla completa con el botón ⭐.</p>
+  </div>
+
+  <div class="card accent-sol">
+    <h3>📋 Leyenda de capas</h3>
+    <ul>
+      <li>🔴 <b>Rojo</b> · Mañana del 17 · ruta hasta Pompeya</li>
+      <li>🟣 <b>Morado</b> · Tarde del 17 · recorrido Spaccanapoli → Plebiscito</li>
+      <li>🟠 <b>Naranja</b> · Noche del 17 · Lungomare + Aperol + Cena Chiaia</li>
+      <li>🟢 <b>Verde</b> · Día 18 · 3 opciones Nápoles → Meta (con sus rutas)</li>
+    </ul>
+    <p class="muted" style="margin-top:8px">En el mapa hay botones "🏠 Apartamento", "🏛 Nápoles tarde", "🌋 Pompeya", "⛴ Día 18", "🌍 Ver todo" para enfocar cada zona.</p>
+  </div>
+
+  <div class="card accent-buga">
+    <h3>🚶 Distancia caminando · Día 17 tarde</h3>
+    <table style="width:100%;font-size:13.5px;border-collapse:collapse">
+      <thead style="background:#f7f5f1"><tr>
+        <th style="padding:8px;text-align:left">Tramo</th>
+        <th style="padding:8px;text-align:right">Distancia</th>
+        <th style="padding:8px;text-align:right">Tiempo</th>
+      </tr></thead>
+      <tbody>
+        <tr><td style="padding:6px 8px;border-top:1px solid #f0ece0">Apt → La Masardona</td><td style="padding:6px 8px;text-align:right">400m</td><td style="padding:6px 8px;text-align:right">6 min</td></tr>
+        <tr><td style="padding:6px 8px;border-top:1px solid #f0ece0">→ San Gregorio Armeno</td><td style="padding:6px 8px;text-align:right">350m</td><td style="padding:6px 8px;text-align:right">5 min</td></tr>
+        <tr><td style="padding:6px 8px;border-top:1px solid #f0ece0">→ Gesù Nuovo + Santa Chiara</td><td style="padding:6px 8px;text-align:right">200m</td><td style="padding:6px 8px;text-align:right">3 min</td></tr>
+        <tr><td style="padding:6px 8px;border-top:1px solid #f0ece0">→ Duomo</td><td style="padding:6px 8px;text-align:right">600m</td><td style="padding:6px 8px;text-align:right">9 min</td></tr>
+        <tr><td style="padding:6px 8px;border-top:1px solid #f0ece0">→ Sfogliatella Mary (Toledo)</td><td style="padding:6px 8px;text-align:right">1,5 km</td><td style="padding:6px 8px;text-align:right">20 min</td></tr>
+        <tr><td style="padding:6px 8px;border-top:1px solid #f0ece0">→ Plebiscito + Castel Nuovo</td><td style="padding:6px 8px;text-align:right">300m</td><td style="padding:6px 8px;text-align:right">5 min</td></tr>
+        <tr><td style="padding:6px 8px;border-top:1px solid #f0ece0">→ Lungomare + Castel dell'Ovo</td><td style="padding:6px 8px;text-align:right">900m</td><td style="padding:6px 8px;text-align:right">13 min</td></tr>
+        <tr><td style="padding:6px 8px;border-top:1px solid #f0ece0">→ Chiaia (cena)</td><td style="padding:6px 8px;text-align:right">700m</td><td style="padding:6px 8px;text-align:right">10 min</td></tr>
+        <tr style="background:#fde2ea;font-weight:700"><td style="padding:8px;border-top:2px solid var(--buganvilla)">TOTAL andando</td><td style="padding:8px;text-align:right">~5 km</td><td style="padding:8px;text-align:right">~70 min</td></tr>
+      </tbody>
+    </table>
+    <p class="muted" style="margin-top:8px">Repartido en 7 horas (15:00-22:00) con paradas. Zapatillas planas obligatorias.</p>
+  </div>
+</section>
+
+<!-- RESERVAS CONFIRMADAS -->
+<section id="reservas" class="tab-content">
+  <h2>🎫 Reservas confirmadas</h2>
+  <p class="muted">Todo lo que ya está pillado · con códigos, horarios y notas.</p>
+
+  <div class="card accent-mar">
+    <h3>✈ Vuelos Ryanair</h3>
+    <ul>
+      <li><b>IDA · Mar 16 jun · FR6837</b> · VLC 20:15 → NAP 22:30</li>
+      <li><b>VUELTA · Mar 23 jun · FR6836</b> · NAP 17:25 → VLC 19:55</li>
+      <li>Llegar al aeropuerto NAP 2h antes (15:25)</li>
+    </ul>
+  </div>
+
+  <div class="card accent-sol">
+    <h3>🏨 Hoteles</h3>
+    <ul>
+      <li><b>Tramo 1 · Vico Croce</b> (Nápoles) · Mar 16 → Jue 18 · 2 noches</li>
+      <li><b>Tramo 2 · Dipintodiblù</b> (Meta) · Jue 18 → Dom 21 · 3 noches · apartamento vista mar</li>
+      <li><b>Tramo 3 · MIFRA Suites</b> (Sorrento centro) · Dom 21 → Mar 23 · 2 noches</li>
+    </ul>
+  </div>
+
+  <div class="card accent-limon" style="border-left:6px solid var(--limon)">
+    <h3>⛴ FERRIS CAPRI · Viernes 19 jun ✅</h3>
+    <div style="background:#fff4cc;padding:12px;border-radius:10px;margin:8px 0">
+      <b>🎫 Reserva Ferryhopper · nº 50008TZIVE</b><br>
+      <b>Operador:</b> Alilauro · <b>Buque:</b> GENERAL GRUSON<br>
+      <small>📞 +39 0814972238 · WhatsApp +39 3351278104</small>
+    </div>
+    <table style="width:100%;border-collapse:collapse;font-size:13.5px;margin-top:8px">
+      <thead style="background:#f7f5f1"><tr>
+        <th style="padding:8px;text-align:left">Trayecto</th>
+        <th style="padding:8px;text-align:center">Hora</th>
+        <th style="padding:8px;text-align:center">Duración</th>
+        <th style="padding:8px;text-align:right">Billetes</th>
+      </tr></thead>
+      <tbody>
+        <tr style="border-top:1px solid #e6e1d8">
+          <td style="padding:8px"><b>IDA</b> Sorrento → Capri</td>
+          <td style="padding:8px;text-align:center">08:29 → 08:54</td>
+          <td style="padding:8px;text-align:center">25 min</td>
+          <td style="padding:8px;text-align:right;font-family:monospace;font-size:11px">R1584686 (Ale)<br>R1584687 (Lucía)</td>
+        </tr>
+        <tr style="border-top:1px solid #e6e1d8;background:#fdfaf3">
+          <td style="padding:8px"><b>VUELTA</b> Capri → Sorrento</td>
+          <td style="padding:8px;text-align:center">19:00 → 19:20</td>
+          <td style="padding:8px;text-align:center">20 min</td>
+          <td style="padding:8px;text-align:right;font-family:monospace;font-size:11px">R1584688 (Ale)<br>R1584689 (Lucía)</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="margin-top:10px"><b>Coste total ferris: 94€ los 2</b> (25€/p ida + 22€/p vuelta)</p>
+    <ul>
+      <li>⚠️ <b>Estar en puerto 30 min antes</b> (07:59 ida · 18:30 vuelta)</li>
+      <li>📱 Presentar PDF/QR al embarcar · ya guardado en Wallet</li>
+      <li>✅ Modificable hasta 24h antes en alilauro.it (con nº billete)</li>
+    </ul>
+  </div>
+
+  <div class="card accent-buga" style="border-left:6px solid var(--buganvilla)">
+    <h3>🎁 BARCO PRIVADO CON ANDREA · Viernes 19 jun</h3>
+    <div style="background:#fde2ea;padding:12px;border-radius:10px;margin:8px 0">
+      <b>💌 SORPRESA PARA LUCÍA</b> · ¡No le digas nada todavía!
+    </div>
+    <ul>
+      <li><b>Horario: 13:00 → 16:00</b> (3 horas)</li>
+      <li><b>Punto encuentro:</b> Marina Grande Capri (Andrea avisará el día antes)</li>
+      <li><b>Ruta esperada:</b> Faraglioni · Grotta Bianca · Grotta Verde · baño cala secreta · aperitivo a bordo</li>
+      <li>Llevar bañador puesto + crema solar SPF 50 + gafas + toalla + agua</li>
+      <li>Acabamos 16:00 con tiempo para Capri pueblo antes ferri 19:00 ✅</li>
+    </ul>
+  </div>
+
+  <div class="card accent-mar">
+    <h3>🚂 POMPEYA · Civitatis · Miércoles 17 jun</h3>
+    <ul>
+      <li><b>🎫 Civitatis "Visita guiada por Pompeya"</b> · 60€ los 2</li>
+      <li><b>Slot: 10:00</b> · 2h con guía + entrada incluida</li>
+      <li>Operador local Askos Tours · español · rating 9.4/10</li>
+      <li>Punto encuentro: <b>Porta Marina Superiore</b> (entrada principal)</li>
+      <li>Llegada con tren <b>08:41 Porta Nolana → Pompei Scavi 09:13</b></li>
+      <li>Cancelación gratis hasta 24h antes</li>
+      <li>⚠️ NO incluye Villa dei Misteri (se puede ver después por cuenta nuestra)</li>
+    </ul>
+  </div>
+
+  <div class="card accent-sol">
+    <h3>📋 Pendiente reservar</h3>
+    <ul>
+      <li>🍝 <b>Concettina ai Tre Santi</b> (Nápoles) · cena mié 17 · pizza Michelin</li>
+      <li>🍝 <b>La Cantinaccia del Popolo</b> (Sant'Agnello) · cena jue 18</li>
+      <li>🍝 <b>Da Gelsomina</b> (Anacapri) · comida vie 19 · agroturismo</li>
+      <li>🍝 <b>O Parrucchiano La Favorita</b> (Sorrento) · cena dom 21 · jardín limoneros</li>
+      <li>🍝 <b>Da Vincenzo</b> o <b>Lo Guarracino</b> (Positano) · comida lun 22</li>
+      <li>🍝 <b>A'Paranza</b> (Atrani) · ÚLTIMA CENA lun 22 · mariscos</li>
+      <li>🎫 <b>Cappella Sansevero (Cristo Velato)</b> · slot mié 17 · museosansevero.it</li>
+      <li>🚌 <b>Curreri Bus</b> Sorrento → NAP · slot mar 23 · curreriviaggi.it</li>
+    </ul>
+  </div>
+</section>
+
+<!-- HOTELES -->
+<section id="hoteles" class="tab-content">
+  <h2>Hoteles · 3 tramos</h2>
+  <p class="muted">Rellena nombre y precio cuando reserves. El total se calcula automáticamente.</p>
+  <div id="hoteles-list"></div>
+
+  <div class="card accent-buga" style="margin-top:16px">
+    <h3>🎯 Zonas recomendadas · Nápoles 16-18 jun · 3 grupos</h3>
+    <p class="muted">Búsquedas Booking pre-filtradas para el Tramo 1 según tu plan (llegada noche → Pompeya día 17 → tarde-noche en Nápoles ciudad). Todas con rating ≥ 8.0, 2 adultos, 2 noches.</p>
+
+    <div style="margin-top:18px;padding:14px;background:#fdfaf3;border-radius:12px;border-left:4px solid var(--mar)">
+      <h3 style="color:var(--mar-dark);margin-bottom:4px">🥇 Grupo 1 · CENTRO STORICO (mi recomendación)</h3>
+      <p class="muted" style="margin:2px 0 10px">Andas 10 min a Porta Nolana para coger Circumvesuviana a Pompeya. Cappella Sansevero, Spaccanapoli y pizzerías icónicas a 2 min. Vida nocturna real. Alibus directo desde Piazza Dante.</p>
+      <a class="btn warm sm" href="https://www.booking.com/searchresults.es.html?ss=Centro+Storico%2C+N%C3%A1poles&checkin=2026-06-16&checkout=2026-06-18&group_adults=2&no_rooms=1&no_children=0&nflt=review_score%3D85%3Bprice%3DEUR-100-160-1&order=review_score_and_price" target="_blank">Centro Storico · 8.5+ · 100-160€</a>
+      <a class="btn alt sm" href="https://www.booking.com/searchresults.es.html?ss=Piazza+Bellini%2C+N%C3%A1poles&checkin=2026-06-16&checkout=2026-06-18&group_adults=2&no_rooms=1&no_children=0&nflt=review_score%3D85&order=review_score_and_price" target="_blank">Piazza Bellini · 8.5+</a>
+      <a class="btn alt sm" href="https://www.booking.com/searchresults.es.html?ss=Piazza+Dante%2C+N%C3%A1poles&checkin=2026-06-16&checkout=2026-06-18&group_adults=2&no_rooms=1&no_children=0&nflt=review_score%3D85&order=review_score_and_price" target="_blank">Piazza Dante · 8.5+</a>
+      <a class="btn alt sm" href="https://www.booking.com/searchresults.es.html?ss=Decumani%2C+N%C3%A1poles&checkin=2026-06-16&checkout=2026-06-18&group_adults=2&no_rooms=1&no_children=0&nflt=review_score%3D85&order=review_score_and_price" target="_blank">Decumani · 8.5+</a>
+      <a class="btn alt sm" href="https://www.booking.com/searchresults.es.html?ss=Centro+Storico%2C+N%C3%A1poles&checkin=2026-06-16&checkout=2026-06-18&group_adults=2&no_rooms=1&no_children=0&nflt=review_score%3D90&order=review_score_and_price" target="_blank">Centro Storico · 9+ top</a>
+    </div>
+
+    <div style="margin-top:12px;padding:14px;background:#fdfaf3;border-radius:12px;border-left:4px solid var(--buganvilla)">
+      <h3 style="color:var(--mar-dark);margin-bottom:4px">🥈 Grupo 2 · CHIAIA / LUNGOMARE (elegante y segura)</h3>
+      <p class="muted" style="margin:2px 0 10px">Más burgués, mejor zona aperitivo y restaurantes refinados, paseo marítimo brutal al atardecer. CONTRA: necesitas taxi o metro para llegar a la Circumvesuviana de Pompeya.</p>
+      <a class="btn warm sm" href="https://www.booking.com/searchresults.es.html?ss=Chiaia%2C+N%C3%A1poles&checkin=2026-06-16&checkout=2026-06-18&group_adults=2&no_rooms=1&no_children=0&nflt=review_score%3D85%3Bprice%3DEUR-100-160-1&order=review_score_and_price" target="_blank">Chiaia · 8.5+ · 100-160€</a>
+      <a class="btn alt sm" href="https://www.booking.com/searchresults.es.html?ss=Chiaia%2C+N%C3%A1poles&checkin=2026-06-16&checkout=2026-06-18&group_adults=2&no_rooms=1&no_children=0&nflt=review_score%3D90&order=review_score_and_price" target="_blank">Chiaia · 9+ top</a>
+      <a class="btn alt sm" href="https://www.booking.com/searchresults.es.html?ss=Lungomare%2C+N%C3%A1poles&checkin=2026-06-16&checkout=2026-06-18&group_adults=2&no_rooms=1&no_children=0&nflt=review_score%3D85&order=review_score_and_price" target="_blank">Lungomare · 8.5+</a>
+      <a class="btn alt sm" href="https://www.booking.com/searchresults.es.html?ss=Santa+Lucia%2C+N%C3%A1poles&checkin=2026-06-16&checkout=2026-06-18&group_adults=2&no_rooms=1&no_children=0&nflt=review_score%3D85&order=review_score_and_price" target="_blank">Santa Lucia · 8.5+</a>
+    </div>
+
+    <div style="margin-top:12px;padding:14px;background:#fdfaf3;border-radius:12px;border-left:4px solid var(--sol)">
+      <h3 style="color:var(--mar-dark);margin-bottom:4px">🥉 Grupo 3 · TOLEDO / VOMERO (alternativas económicas)</h3>
+      <p class="muted" style="margin:2px 0 10px">Vía Toledo es la calle comercial peatonal con metro y vida (borde del Quartieri Spagnoli sí, interior NO). Vomero es barrio residencial alto con vistas, funicular al centro en 5 min, 30-40% más barato.</p>
+      <a class="btn warm sm" href="https://www.booking.com/searchresults.es.html?ss=Via+Toledo%2C+N%C3%A1poles&checkin=2026-06-16&checkout=2026-06-18&group_adults=2&no_rooms=1&no_children=0&nflt=review_score%3D85%3Bprice%3DEUR-80-130-1&order=review_score_and_price" target="_blank">Via Toledo · 8.5+ · 80-130€</a>
+      <a class="btn alt sm" href="https://www.booking.com/searchresults.es.html?ss=Vomero%2C+N%C3%A1poles&checkin=2026-06-16&checkout=2026-06-18&group_adults=2&no_rooms=1&no_children=0&nflt=review_score%3D85%3Bprice%3DEUR-70-110-1&order=review_score_and_price" target="_blank">Vomero · 8.5+ · 70-110€</a>
+      <a class="btn alt sm" href="https://www.booking.com/searchresults.es.html?ss=Quartieri+Spagnoli%2C+N%C3%A1poles&checkin=2026-06-16&checkout=2026-06-18&group_adults=2&no_rooms=1&no_children=0&nflt=review_score%3D85&order=review_score_and_price" target="_blank">Quartieri Spagnoli (borde) · 8.5+</a>
+    </div>
+
+    <div style="margin-top:12px;padding:12px;background:#fde2e2;border-radius:10px;border-left:4px solid var(--red)">
+      <h3 style="color:#882020;margin-bottom:4px;font-size:13px">⛔ Zonas a EVITAR para vuestro plan</h3>
+      <p style="margin:2px 0;font-size:13px"><b>Piazza Nazionale, Stazione Garibaldi, Forcella</b>: aunque baratas, son sketchy de noche (carteristas, motos, sin oferta gastronómica turística). Os ahorraríais 30€/noche pero perderíais el "estar en Nápoles".</p>
+    </div>
+
+    <div style="margin-top:12px;padding:12px;background:#e6f0f7;border-radius:10px">
+      <h3 style="color:var(--mar-dark);margin-bottom:4px;font-size:13px">🎯 Búsqueda comodín (todas las zonas seguras)</h3>
+      <a class="btn sm" href="https://www.booking.com/searchresults.es.html?ss=N%C3%A1poles%2C+Italia&checkin=2026-06-16&checkout=2026-06-18&group_adults=2&no_rooms=1&no_children=0&nflt=review_score%3D85&order=review_score_and_price" target="_blank">Todo Nápoles · 8.5+ · calidad/precio</a>
+      <a class="btn alt sm" href="https://www.booking.com/searchresults.es.html?ss=N%C3%A1poles%2C+Italia&checkin=2026-06-16&checkout=2026-06-18&group_adults=2&no_rooms=1&no_children=0&nflt=review_score%3D90%3Bclass%3D4&order=review_score_and_price" target="_blank">Todo Nápoles · 9+ · 4★</a>
+    </div>
+  </div>
+
+  <div class="card accent-mar" style="margin-top:12px">
+    <h3>💡 Recomendaciones por tramo</h3>
+    <ul>
+      <li><b>Tramo 1 Nápoles (16-18)</b>: mejor Centro Storico cerca de Piazza Bellini o Piazza Dante. Pide en el hotel guardar equipaje el 18 por la mañana si quieres ir directo a Pompeya con mochila.</li>
+      <li><b>Tramo 2 Sorrento o Sant'Agnello (18-21)</b>: Sant'Agnello mejor precio (10 min andando del centro), pero Sorrento centro permite ir andando al puerto de ferries. Si lleváis maleta tirable, Sorrento centro gana.</li>
+      <li><b>Tramo 3 Amalfi centro (21-23)</b>: junto al Duomo o al puerto. Pueblo plano (a diferencia de Positano). Más barato: pegado a Atrani por el túnel.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- COMER -->
+<section id="comer" class="tab-content">
+  <h2>🍝 Comer y beber</h2>
+  <p class="muted">Marca los que quieres ir. Los <span class="pill buga">RESERVAR</span> piden mesa con días.</p>
+  <div id="comer-list"></div>
+</section>
+
+<!-- MIS SITIOS · Editables por zona -->
+<section id="missitios" class="tab-content">
+  <h2>💡 Mis sitios · apuntad lo vuestro</h2>
+  <p class="muted">Restaurantes, miradores, tiendas, ideas que vayáis descubriendo. Se guardan automáticamente.</p>
+  <div id="missitios-list"></div>
+</section>
+
+<!-- VER -->
+<section id="ver" class="tab-content">
+  <h2>📍 Qué ver</h2>
+  <p class="muted">Curado de blogs y trip reports. Marca las que quieres encajar en el viaje.</p>
+  <div id="ver-list"></div>
+</section>
+
+<!-- LOGÍSTICA -->
+<section id="logistica" class="tab-content">
+  <h2>⛴ Logística completa</h2>
+  <p class="muted">Todos los traslados con horarios reales, precios y plan B.</p>
+
+  <div class="card accent-sol">
+    <h3>🛬 Mar 16 jun · Llegada Nápoles</h3>
+    <ul>
+      <li>Vuelo <b>FR6837</b> · VLC 20:15 → NAP <b>22:30</b></li>
+      <li>NAP → Chiaia: <b>Alibus</b> hasta Piazza Municipio 5€/p + taxi al hotel 8€ <b>o</b> taxi directo tarifa fija <b>28,50€</b> ("tariffa predeterminata")</li>
+      <li>Llegada al hotel ≈ 23:30. Cena ligera o pizza a portafoglio si abre algo</li>
+    </ul>
+  </div>
+
+  <div class="card accent-mar">
+    <h3>🚂 Mié 17 jun · Pompeya con guía profesional</h3>
+    <ul>
+      <li><b>🎫 Tour Civitatis "Visita guiada por Pompeya"</b> · slot 10:00 · 60€ los 2</li>
+      <li>   — Operador local Askos Tours · español · 2h · rating 9.4/10 (2.069 reseñas)</li>
+      <li>   — Incluye <b>entrada Pompeya + guía</b> · cancelación gratis 24h antes</li>
+      <li>   — Punto encuentro: <b>Porta Marina Superiore</b></li>
+      <li><b>🚂 Tren Circumvesuviana desde Porta Nolana 08:41</b> · llega 09:13 (32 min, 3,20€/p)</li>
+      <li>   — Comprar billete en máquina amarilla EAV en la estación</li>
+      <li>   — Validar billete antes de subir (multa si no)</li>
+      <li>   — Andar 2 min de estación a Porta Marina Superiore</li>
+      <li>09:18 llegada al punto de encuentro · 42 min de margen ✅</li>
+      <li><b>10:00 inicio tour</b> · 12:00 fin · después libre por nuestra cuenta hasta 13:30</li>
+      <li>Vuelta 14:30 Circumvesuviana a Nápoles · tarde MANN + Cristo Velato + cena</li>
+      <li>Coste día: 60€ Civitatis + 13€ tren + 50€ comida + 44€ MANN + 20€ Cristo = ~187€ los 2</li>
+    </ul>
+  </div>
+
+  <div class="card accent-buga">
+    <h3>🚌 Jue 18 jun · Nápoles → Sorrento</h3>
+    <ul>
+      <li><b>Opción A (recomendada)</b>: Curreri Bus directo desde estación Centrale → Sorrento · 10€/p · 1h15 · 4 salidas/día</li>
+      <li><b>Opción B</b>: Circumvesuviana NAP Garibaldi → Sorrento · 5€/p · 1h05 · cada 30 min · vagón 2 con maletas delante</li>
+      <li>Salida ideal: ~12:30 desde NAP, llegada Sorrento ~14:00</li>
+    </ul>
+  </div>
+
+  <div class="card accent-limon">
+    <h3>⛴ Vie 19 jun · Capri · FERRIS RESERVADOS ✅</h3>
+    <div style="background:#fff4cc;padding:10px;border-radius:8px;margin:6px 0">
+      <b>🎫 Reserva Ferryhopper · nº 50008TZIVE</b><br>
+      <small>Operador: Alilauro · Buque: GENERAL GRUSON</small>
+    </div>
+    <ul>
+      <li><b>IDA 08:29 Sorrento → Capri</b> · 25 min · billetes R1584686 (Ale) + R1584687 (Lucía) · 25€/p = 50€</li>
+      <li><b>VUELTA 19:00 Capri → Sorrento</b> · 20 min · billetes R1584688 (Ale) + R1584689 (Lucía) · 22€/p = 44€</li>
+      <li><b>Total ferris: 94€ los 2</b></li>
+      <li>⚠️ <b>Estar en puerto 30 min antes</b> (07:59 ida · 18:30 vuelta)</li>
+      <li>📱 Presentar PDF/QR al embarcar (en cabina deck)</li>
+      <li>📞 Centralita Ferryhopper: +39 0814972238 · WhatsApp: +39 3351278104</li>
+      <li><b>🎁 Barco privado con Andrea 13:00-16:00</b> (sorpresa Lucía, 3h)</li>
+    </ul>
+  </div>
+
+  <div class="card accent-sol">
+    <h3>⛵ Sáb 20 jun · Boat tour costa Amalfitana</h3>
+    <ul>
+      <li>Salida desde Marina Piccola Sorrento 9:00 · vuelta ~16:00</li>
+      <li>Operadores: <b>Lucibello</b>, <b>Blue Star</b>, <b>Capitano Ago</b> (semi-privado 80-120€/p) o privado (250-300€/2pax)</li>
+      <li>Ruta típica: Sorrento → Capri (parada baño Faraglioni) → vuelta costa Amalfitana (Positano, Praiano, Conca dei Marini)</li>
+      <li>Reservar 2-3 días antes · llevar protector solar, bañador, toalla</li>
+    </ul>
+  </div>
+
+  <div class="card accent-green">
+    <h3>⛴ Dom 21 jun · Sorrento → Amalfi</h3>
+    <ul>
+      <li>Ferry directo <b>Travelmar/Alicost</b>: Sorrento → Amalfi · 1h15 · 28€/p</li>
+      <li>Salidas en junio: 9:00, 11:00, 13:30 (verificar Ferryhopper)</li>
+      <li>Recomendado: salida <b>11:00</b>, llegada Amalfi 12:15, comida en Amalfi</li>
+      <li>Tarde: paseo Amalfi + Atrani (7 min andando por túnel)</li>
+      <li><b>SITA bus Amalfi → Ravello 17:00</b> · 1,80€/p · golden hour Villa Cimbrone</li>
+    </ul>
+  </div>
+
+  <div class="card accent-buga">
+    <h3>⛴ Lun 22 jun · Positano excursión desde Amalfi</h3>
+    <ul>
+      <li>Ferry Amalfi → Positano <b>8:30 o 9:00</b> · 25 min · 14€/p · Travelmar/Alicost</li>
+      <li>Llegada Spiaggia Grande Positano con el pueblo casi vacío</li>
+      <li>Comida Da Vincenzo o Lo Guarracino (RESERVAR antes)</li>
+      <li>Ferry vuelta Positano → Amalfi 15:00 o 16:00 · 25 min · 14€/p</li>
+      <li>Última cena en <b>A'Paranza (Atrani)</b> · RESERVAR con días</li>
+    </ul>
+  </div>
+
+  <div class="card accent-red">
+    <h3>🛫 Mar 23 jun · Vuelta NAP desde Sorrento (no Amalfi)</h3>
+    <p style="margin:6px 0"><b>Necesitáis estar en NAP a las 15:25 (2h antes)</b>. Plan FIABLE = Curreri Bus desde Sorrento.</p>
+    <ul>
+      <li><b>🏆 Curreri Bus Sorrento → NAP Capodichino</b> ⭐</li>
+      <li>Sale de la estación de Sorrento (al lado del MIFRA Suites)</li>
+      <li>Duración: <b>75-80 min</b> · Precio: <b>~13€/p</b> = 26€ los 2</li>
+      <li>Frecuencia: <b>8 servicios/día</b> · primero ~9:00, último ~19:30</li>
+      <li>Mejor coger el de las <b>13:00-13:30</b> → llegada NAP 14:30-14:50</li>
+      <li><b>Salir hotel con 3-3,5h de margen sobre el vuelo</b></li>
+      <li>Reserva: <a href="https://www.curreriviaggi.it" target="_blank">curreriviaggi.it</a> con 1-2 días antes</li>
+    </ul>
+    <p style="margin:10px 0 4px"><b>Plan B si Curreri lleno</b>:</p>
+    <ul>
+      <li>Circumvesuviana Sorrento → Napoli Centrale (1h05, 5€/p)</li>
+      <li>Alibus desde Garibaldi → Capodichino (20 min, 5€/p)</li>
+      <li>Total ~1h45, ~10€/p</li>
+    </ul>
+    <p style="margin:10px 0 4px"><b>Plan C emergencia</b>: taxi privado Sorrento → NAP airport · 100-130€ · 1h15 por autopista</p>
+  </div>
+
+  <div class="card accent-mar" style="margin-top:14px">
+    <h3>📋 Checklist pre-viaje</h3>
+    <div id="logi-list"></div>
+  </div>
+</section>
+
+<!-- MALETA -->
+<section id="maleta" class="tab-content">
+  <h2>🎒 Maleta · qué llevar</h2>
+  <p class="muted">Cabina pequeña + mochila personal por cada uno. Calor 29-31°C día / 19-22°C noche. Marca lo que vayas metiendo.</p>
+
+  <div class="card accent-sol">
+    <h3>👕 Para Ale</h3>
+    <div id="maleta-ale"></div>
+  </div>
+
+  <div class="card accent-buga">
+    <h3>👗 Para Lucía</h3>
+    <div id="maleta-lucia"></div>
+  </div>
+
+  <div class="card accent-mar">
+    <h3>🎒 Compartido (en la mochila)</h3>
+    <div id="maleta-comun"></div>
+  </div>
+
+  <div class="card accent-limon">
+    <h3>🎨 Paleta de colores Costa Amalfitana</h3>
+    <p>Tonos que mejor casan con la luz mediterránea + fotos brutales:</p>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin:10px 0">
+      <span class="pill" style="background:#f5e6d3;color:#7a5a3a;padding:6px 12px">🟤 Beige / crema</span>
+      <span class="pill" style="background:#d97757;color:#fff;padding:6px 12px">🟫 Terracota / ocre</span>
+      <span class="pill" style="background:#154766;color:#fff;padding:6px 12px">🟦 Navy / azul oscuro</span>
+      <span class="pill" style="background:#a8d0e6;color:#154766;padding:6px 12px">🩵 Celeste pastel</span>
+      <span class="pill" style="background:#8a9a5b;color:#fff;padding:6px 12px">🌿 Verde sage / oliva</span>
+      <span class="pill" style="background:#ffd166;color:#7a5e00;padding:6px 12px">🟡 Amarillo limón</span>
+      <span class="pill" style="background:#c8a8d8;color:#5a3d6f;padding:6px 12px">🟪 Lavanda</span>
+      <span class="pill" style="background:#fdfaf3;color:#6e6a62;border:1px solid #e6e1d8;padding:6px 12px">⚪ Blanco roto</span>
+    </div>
+    <p style="margin-top:10px"><b>❌ Evitar:</b> negro total (calor), rojos fucsia chillón, estampados muy cargados, neón.</p>
+  </div>
+
+  <div class="card accent-red">
+    <h3>⚠️ Imprescindibles calor extremo</h3>
+    <ul>
+      <li><b>Crema solar SPF 50</b> · aplicar cada 90 min (Pompeya = horno, brutal)</li>
+      <li><b>Gorra/sombrero</b> · OBLIGATORIO en Pompeya y barco Andrea</li>
+      <li><b>Botella agua reutilizable</b> · mínimo 2L/persona/día</li>
+      <li><b>Zapatillas planas cerradas</b> en Pompeya y Positano (cuestas brutales)</li>
+      <li><b>NO chanclas</b> en pueblos de la Costa (300+ escaleras)</li>
+      <li><b>Bañador puesto debajo</b> el día de Capri (vie 19)</li>
+    </ul>
+  </div>
+
+  <div class="card accent-green">
+    <h3>📸 Looks sugeridos por día</h3>
+    <ul>
+      <li><b>Mié 17 Pompeya</b> · ropa lino manga larga ligera, gorra, zapas blancas. Tonos beige + crema</li>
+      <li><b>Jue 18 llegada Costa</b> · Ale camisa lino crema · Lucía vestido midi crema/blanco</li>
+      <li><b>Vie 19 Capri ⭐</b> · Lucía bikini bajo vestido blanco corto · Ale camisa lino azul + bañador</li>
+      <li><b>Sáb 20 Sorrento</b> · Lucía vestido midi limón o lavanda · Ale camisa color + chino crema</li>
+      <li><b>Lun 22 Positano + Amalfi ⭐ FOTO</b> · Lucía vestido <b>terracota</b> · Ale camisa lino blanca + short beige</li>
+      <li><b>Cenas</b> · Ale lino largo + sandalias · Lucía vestido midi + tacón bajo + joya simple</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ERRORES -->
+<section id="errores" class="tab-content">
+  <h2>⚠️ Errores documentados de quien ya volvió</h2>
+  <p class="muted">Basado en trip reports de Rick Steves Forum, TripAdvisor, blogs personales y "si volviera, haría esto distinto".</p>
+
+  <div class="card accent-red">
+    <h3>🚫 Lo que NO hacer</h3>
+    <ul>
+      <li><b>Bus SITA en sábado/domingo</b>. *"El día más miserable del viaje."* Ferry siempre que se pueda.</li>
+      <li><b>Maletas en Positano</b>. 300+ escaleras del puerto al pueblo. Si pisas Positano = solo excursión sin maleta.</li>
+      <li><b>Pompeya a mediodía</b>. Calor brutal sin sombra + cruceros. Apertura 9:00, salir antes de las 13:00.</li>
+      <li><b>Gruta Azul como excursión separada</b>. <i>"Pathetic, overrated, dangerous"</i>. Si os interesa, metedla en boat tour.</li>
+      <li><b>Cambiar de base cada 2 noches</b>. Vosotros = 3 bases en 7 noches = perfecto.</li>
+      <li><b>Saltarse Nápoles ciudad</b>. <i>"Wish I'd given Naples a full day."</i> El día 17 mañana + ferry tarde es lo mínimo.</li>
+      <li><b>Vesubio con poco tiempo</b>. Día entero + autobuses con paradas comerciales. Saltadlo, mejor Capri con calma.</li>
+      <li><b>Restaurantes en la Piazzetta de Capri</b>. Precios x3 y comida media. Comed en Anacapri.</li>
+      <li><b>Limoncello "free tasting" en Sorrento</b>. Trampa de tienda. Compradlo en granjas reales del Sentiero dei Limoni.</li>
+      <li><b>Capri en sábado</b>. Día con más cruceros + day-trippers. Por eso vais el viernes.</li>
+    </ul>
+  </div>
+
+  <div class="card accent-green">
+    <h3>✅ Lo que sí añadir</h3>
+    <ul>
+      <li><b>Sentiero degli Dei</b> (Bomerano → Nocelle, 3h) si sois activos · alternativa para el sábado 20</li>
+      <li><b>MANN antes de Pompeya</b>: mosaicos y frescos originales están allí. <i>"Hace Pompeya muchísimo más significativa."</i></li>
+      <li><b>Atrani</b>: 7 min andando desde Amalfi. La joya "que descubrimos el último día." No lo dejéis para el final.</li>
+      <li><b>Ravello al atardecer en Villa Cimbrone</b>: cuando se van los grupos. Golden hour épico.</li>
+      <li><b>Una sfogliatella en Scaturchio + una en Gambrinus</b>: cata personal para decidir cuál preferís.</li>
+      <li><b>Aperitivo en Pulalli (Capri)</b>: encima del campanario de la Piazzetta, vistas al atardecer.</li>
+    </ul>
+  </div>
+
+  <div class="card accent-sol">
+    <h3>💎 Momentos bien ejecutados (copiar)</h3>
+    <ul>
+      <li>"Llegar a Villa Cimbrone a las 17:00 y tener la Terrazza dell'Infinito casi vacía."</li>
+      <li>"Pompeya a las 8:45 + Da Michele para comer + MANN por la tarde = día perfecto."</li>
+      <li>"Aperitivo en el balcón del hotel de Amalfi mirando al puerto al anochecer."</li>
+      <li>"Capri 7:30 a Anacapri directo + bajada a Capri pueblo cuando los cruceros se van a las 16:00."</li>
+      <li>"Limoncello cata + tour limonero con un viejecillo en Sorrento (el de verdad, no el de tienda)."</li>
+    </ul>
+  </div>
+</section>
+
+<!-- TIEMPO -->
+<section id="tiempo" class="tab-content">
+  <h2>🌤 Tiempo y mar · 16-23 jun 2026</h2>
+  <p class="muted">Pronóstico para vuestras fechas + condiciones típicas. <b>Verifica 2-3 días antes</b> en <a href="https://www.accuweather.com/en/it/sorrento/212286/daily-weather-forecast/212286" target="_blank">AccuWeather Sorrento</a> y <a href="https://www.ferryhopper.com" target="_blank">Ferryhopper</a> (estado del mar).</p>
+
+  <div class="card accent-mar">
+    <h3>📅 Pronóstico día a día</h3>
+    <table style="width:100%;border-collapse:collapse;font-size:13px">
+      <thead style="background:#f7f5f1">
+        <tr>
+          <th style="padding:8px;text-align:left;border-bottom:1px solid #e6e1d8">Día</th>
+          <th style="padding:8px;text-align:left;border-bottom:1px solid #e6e1d8">Cielo</th>
+          <th style="padding:8px;text-align:center;border-bottom:1px solid #e6e1d8">Temp</th>
+          <th style="padding:8px;text-align:center;border-bottom:1px solid #e6e1d8">Lluvia</th>
+          <th style="padding:8px;text-align:center;border-bottom:1px solid #e6e1d8">Plan</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid #f0ece0">
+          <td style="padding:8px"><b>Mar 16</b></td>
+          <td style="padding:8px">Parcialmente nublado, húmedo</td>
+          <td style="padding:8px;text-align:center">28°/22°</td>
+          <td style="padding:8px;text-align:center">⚠️ 30%</td>
+          <td style="padding:8px;text-align:center">🟢 OK (llegada noche)</td>
+        </tr>
+        <tr style="border-bottom:1px solid #f0ece0;background:#fde2e2">
+          <td style="padding:8px"><b>Mié 17</b></td>
+          <td style="padding:8px">⚡ Tormenta media mañana</td>
+          <td style="padding:8px;text-align:center">28°/22°</td>
+          <td style="padding:8px;text-align:center">🔴 80%</td>
+          <td style="padding:8px;text-align:center">⚠️ Pompeya: llevar impermeable</td>
+        </tr>
+        <tr style="border-bottom:1px solid #f0ece0">
+          <td style="padding:8px"><b>Jue 18</b></td>
+          <td style="padding:8px">Sol intermitente, mejora</td>
+          <td style="padding:8px;text-align:center">27°/22°</td>
+          <td style="padding:8px;text-align:center">🟡 25%</td>
+          <td style="padding:8px;text-align:center">🟢 Ferry Meta OK</td>
+        </tr>
+        <tr style="border-bottom:1px solid #f0ece0;background:#d8eedb">
+          <td style="padding:8px"><b>Vie 19</b></td>
+          <td style="padding:8px">☀️ Soleado, húmedo</td>
+          <td style="padding:8px;text-align:center">28°/23°</td>
+          <td style="padding:8px;text-align:center">🟢 1%</td>
+          <td style="padding:8px;text-align:center">⭐ PERFECTO Capri</td>
+        </tr>
+        <tr style="border-bottom:1px solid #f0ece0;background:#d8eedb">
+          <td style="padding:8px"><b>Sáb 20</b></td>
+          <td style="padding:8px">☀️ Mayormente soleado</td>
+          <td style="padding:8px;text-align:center">29°/22°</td>
+          <td style="padding:8px;text-align:center">🟢 2%</td>
+          <td style="padding:8px;text-align:center">⭐ Perfecto Meta + Sorrento</td>
+        </tr>
+        <tr style="border-bottom:1px solid #f0ece0;background:#fce5cc">
+          <td style="padding:8px"><b>Dom 21</b></td>
+          <td style="padding:8px">☀️☀️ Muy soleado · MUY CALUROSO</td>
+          <td style="padding:8px;text-align:center">31°/22°</td>
+          <td style="padding:8px;text-align:center">🟢 2%</td>
+          <td style="padding:8px;text-align:center">⚠️ Sombra, hidratación, traslado MIFRA</td>
+        </tr>
+        <tr style="border-bottom:1px solid #f0ece0;background:#d8eedb">
+          <td style="padding:8px"><b>Lun 22</b></td>
+          <td style="padding:8px">☀️ Sol menos húmedo</td>
+          <td style="padding:8px;text-align:center">28°/23°</td>
+          <td style="padding:8px;text-align:center">🟢 0%</td>
+          <td style="padding:8px;text-align:center">⭐ PERFECTO Positano+Amalfi</td>
+        </tr>
+        <tr style="background:#d8eedb">
+          <td style="padding:8px"><b>Mar 23</b></td>
+          <td style="padding:8px">☀️ Sol pleno</td>
+          <td style="padding:8px;text-align:center">28°/23°</td>
+          <td style="padding:8px;text-align:center">🟢 0%</td>
+          <td style="padding:8px;text-align:center">🟢 Vuelo cómodo</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="muted" style="margin-top:10px;font-size:12px">Datos de AccuWeather extendido. Es una previsión, no garantía. Verificar 48h antes.</p>
+  </div>
+
+  <div class="card accent-sol">
+    <h3>🌊 Mar y baño · ⭐ excelente para junio</h3>
+    <ul>
+      <li><b>Temperatura del agua</b>: <b>22-24°C</b> (perfecto para nadar sin frío)</li>
+      <li><b>Mar Tirreno en junio</b>: típicamente CALMO. Olas pequeñas (0,3-0,8 m)</li>
+      <li><b>Vientos</b>: 5-10 km/h SSW (suaves) → ferries operan sin problema</li>
+      <li><b>Probabilidad de cancelación ferry</b>: <b>~5-10% en junio</b> (vs 25-40% en invierno)</li>
+      <li><b>Días recomendados baño Capri (Faraglioni)</b>: vie 19 ⭐ — mar más calmo a primera hora</li>
+      <li><b>Días recomendados baño Meta/Alimuri</b>: cualquiera de jue-sáb</li>
+      <li><b>Plan B si mar movido</b>: SITA bus a Positano + Sentiero degli Dei (no depende del mar)</li>
+    </ul>
+  </div>
+
+  <div class="card accent-red">
+    <h3>☀️ UV y protección solar · ALERTA EXTREMA</h3>
+    <ul>
+      <li><b>Índice UV: 11 (EXTREMO)</b> de 13h a 17h prácticamente todos los días</li>
+      <li><b>Protector solar SPF 50+ OBLIGATORIO</b>, aplicar cada 2h y tras baño</li>
+      <li><b>Gorra/sombrero</b>: imprescindible para Pompeya y Capri (cero sombra)</li>
+      <li><b>Gafas de sol</b> de calidad — el reflejo del mar es brutal</li>
+      <li><b>Agua</b>: mínimo 2 L/persona/día. Botella reutilizable + fuentes públicas potables</li>
+      <li><b>Mejor horario fotos</b>: 7-9h y 18-20h (golden hour). Mediodía = luz dura</li>
+      <li><b>Evita exposición</b>: 12-15h. Aprovecha para comida o siesta en terraza</li>
+    </ul>
+  </div>
+
+  <div class="card accent-green">
+    <h3>🎒 Qué llevar adaptado al tiempo</h3>
+    <div class="grid2">
+      <div>
+        <h3 style="font-size:14px;margin-bottom:6px">✅ Esenciales</h3>
+        <ul style="font-size:13.5px;line-height:1.6;margin:0;padding-left:18px">
+          <li>2-3 camisetas algodón/lino</li>
+          <li>1 pantalón fresco + 1 short</li>
+          <li>1 vestido/camisa para cena</li>
+          <li>2 bañadores (uno secándose, otro)</li>
+          <li>1 pareo/camisa fina (iglesias: hombros y rodillas)</li>
+          <li>Bragas/calcetines extra</li>
+          <li>Sudadera ligera (noche fresca terraza)</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="font-size:14px;margin-bottom:6px">👟 Calzado</h3>
+        <ul style="font-size:13.5px;line-height:1.6;margin:0;padding-left:18px">
+          <li>Zapatillas deportivas cerradas (Pompeya, Capri)</li>
+          <li>Sandalias cómodas para cenar</li>
+          <li>Chanclas para playa/apartamento</li>
+          <li>Escarpines o agua para rocas (Faraglioni)</li>
+        </ul>
+      </div>
+      <div style="margin-top:10px">
+        <h3 style="font-size:14px;margin-bottom:6px">🧴 Botiquín</h3>
+        <ul style="font-size:13.5px;line-height:1.6;margin:0;padding-left:18px">
+          <li>SPF 50+ + after sun</li>
+          <li>Biodramina si vais a hacer SITA bus o mar movido</li>
+          <li>Repelente mosquitos (Meta tiene)</li>
+          <li>Pastillas digestivo (cambio de comida)</li>
+        </ul>
+      </div>
+      <div style="margin-top:10px">
+        <h3 style="font-size:14px;margin-bottom:6px">⚠️ Por la lluvia del 17</h3>
+        <ul style="font-size:13.5px;line-height:1.6;margin:0;padding-left:18px">
+          <li>Impermeable ligero plegable (NO paraguas en Pompeya, viento)</li>
+          <li>Plástico para móvil</li>
+          <li>Calzado que se seque rápido</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card accent-buga">
+    <h3>📲 Apps para vigilar tiempo y mar día por día</h3>
+    <ul>
+      <li><b>AccuWeather Italia</b> — pronóstico horario muy fiable</li>
+      <li><b>Meteo.it</b> — el oficial italiano (servizio meteorologico aeronautico)</li>
+      <li><b>Windy</b> — para estado del mar y viento real (mejor que AccuWeather para ferries)</li>
+      <li><b>Ferryhopper</b> — te avisa si tu ferry se cancela</li>
+      <li><b>Travelmar</b> — operador local, ven cancelaciones rápido</li>
+    </ul>
+  </div>
+
+  <div class="card accent-mar" style="border-left:6px solid #2a9d8f">
+    <h3>🎯 Resumen / TLDR</h3>
+    <p style="margin:6px 0"><b>Buenas noticias:</b> 6 de 8 días con sol/casi sin lluvia. Mar calmo en junio = ferries fiables. Agua a 22-24°C = brutal para nadar.</p>
+    <p style="margin:6px 0"><b>Único día complicado:</b> <b>miércoles 17 (Pompeya)</b> con 80% lluvia y tormenta a media mañana → llevar impermeable + revisar pronóstico 2 días antes para ajustar.</p>
+    <p style="margin:6px 0"><b>Día más caluroso:</b> <b>domingo 21 (31°C)</b> → hidratación + sombra. Buen día para Marina Grande Sorrento en chiringuito.</p>
+    <p style="margin:6px 0"><b>Días ⭐⭐⭐:</b> viernes 19 (Capri), sábado 20 (Meta) y lunes 22 (Positano+Amalfi). Aprovechad al máximo.</p>
+  </div>
+</section>
+
+<!-- PRESUPUESTO -->
+<section id="presupuesto" class="tab-content">
+  <h2>💸 Presupuesto · 2 personas</h2>
+  <p class="muted">Edita los importes. Los hoteles se vinculan a lo que pongas en la pestaña Hoteles.</p>
+  <div class="card accent-mar" id="budget-card"></div>
+</section>
+
+<!-- ASISTENTES -->
+<section id="asistentes" class="tab-content">
+  <h2>🤖 Vuestro equipo</h2>
+  <p class="muted">5 expertos que conocen vuestras fechas, hoteles, ruta y preferencias.</p>
+  <div id="agents-list"></div>
+</section>
+
+<!-- NOTAS -->
+<section id="notas" class="tab-content">
+  <h2>💌 Notas y deseos</h2>
+  <div class="card accent-buga">
+    <h3>Apuntes libres</h3>
+    <div class="notes-area">
+      <textarea id="notes" placeholder="Escribid aquí ideas, recordatorios, conversaciones..."></textarea>
+    </div>
+  </div>
+  <div class="card">
+    <h3>🎁 Wishlist del viaje</h3>
+    <p class="muted">Qué quiere cada uno hacer sí o sí.</p>
+    <div class="wish-list">
+      <div>
+        <h3>Ale quiere…</h3>
+        <ul id="wish-ale"></ul>
+        <div class="wish-add">
+          <input id="wish-ale-input" placeholder="Añadir deseo…">
+          <button class="btn sm" onclick="addWish('ale')">+</button>
+        </div>
+      </div>
+      <div>
+        <h3>Lucía quiere…</h3>
+        <ul id="wish-lucia"></ul>
+        <div class="wish-add">
+          <input id="wish-lucia-input" placeholder="Añadir deseo…">
+          <button class="btn sm" onclick="addWish('lucia')">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span>Hecha con <span class="heart">♥</span> para Ale &amp; Lucía · Plan Maestro validado con 15+ blogs · Buen viaje, ragazzi!</span>
+</footer>
+
+</div>
+
+<script>
+const TRIP = {
+  start: new Date('2026-06-16T20:15:00+02:00'),
+  end: new Date('2026-06-23T17:25:00+02:00'),
+};
+
+const DAYS = [
+  { id:'d1', num:'Día 1', date:'Mar 16 jun', title:'Llegada a Nápoles · Vico Croce', emoji:'✈',
+    items: [
+      'Vuelo FR6837 · VLC 20:15 → NAP 22:30',
+      'Alibus a Piazza Municipio (5€/p) o taxi tarifa fija al hotel',
+      'Llegada apartamento Vico Croce ~23:30',
+      'Cena rápida si encuentras (Da Michele cierra 23:00) o panini en el hotel',
+      'Dormir y recuperar el viaje'
+    ]
+  },
+  { id:'d2', num:'Día 2', date:'Mié 17 jun', title:'Pompeya MAÑANA + Nápoles TARDE (full city)', emoji:'🌋',
+    items: [
+      '═══ MAÑANA · POMPEYA ═══',
+      '07:30 despertar · café rápido en bar Vico Croce',
+      '08:00 desayuno (cornetto + cappuccino) en bar de barrio',
+      '08:20 ⚠️ SALIR DEL APARTAMENTO (no demorar)',
+      '08:30 llegar Porta Nolana (10 min andando vía Corso Umberto I)',
+      '08:32 comprar billete Circumvesuviana máquina EAV (6,40€ los 2 ida)',
+      '08:38 validar billete y subir a Andén 3 (dirección SORRENTO)',
+      '08:41 🚂 Circumvesuviana Porta Nolana → Pompei Scavi (32 min)',
+      '09:13 llegada Pompei Scavi - Villa dei Misteri',
+      '09:18 andar 2 min a Porta Marina Superiore (punto encuentro Civitatis)',
+      '10:00 ⭐ INICIO Civitatis "Visita guiada por Pompeya" (2h, español, 60€ los 2)',
+      '       — Foro, Casa del Fauno, Lupanare, Termas, Anfiteatro con guía profesional',
+      '12:00 fin visita guiada · exploración libre',
+      '12:00-13:00 Villa de los Misterios + zonas que el guía no cubre',
+      '13:00 snack ligero en Pompei (NO comida, comemos street food en Nápoles)',
+      '13:30 🚂 Circumvesuviana Pompei Scavi → Porta Nolana',
+      '14:05 llegada Porta Nolana',
+      '14:15 andar 10 min al apartamento Vico Croce',
+      '14:30 ducha rápida + cambio de ropa',
+      '',
+      '═══ TARDE · NÁPOLES STREET FOOD + MONUMENTAL ═══',
+      '15:00 🍕 COMIDA CALLEJERA NAPOLITANA en Spaccanapoli',
+      '       — Pizza fritta en La Masardona (Via Capitelli, 27)',
+      '       — Cuoppo napolitano (pescado y frituras en cono de papel)',
+      '       — Sfogliatella en Sfogliatella Mary (Galleria Umberto)',
+      '       Paseo por las callejuelas más famosas mientras comes',
+      '',
+      '16:00 🛍 Via San Gregorio Armeno (la calle de los belenes)',
+      '       — Talleres artesanales de figuras tradicionales',
+      '       — Dedicar 30-40 min',
+      '',
+      '16:45 ⛪ Piazza del Gesù Nuovo + Monastero di Santa Chiara',
+      '       — Una de las plazas más bonitas del centro',
+      '       — Claustro de Santa Chiara (6€/p · uno de los rincones más bonitos)',
+      '',
+      '17:30 🏰 Duomo di Napoli (Catedral)',
+      '       — La iglesia más importante de la ciudad',
+      '       — 15-20 min · gratis',
+      '',
+      '18:15 🚶 Bajar caminando hacia la zona monumental (vía Via Toledo)',
+      '',
+      '18:30 🏛 Piazza del Plebiscito · LA MÁS IMPRESIONANTE',
+      '       — Palazzo Reale di Napoli (exterior)',
+      '       — Basilica Reale Pontificia San Francesco di Paola',
+      '',
+      '19:00 🏯 Castel Nuovo (foto exterior, no hace falta entrar)',
+      '',
+      '19:30 🌅 LUNGOMARE Caracciolo + Castel dell\'Ovo · EL PASEO MÁS BONITO',
+      '       — Vistas al Vesubio, Capri y toda la bahía',
+      '       — Sunset golden hour ⭐',
+      '',
+      '20:34 🌅 PUESTA DE SOL · perfecta luz en Lungomare',
+      '',
+      '20:45 🍹 APEROL SPRITZ en BORGO MARINARI (al lado del Castel dell\'Ovo)',
+      '       — La zona más agradable para tomar algo viendo el mar',
+      '       — Aperitivo italiano: spritz + tabla de antipasti',
+      '',
+      '21:30 🍝 CENA EN CHIAIA (zona elegante)',
+      '       — Opciones top: Umberto (clásico 1916, RESERVAR) · Concettina ai Tre Santi (pizza Michelin, RESERVAR) · 50 Kalò (Mergellina, pizza brutal)',
+      '       — Después de cenar: paseo por Via Chiaia + Piazza dei Martiri',
+      '',
+      '23:30 vuelta Vico Croce (taxi 10€ desde Chiaia o metro M6)'
+    ]
+  },
+  { id:'d3', num:'Día 3', date:'Jue 18 jun', title:'Traslado a Meta · día tranquilo', emoji:'🌊',
+    items: [
+      '09:30 desayuno + check-out Vico Croce',
+      '10:00 última mañana Nápoles (Gambrinus + paseo)',
+      '11:30 comer rápido o brunch',
+      '12:30 andar 10 min a Molo Beverello con maletas',
+      '13:30 Ferry Beverello → Sorrento (40 min, 18€/p Alilauro) ⭐',
+      '14:15 llegada Marina Piccola Sorrento',
+      '14:30 microbús B al centro (1,80€/p) + Circumvesuviana → Meta (5 min, 1,30€/p)',
+      'Alternativa: Curreri Bus desde Nápoles Centrale para en Meta (10€/p, 75 min)',
+      '15:00 check-in apartamento Meta · vista mar',
+      '15:30 supermercado Decò Meta — compra para 3 días (60-70€ los 2)',
+      '17:00 ☕ café en terraza con vista al mar ⭐',
+      '18:00 paseo Marina di Alimuri (playa Meta) o Marina Grande Sorrento',
+      '20:30 cena fuera en La Cantinaccia del Popolo (Sant\'Agnello — RESERVAR)',
+      '22:30 vuelta apartamento + copa de vino en terraza ⭐'
+    ]
+  },
+  { id:'d4', num:'Día 4', date:'Vie 19 jun', title:'CAPRI ⭐ con barco privado Andrea (sorpresa Lucía)', emoji:'🏝',
+    items: [
+      '🎫 RESERVA FERRIS: nº 50008TZIVE · Alilauro GENERAL GRUSON · 25€/p ida + 22€/p vuelta = 94€ total',
+      '🎁 RESERVA BARCO PRIVADO: Andrea 13:00-16:00 (3h · sorpresa para Lucía 💌)',
+      '',
+      '06:45 despertar · desayuno rápido (cornetto + café en terraza Meta)',
+      '07:15 taxi a estación Meta (~8€) o andar 10 min',
+      '07:30 🚂 Circumvesuviana Meta → Sorrento (5 min, 1,30€/p)',
+      '07:40 andar 15 min a Marina Piccola Sorrento (puerto ferri)',
+      '07:59 ⏰ ESTAR EN PUERTO (mín 30 min antes del ferri)',
+      '08:29 ⛴ FERRY IDA Sorrento → Capri · Alilauro · 25 min · billete R1584686/87',
+      '08:54 llegada Marina Grande Capri ✅',
+      '09:30 bus a Anacapri (2€) o funicular a Capri pueblo',
+      '10:00 ⭐ Silla a Monte Solaro desde Anacapri (14€/p, vista 360°)',
+      '11:30 bajada Monte Solaro · paseo por Anacapri (Villa San Michele si da tiempo)',
+      '12:15 bus de vuelta a Marina Grande',
+      '12:45 ☕ café rápido cerca del puerto',
+      '13:00 ⭐⭐⭐ BARCO PRIVADO CON ANDREA (3h, sorpresa Lucía 💌)',
+      '       — Faraglioni · Grotta Bianca · Grotta Verde · baño en cala secreta · aperitivo a bordo',
+      '16:00 vuelta a Marina Grande con Andrea',
+      '16:30 ducha rápida o cambio en algún beach club',
+      '17:00 funicular o taxi a Capri pueblo',
+      '17:15 paseo Piazzetta + Via Camerelle + Giardini di Augusto',
+      '17:45 ⭐ mirador Punta Tragara · vista Faraglioni gratis',
+      '18:30 ⭐ Aperitivo Pulalli Wine Bar (sobre la Piazzetta) o Buonocore Gelateria',
+      '19:00 ⏰ funicular abajo a Marina Grande (sale cada 15 min)',
+      '18:30 ⏰ ESTAR EN PUERTO Marina Grande (mín 30 min antes)',
+      '19:00 ⛴ FERRY VUELTA Capri → Sorrento · 20 min · billete R1584688/89',
+      '19:20 llegada Marina Piccola Sorrento',
+      '19:45 Circumvesuviana o taxi a Meta (~8€)',
+      '20:15 vuelta apartamento Meta',
+      '20:34 🌅 SUNSET desde terraza Meta',
+      '21:00 🍝 CENA EN CASA · spaghetti alle vongole + Falanghina en terraza ⭐⭐⭐'
+    ]
+  },
+  { id:'d5', num:'Día 5', date:'Sáb 20 jun', title:'Relax Meta + Sorrento + cena en casa', emoji:'🏖',
+    items: [
+      'IDEA: aprovechar apartamento al máximo tras Capri intenso. Sábado = peor día para Amalfi (masa brutal).',
+      '09:00 desayuno largo en terraza ⭐',
+      '10:30 🏊 Marina di Alimuri (playa Meta) o paseo costero',
+      '12:00 vuelta apartamento, ducha',
+      '13:00 comida ligera en casa (caprese + bruschetta + Falanghina)',
+      '14:30 ⭐ Tarde Sorrento centro: Piazza Tasso, Sedil Dominova, Cloister San Francesco',
+      '16:30 helado en Gelateria David (mítica)',
+      '17:30 paseo Marina Grande Sorrento (pueblo pescadores)',
+      '18:30 ⭐ Bagni della Regina Giovanna (piscina natural + ruinas romanas, gratis, 30 min andando)',
+      '19:30 vuelta apartamento Meta',
+      '20:00 🍷 Aperol Spritz + tabla en terraza con sunset ⭐⭐',
+      '21:00 🍝 CENA EN CASA: gnocchi alla sorrentina + ensalada + Falanghina ⭐⭐⭐ en terraza',
+      '23:00 copa de vino con luces de la costa al fondo'
+    ]
+  },
+  { id:'d6', num:'Día 6', date:'Dom 21 jun', title:'Traslado MIFRA Sorrento + Marina Grande', emoji:'🚖',
+    items: [
+      '09:00 desayuno + check-out apartamento Meta',
+      '09:30 maletas listas',
+      '10:00 ⭐ TAXI Meta → MIFRA Suites Sorrento centro (~20€, 10 min, sin subir cuesta)',
+      '10:30 check-in MIFRA Suites (al lado de estación Circumvesuviana)',
+      '11:30 paseo Sorrento centro: Piazza Tasso + Sedil Dominova + Cloister San Francesco',
+      '13:00 ⭐ Comida en Marina Grande de Sorrento (pueblo pescadores)',
+      '       — Trattoria da Emilia (sin reserva) o Bagni Delfino (RESERVAR, pies en el agua)',
+      '15:00 vuelta hotel, relax',
+      '16:30 paseo Lungomare hasta Villa Comunale',
+      '18:30 ⭐ atardecer en Villa Comunale (mirador Vesubio)',
+      '20:00 aperitivo en Bollicine (vinos) o Fauno Bar',
+      '21:00 cena en O Parrucchiano La Favorita (jardín limoneros — RESERVAR)'
+    ]
+  },
+  { id:'d7', num:'Día 7', date:'Lun 22 jun', title:'POSITANO + AMALFI + ATRANI ⭐ (mejor día sin masa)', emoji:'⛴',
+    items: [
+      'IDEA: lunes = mucha menos masa en Costa Amalfitana (30-40% menos que sábado).',
+      '07:30 desayuno hotel MIFRA',
+      '08:30 andar 5 min a Marina Piccola Sorrento (al lado del MIFRA)',
+      '09:00 ⛴ FERRY Sorrento → Positano (35 min, 20€/p) ⭐',
+      '09:35 llegada Positano CASI VACÍO (lunes madrugada = magia)',
+      '10:00 ⭐ Foto cúpula Santa Maria Assunta SIN nadie en la calle',
+      '10:30 Paseo Via Cristoforo Colombo + Spiaggia Grande',
+      '11:00 Andar 15 min a Fornillo (cala más tranquila)',
+      '11:30 🏊 Baño en Fornillo (mucho menos masa que sábado)',
+      '13:00 ⭐ COMIDA en Da Vincenzo o Lo Guarracino (RESERVAR, terraza colgada)',
+      '15:00 paseo Via dei Mulini + compras (limoncello bueno, sandalias)',
+      '15:30 ⛴ Ferry Positano → Amalfi (25 min, 14€/p)',
+      '16:00 llegada Amalfi',
+      '16:30 Duomo + Chiostro del Paradiso (5€/p)',
+      '17:30 ⭐ Andar 7 min por el túnel a ATRANI (la joya escondida)',
+      '18:30 plaza de Atrani con copa o helado · sunset',
+      '19:30 🍝 ⭐ CENA en A\'PARANZA (Atrani) — la cena de despedida (RESERVAR con días)',
+      '21:00 último ferry Amalfi → Sorrento (verifica horario el día antes)',
+      '22:30 vuelta MIFRA Sorrento',
+      '',
+      'IMPORTANTE: último ferry Amalfi-Sorrento ~21:00-21:30 en junio. Plan B = taxi a Sorrento ~80€ los 2 si os pasáis con la cena.'
+    ]
+  },
+  { id:'d8', num:'Día 8', date:'Mar 23 jun', title:'Vuelta a casa', emoji:'🏠',
+    items: [
+      '08:30 desayuno hotel',
+      '09:30 último paseo Lungomare Sorrento',
+      '10:30 compras última hora (limoncello bueno, cerámica, taralli)',
+      '12:00 comida ligera o panini',
+      '13:00 check-out MIFRA Suites',
+      '13:15 ⭐ andar 2 min a estación Sorrento (Circumvesuviana / parada Curreri)',
+      '13:30 ⭐ CURRERI BUS Sorrento → NAP Capodichino (75-80 min, ~13€/p)',
+      '14:50 llegada NAP aeropuerto',
+      '15:25 facturación abierta',
+      '17:25 ✈ Vuelo FR6836 NAP → VLC',
+      '19:55 llegada Valencia',
+      '',
+      'Plan B si Curreri lleno: Circumvesuviana Sorrento → Napoli Centrale + Alibus (10€/p total)'
+    ]
+  }
+];
+
+const HOTELS = [
+  { id:'h1', label:'Tramo 1 ✓', city:'Nápoles · Vico Croce (Spaccanapoli/Toledo)', checkin:'Mar 16 jun', checkout:'Jue 18 jun', nights:2,
+    bookingUrl:'https://www.booking.com/hotel/it/vico-croce-suite-spaccanapoli-via-toledo.es.html' },
+  { id:'h2', label:'Tramo 2 ✓', city:'Meta · Apartamento Dipintodiblù (vista mar)', checkin:'Jue 18 jun', checkout:'Dom 21 jun', nights:3,
+    bookingUrl:'https://www.airbnb.es/rooms/51994385' },
+  { id:'h3', label:'Tramo 3 ✓', city:'Sorrento centro · MIFRA Suites (junto estación)', checkin:'Dom 21 jun', checkout:'Mar 23 jun', nights:2,
+    bookingUrl:'https://www.booking.com/searchresults.es.html?ss=MIFRA+Suites+Sorrento&checkin=2026-06-21&checkout=2026-06-23&group_adults=2&no_rooms=1&order=popularity' }
+];
+
+const COMER = {
+  'Nápoles · Pizza (días 16-17 y vuelo)': [
+    { name:'Concettina ai Tre Santi', area:'Sanità', tag:'reservar', note:'Ciro Oliva, creativa, Michelin. La mejor para muchos.', map:'https://maps.app.goo.gl/?q=Concettina+ai+Tre+Santi+Napoli' },
+    { name:'50 Kalò', area:'Mergellina', tag:'reservar', note:'Ciro Salvo. Masa ligera, vistas al mar.', map:'https://maps.app.goo.gl/?q=50+Kalo+Napoli' },
+    { name:'L\'Antica Pizzeria da Michele', area:'Forcella', note:'La mítica. Ir 11:30 o 16:30 para evitar cola.', map:'https://maps.app.goo.gl/?q=Da+Michele+Napoli' },
+    { name:'Gino Sorbillo', area:'Tribunali', note:'Llegar 40 min antes de abrir.', map:'https://maps.app.goo.gl/?q=Sorbillo+Napoli' },
+    { name:'Di Matteo', area:'Tribunali', note:'Pizza a portafoglio en el mostrador de calle, 2€.', map:'https://maps.app.goo.gl/?q=Di+Matteo+Napoli' }
+  ],
+  'Nápoles · Trattorias': [
+    { name:'Trattoria da Nennella', area:'Quartieri Spagnoli', note:'Caótica, barata, brutal. Sin reserva, hacer cola. ~15€/p.', map:'https://maps.app.goo.gl/?q=Da+Nennella+Napoli' },
+    { name:'Mimì alla Ferrovia', area:'Cerca Stazione', tag:'reservar', note:'Clásico napoletano desde 1943.', map:'https://maps.app.goo.gl/?q=Mimi+alla+Ferrovia+Napoli' },
+    { name:'Tandem', area:'Centro Storico', note:'Especialistas en ragú napoletano.', map:'https://maps.app.goo.gl/?q=Tandem+Napoli' },
+    { name:'Umberto', area:'Chiaia', tag:'reservar', note:'Familiar desde 1916.', map:'https://maps.app.goo.gl/?q=Umberto+Chiaia+Napoli' }
+  ],
+  'Nápoles · Café & Dulces': [
+    { name:'Gran Caffè Gambrinus', area:'Piazza Trieste', note:'Histórico 1860. Sfogliatella + caffè.', map:'https://maps.app.goo.gl/?q=Gambrinus+Napoli' },
+    { name:'Sfogliatella Mary ⭐', area:'Galleria Umberto I', note:'⭐ MIÉ 17 tarde · sfogliatella legendaria justo al lado de Piazza Plebiscito.', map:'https://maps.app.goo.gl/?q=Sfogliatella+Mary+Napoli' },
+    { name:'Scaturchio', area:'San Domenico Maggiore', note:'Sfogliatella + babà desde 1905.', map:'https://maps.app.goo.gl/?q=Scaturchio+Napoli' },
+    { name:'Gay-Odin', area:'Via Toledo', note:'Chocolate artesano. Probad la foresta.', map:'https://maps.app.goo.gl/?q=Gay-Odin+Napoli' },
+    { name:'Friggitoria Vomero', area:'Vomero', note:'Cuoppo de frituras desde 1938.', map:'https://maps.app.goo.gl/?q=Friggitoria+Vomero' }
+  ],
+  'Nápoles · Street food (mié 17 tarde)': [
+    { name:'La Masardona ⭐', area:'Via Capitelli 27 · Spaccanapoli', note:'⭐ MIÉ 17 15:00 · La pizza fritta más famosa de Nápoles. Comer de pie en la calle. ~5€.', map:'https://maps.app.goo.gl/?q=La+Masardona+Napoli' },
+    { name:'Cuoppo napolitano', area:'Spaccanapoli', note:'⭐ MIÉ 17 15:30 · Pescado y frituras en cono de papel. Varios puestos. 6-8€.', map:'https://maps.app.goo.gl/?q=Cuoppo+napoletano+Spaccanapoli' },
+    { name:'Borgo Marinari', area:'Junto Castel dell\'Ovo', note:'⭐ MIÉ 17 20:45 · Zona perfecta para Aperol Spritz al atardecer viendo el mar.', map:'https://maps.app.goo.gl/?q=Borgo+Marinari+Napoli' }
+  ],
+  'Sorrento & Sant\'Agnello (días 18-20)': [
+    { name:'La Cantinaccia del Popolo', area:'Sant\'Agnello', tag:'reservar', note:'Salumeria-trattoria muy local.', map:'https://maps.app.goo.gl/?q=La+Cantinaccia+del+Popolo' },
+    { name:'O Parrucchiano La Favorita', area:'Sorrento', tag:'reservar', note:'Jardín de limoneros bajo techo. Inventores del cannellone.', map:'https://maps.app.goo.gl/?q=Parrucchiano+Sorrento' },
+    { name:'Inn Bufalito', area:'Vico Primo Fuoro', tag:'reservar', note:'Templo de la mozzarella di bufala.', map:'https://maps.app.goo.gl/?q=Inn+Bufalito+Sorrento' },
+    { name:'Trattoria da Emilia', area:'Marina Grande Sorrento', note:'Pescado fresquísimo. Sin reservas, esperar mesa.', map:'https://maps.app.goo.gl/?q=Trattoria+da+Emilia+Sorrento' },
+    { name:'Bagni Delfino', area:'Marina Grande', tag:'reservar', note:'Pies en el agua, pescado del día.', map:'https://maps.app.goo.gl/?q=Bagni+Delfino+Sorrento' },
+    { name:'Il Buco', area:'Sorrento', tag:'reservar', note:'1★ Michelin. Capricho.', map:'https://maps.app.goo.gl/?q=Il+Buco+Sorrento' }
+  ],
+  'Capri (vie 19)': [
+    { name:'Da Gelsomina', area:'Anacapri', tag:'reservar', note:'Agroturismo familiar con vista. Reservar con 3 días.', map:'https://maps.app.goo.gl/?q=Da+Gelsomina+Anacapri' },
+    { name:'Columbus', area:'Anacapri', note:'Producto local, polpette de pulpo.', map:'https://maps.app.goo.gl/?q=Columbus+Anacapri' },
+    { name:'Pulalli Wine Bar', area:'Piazzetta Capri', note:'Encima del campanario. Aperitivo con vista de la plaza.', map:'https://maps.app.goo.gl/?q=Pulalli+Capri' },
+    { name:'Le Arcate', area:'Anacapri', note:'Pizza y pasta honesta, precio razonable.', map:'https://maps.app.goo.gl/?q=Le+Arcate+Anacapri' }
+  ],
+  'Positano (lun 22 comida)': [
+    { name:'Da Vincenzo', area:'Viale Pasitea', tag:'reservar', note:'Local de verdad, no atrapaturistas.', map:'https://maps.app.goo.gl/?q=Da+Vincenzo+Positano' },
+    { name:'Lo Guarracino', area:'Camino a Fornillo', tag:'reservar', note:'Terraza colgada espectacular.', map:'https://maps.app.goo.gl/?q=Lo+Guarracino+Positano' },
+    { name:'Da Adolfo', area:'Spiaggia di Laurito', tag:'reservar', note:'Pescado a la teja. Barca gratis desde el muelle. Reserva con 3-4 días.', map:'https://maps.app.goo.gl/?q=Da+Adolfo+Positano' }
+  ],
+  'Amalfi · Atrani (dom 21 - lun 22)': [
+    { name:'A\'Paranza', area:'Atrani', tag:'reservar', note:'⭐ Última cena. Mariscos finos en callejuela. Reservar.', map:'https://maps.app.goo.gl/?q=A+Paranza+Atrani' },
+    { name:'Marina Grande', area:'Amalfi puerto', tag:'reservar', note:'En la playa, pescado.', map:'https://maps.app.goo.gl/?q=Marina+Grande+Amalfi' },
+    { name:'Da Maria', area:'Amalfi centro', note:'Clásico amalfitano. Buena pasta.', map:'https://maps.app.goo.gl/?q=Da+Maria+Amalfi' },
+    { name:'Il Pirata', area:'Praiano', tag:'reservar', note:'Pegado al acantilado. Mejor aperitivo-sunset si tenéis tiempo.', map:'https://maps.app.goo.gl/?q=Il+Pirata+Praiano' }
+  ]
+};
+
+const VER = {
+  'Nápoles · Mar 16 + Mié 17 + Mar 23': [
+    { name:'Cappella Sansevero / Cristo Velato', tag:'reservar', note:'⭐ 10€. Reservar 60 días antes en museosansevero.it. Mejor 12-14h.', url:'https://www.museosansevero.it/en/online-tickets' },
+    { name:'Museo Archeologico Nazionale (MANN)', note:'⭐ 22€. Mosaicos y frescos originales de Pompeya. Ver ANTES de Pompeya idealmente.' },
+    { name:'Spaccanapoli + Via San Gregorio Armeno', note:'⭐ MIÉ 17 16:00 · La calle de los belenes y la columna vertebral de Nápoles. 30-40 min.' },
+    { name:'Piazza del Gesù Nuovo + Monastero di Santa Chiara', note:'⭐ MIÉ 17 16:45 · Una de las plazas más bonitas. Claustro Santa Chiara 6€/p (uno de los rincones más bonitos).' },
+    { name:'Duomo di Napoli (Catedral)', note:'⭐ MIÉ 17 17:30 · La iglesia más importante de la ciudad. Gratis. 15-20 min.' },
+    { name:'Piazza del Plebiscito + Palazzo Reale', note:'⭐ MIÉ 17 18:30 · LA plaza más impresionante. Palazzo Reale (exterior) + Basilica Reale San Francesco di Paola.' },
+    { name:'Castel Nuovo', note:'⭐ MIÉ 17 19:00 · El castillo medieval emblemático. Foto desde fuera suficiente.' },
+    { name:'Castel dell\'Ovo + Lungomare Caracciolo', note:'⭐ MIÉ 17 19:30 · Imprescindible al atardecer. Sunset 20:34 · vistas Vesubio + Capri + bahía. EL paseo más bonito.' },
+    { name:'Via Chiaia + Piazza dei Martiri', note:'⭐ MIÉ 17 22:30 · Zona elegante de Nápoles. Pasear después de la cena en Chiaia.' },
+    { name:'Catacombe di San Gennaro', tag:'reservar', note:'9€. Visita guiada. Lleva jersey ligero.' },
+    { name:'Rione Sanità + Palazzo dello Spagnolo', note:'El barrio más auténtico ahora.' }
+  ],
+  'Pompeya · Mié 17': [
+    { name:'Pompeya · Apertura 9:00', tag:'reservar', note:'22€. Reservar vivaticket.com. Llegar 8:45 a Porta Marina.', url:'https://www.vivaticket.com' },
+    { name:'Casa del Fauno', note:'3.000 m². Mosaico de Alejandro (réplica — original en MANN).' },
+    { name:'Lupanare', note:'Ir muy temprano (cola corta antes de 9:30).' },
+    { name:'Villa de los Misterios', note:'Lejos al final del recorrido. Frescos dionisíacos imprescindibles.' },
+    { name:'Anfiteatro y Foro', note:'Centros sociales del Pompeya antiguo.' }
+  ],
+  'Sorrento · Jue 18 - Sáb 20': [
+    { name:'Bagni della Regina Giovanna', note:'⭐ Piscina natural triangular entre rocas + ruinas romanas. Gratis. 30 min andando.' },
+    { name:'Villa Comunale (mirador)', note:'Gratis. Sunset sobre el puerto y el Vesubio.' },
+    { name:'Marina Grande de Sorrento', note:'Pueblo de pescadores al pie del acantilado.' },
+    { name:'Centro storico + Piazza Tasso', note:'Compras, café, paseo.' }
+  ],
+  'Capri · Vie 19': [
+    { name:'Monte Solaro (silla desde Anacapri)', note:'⭐ 14€ ida-vuelta. Apertura 9:15. Vista 360° brutal.' },
+    { name:'Villa San Michele (Anacapri)', note:'12€. Jardines colgantes de Axel Munthe.' },
+    { name:'Punta Tragara + mirador Faraglioni', note:'⭐ Gratis. La caminata más bonita de Capri.' },
+    { name:'Piazzetta de Capri pueblo', note:'A última hora cuando los cruceros se van.' },
+    { name:'Vía Krupp', note:'Si está abierta, senda en zigzag espectacular.' },
+    { name:'❌ Gruta Azul', note:'EVITAR. Overrated. Trampa turística. Si interesa, meter en boat tour del sábado.' }
+  ],
+  'Costa Amalfitana · Dom 21 - Lun 22': [
+    { name:'Villa Cimbrone (Ravello) · Terrazza dell\'Infinito', tag:'reservar', note:'⭐ La vista más fotografiada. Mejor al atardecer.' },
+    { name:'Villa Rufolo (Ravello)', note:'7€. Si hay concierto del Ravello Festival, plus.' },
+    { name:'Duomo di Sant\'Andrea + Chiostro del Paradiso (Amalfi)', note:'5€. Imprescindible.' },
+    { name:'Museo della Carta (Amalfi)', note:'4€. Papel hecho a mano desde s.XIII.' },
+    { name:'Atrani · pueblo + plaza', note:'⭐ La joya escondida pegada a Amalfi. 7 min andando.' },
+    { name:'Positano · Spiaggia Grande + foto cúpula', note:'Ir temprano (mañana) sin maletas.' },
+    { name:'Fornillo (Positano)', note:'15 min andando desde Spiaggia Grande. Mucho menos masa.' }
+  ]
+};
+
+const LOGI = [
+  { name:'Reservar Cappella Sansevero (Cristo Velato) - mié 17', note:'Salen entradas 60 días antes (≈17 abr). Slot 11:00-13:00 ideal.', url:'https://www.museosansevero.it/en/online-tickets' },
+  { name:'Reservar entrada Pompeya (Vivaticket) - mié 17', note:'Slot 9:00 (apertura). Saltar cola.', url:'https://www.vivaticket.com' },
+  { name:'Reservar Curreri Bus Naples-Sorrento - jue 18', note:'10€/p. Salidas ~14:30. Reservar día antes.', url:'https://www.curreriviaggi.it' },
+  { name:'Reservar ferry Sorrento-Amalfi - dom 21', note:'Salida 11:00. 28€/p. Travelmar/Alicost.', url:'https://www.ferryhopper.com' },
+  { name:'Reservar ferry Amalfi-Beverello - mar 23 10:00', note:'⭐ EL MÁS IMPORTANTE. Para el vuelo. 25€/p.', url:'https://www.ferryhopper.com' },
+  { name:'Reservar boat tour costa (Lucibello/Blue Star) - sáb 20', note:'80-300€ según privado/grupo.', url:'https://www.lucibello.it' },
+  { name:'Reservar mesa A\'Paranza (Atrani) - lun 22 cena', note:'Última cena. Mariscos. Con días.' },
+  { name:'Reservar mesa Da Vincenzo o Lo Guarracino (Positano) - lun 22 comida', note:'Reservar con 3-4 días.' },
+  { name:'Reservar mesa Concettina ai Tre Santi (Nápoles) - mié 17 cena', note:'Pizza creativa Michelin.' },
+  { name:'Reservar mesa Da Gelsomina (Anacapri) - vie 19 comida', note:'Agroturismo familiar.' },
+  { name:'Reservar mesa La Cantinaccia del Popolo (Sant\'Agnello) - jue 18 cena', note:'Salumeria-trattoria local.' },
+  { name:'Reservar SITA bus Amalfi-Ravello - dom 21', note:'Comprar en estanco, no a bordo. 1,80€.' },
+  { name:'Descargar apps: Ferryhopper, Travelmar, EAV, Google Maps offline', note:'Antes de salir.' },
+  { name:'Avisar al banco y activar tarjeta', note:'Para uso en Italia.' },
+  { name:'Seguro de viaje (IATI/Mondo/Chapka)', note:'25-45€/pareja. Cubre cancelación + repatriación.' },
+  { name:'Imprimir/PDF reservas y vuelos accesibles offline', note:'Por si falla la conexión.' }
+];
+
+const AGENTS = [
+  {
+    id:'chef', cls:'agent-chef', avatar:'🍕', name:'Chef Napolitano',
+    bio:'Conoce las pizzerías de verdad, los rincones donde comen los napolitanos y qué pedir en cada sitio.',
+    sys:'Eres un chef napolitano experto en cocina campana. Hablas español. Conoces a fondo Nápoles, la Costa Amalfitana, Sorrento y Capri. Recomiendas SIEMPRE sitios no atrapaturistas, con criterio gastronómico real, y explicas qué pedir en cada uno. Eres directo, cálido y haces guiños a la cultura local. Limita la respuesta a 200 palabras salvo que pidan más.',
+    quick:['Mejor cena para nuestro último día en Amalfi','Qué pedir en Sorbillo','Mejor sitio aperitivo en Sorrento','Pizza vs trattoria, qué priorizar']
+  },
+  {
+    id:'guide', cls:'agent-guide', avatar:'🗺', name:'Guía Local',
+    bio:'Italiana de Nápoles, conoce barrios, rincones y momentos del día. Te dice qué evitar y qué nadie te cuenta.',
+    sys:'Eres una guía local napolitana muy enamorada de tu tierra. Hablas español con algún italianismo natural. Conoces a fondo Nápoles, Costa Amalfitana, Sorrento, Capri y Pompeya. Recomiendas con criterio anti-turistada: rincones poco transitados, mejores horas, atajos y verdades incómodas. Eres concreta y das nombres reales. Máx 200 palabras salvo más.',
+    quick:['Mejor plan para nuestra mañana del 17','Cómo evitar masas en Capri viernes','Atardecer mejor entre Ravello y Praiano','Qué evitar en Pompeya']
+  },
+  {
+    id:'logi', cls:'agent-logi', avatar:'⛴', name:'Logística',
+    bio:'Ferries, buses SITA, Circumvesuviana, transferes. Te dice cómo moverte sin perder tiempo ni dinero.',
+    sys:'Eres expert@ en transporte de Nápoles y Costa Amalfitana. Hablas español. Conoces horarios reales, precios, scams, mejores combinaciones y planes B (mar movido, huelgas, etc.). Tu respuesta es siempre práctica, concreta, con tiempos, paradas y precios. Máx 200 palabras.',
+    quick:['Cómo organizar el día Capri viernes','Cómo ir de Sorrento a Amalfi el domingo','Plan B si cancelan el ferry martes 23','Cómo no marearse en SITA bus']
+  },
+  {
+    id:'photo', cls:'agent-photo', avatar:'📸', name:'Fotógrafo',
+    bio:'Sabe a qué hora y desde qué punto sale la mejor luz en cada sitio. Os da spots concretos.',
+    sys:'Eres fotograf@ de viaje especializad@ en el sur de Italia. Hablas español. Conoces los mejores spots, horas de luz (golden hour, sunrise, sunset), encuadres y trucos para evitar gente en la foto. Das siempre punto concreto + hora ideal + qué tipo de luz. Máx 200 palabras.',
+    quick:['Mejor foto de Positano lunes mañana','Atardecer Ravello dónde exactamente','Spot poco fotografiado en Nápoles','Hora ideal para Faraglioni']
+  },
+  {
+    id:'lucia', cls:'agent-lucia', avatar:'💌', name:'Sorprende a Lucía',
+    bio:'Ideas concretas para detalles románticos sin clichés. Cenas con vistas, regalos pequeños, momentos.',
+    sys:'Eres un experto en romance discreto y de buen gusto en viajes. Hablas español. Conoces Nápoles, Costa Amalfitana, Sorrento y Capri. Sugieres ideas concretas para sorprender a una pareja en el viaje sin caer en lo cursi: cenas con vistas, paseos, detalles, pequeños regalos locales, momentos. Siempre prácticas (con nombre del sitio, precio aprox, hora ideal). Máx 200 palabras.',
+    quick:['Cena especial con vista para Lucía en Amalfi','Detalle inesperado en Capri','Regalo local de despedida','Momento mágico en Ravello']
+  }
+];
+
+const MISSITIOS_ZONAS = [
+  { id:'z_napoles', name:'🏛 Nápoles (mar 16 + mié 17)', placeholder:'Ej: Pizzería que vimos en Spaccanapoli...' },
+  { id:'z_pompeya', name:'🌋 Pompeya (mié 17)', placeholder:'Casa que queremos ver, restaurante cerca entrada...' },
+  { id:'z_meta', name:'🌊 Meta · Marina Alimuri (jue 18 → dom 21)', placeholder:'Bar del pueblo, tienda local...' },
+  { id:'z_capri', name:'🏝 Capri (vie 19)', placeholder:'Mirador, terraza, calita...' },
+  { id:'z_sorrento', name:'🍋 Sorrento (sáb 20 + dom 21 + lun 22)', placeholder:'Heladería, terraza con vistas...' },
+  { id:'z_positano', name:'🌺 Positano (lun 22)', placeholder:'Tienda de sandalias, restaurante...' },
+  { id:'z_amalfi', name:'⛪ Amalfi + Atrani (lun 22)', placeholder:'Pasticceria, ruina escondida...' },
+  { id:'z_ravello', name:'🌳 Ravello (opcional)', placeholder:'Villa, concierto, terraza...' },
+  { id:'z_trayectos', name:'🚂 Trayectos / traslados', placeholder:'Andén que hay que mirar, parada del bus, café entre trenes...' },
+];
+
+const MALETA_ALE = [
+  { id:'a1', t:'4× camisetas lino/algodón ligero' },
+  { id:'a2', t:'2× camisas lino (manga corta o larga ligera)' },
+  { id:'a3', t:'2× shorts chino o lino' },
+  { id:'a4', t:'1× pantalón largo lino claro (cenas + Pompeya manga larga)' },
+  { id:'a5', t:'2× bañadores (uno secando, otro)' },
+  { id:'a6', t:'7× bóxers + 5× calcetines tobilleros' },
+  { id:'a7', t:'1× sandalias Birks o similar' },
+  { id:'a8', t:'1× zapatillas blancas planas (Pompeya, Positano)' },
+  { id:'a9', t:'1× chubasquero ultraligero' },
+  { id:'a10', t:'1× gorra o sombrero panamá' },
+  { id:'a11', t:'1× gafas de sol (Minue 😉)' },
+  { id:'a12', t:'Reloj/pulsera discreta · quiet luxury' },
+];
+
+const MALETA_LUCIA = [
+  { id:'l1', t:'3× vestidos midi ligeros (lino/algodón)' },
+  { id:'l2', t:'3× camisetas/blusas' },
+  { id:'l3', t:'2× shorts o falda midi' },
+  { id:'l4', t:'1× pantalón largo lino o palazzo (cena elegante)' },
+  { id:'l5', t:'2× bañadores (bikini o entero, alternar)' },
+  { id:'l6', t:'1× pareo grande (sirve toalla, falda, top)' },
+  { id:'l7', t:'7× ropa interior + bralettes' },
+  { id:'l8', t:'1× sandalias planas día' },
+  { id:'l9', t:'1× sandalias tacón bajo/wedge cena' },
+  { id:'l10', t:'1× zapatillas planas (Pompeya, andar)' },
+  { id:'l11', t:'1× pamela o sombrero' },
+  { id:'l12', t:'Gafas sol + joyas pequeñas oro' },
+  { id:'l13', t:'1× bolso bandolera pequeño cena' },
+];
+
+const MALETA_COMUN = [
+  { id:'c1', t:'2× toallas microfibra grandes (Decathlon)' },
+  { id:'c2', t:'Crema solar SPF 50+ (1 grande compartida)' },
+  { id:'c3', t:'Aftersun aloe' },
+  { id:'c4', t:'Repelente mosquitos (zona Meta hay tigre)' },
+  { id:'c5', t:'Botiquín básico (Biodramina, ibuprofeno, tiritas, digestivo)' },
+  { id:'c6', t:'Powerbank + cables' },
+  { id:'c7', t:'Mini neceser (líquidos <100ml por cabina)' },
+  { id:'c8', t:'2× botellas agua reutilizables (1L cada una)' },
+  { id:'c9', t:'PDFs reservas offline (ferris, hoteles, Civitatis)' },
+  { id:'c10', t:'Tarjetas crédito + algo de cash 50€' },
+  { id:'c11', t:'DNI/pasaporte (vale DNI dentro UE)' },
+  { id:'c12', t:'Tarjeta sanitaria europea TSE' },
+];
+
+// ═══════════════════════════════════════════════════════════════════
+// 🔌 SUPABASE_CONFIG · pega aquí tus credenciales para sincronizar
+// ───────────────────────────────────────────────────────────────────
+// Si dejas en blanco, la app usa solo localStorage (cada dispositivo
+// independiente). Si pones URL+KEY, se sincroniza con Supabase y tu
+// iPhone y el de Lucía ven los mismos datos.
+//
+// Cómo obtener URL y KEY: ver archivo supabase-schema.sql adjunto
+// (mismo directorio).
+// ═══════════════════════════════════════════════════════════════════
+
+const SUPABASE_URL = '';
+const SUPABASE_KEY = '';
+const TRIP_KEY     = 'napoles-ale-lucia-2026';
+
+// ═══════════════════════════════════════════════════════════════════
+
+const LS = {
+  get: k => { try { return JSON.parse(localStorage.getItem(k)||'null'); } catch(e){ return null; } },
+  set: (k,v) => localStorage.setItem(k, JSON.stringify(v))
+};
+
+const DEFAULT_STATE = {
+  days: {}, hotels: {}, comer: {}, ver: {}, logi: {}, budget: {}, notes: '',
+  wishes: { ale:[], lucia:[] }, missitios: {}, maleta: {}
+};
+
+let STATE = LS.get('napoles-app-v2') || JSON.parse(JSON.stringify(DEFAULT_STATE));
+if (!STATE.missitios) STATE.missitios = {};
+if (!STATE.maleta) STATE.maleta = {};
+
+// ───────────────────────────────────────────────────────────────────
+// SUPABASE: cliente + sync
+// ───────────────────────────────────────────────────────────────────
+
+let supabase = null;
+let supabaseEnabled = false;
+let WHO = localStorage.getItem('viaje-who') || 'unknown';
+
+function setSyncStatus(state, label) {
+  const dot = document.getElementById('syncDot');
+  const text = document.getElementById('syncText');
+  if (!dot || !text) return;
+  const colors = {
+    cloud:    '#2a9d8f',  // verde
+    saving:   '#f4a261',  // naranja
+    error:    '#d9534f',  // rojo
+    local:    '#999',     // gris
+    offline:  '#666'
+  };
+  dot.style.background = colors[state] || '#999';
+  text.textContent = label || state;
+}
+
+async function initSupabase() {
+  if (!SUPABASE_URL || !SUPABASE_KEY) {
+    setSyncStatus('local', '📱 localStorage');
+    return;
+  }
+  if (typeof supabase === 'undefined' || !window.supabase) {
+    // SDK no cargó (puede pasar offline o CDN bloqueada)
+    setSyncStatus('local', '📵 offline · local');
+    return;
+  }
+  try {
+    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    supabaseEnabled = true;
+    setSyncStatus('saving', '☁ cargando...');
+    await loadFromSupabase();
+    setSyncStatus('cloud', '☁ sincronizado · ' + (WHO !== 'unknown' ? WHO : 'sin id'));
+    subscribeRealtime();
+  } catch (e) {
+    console.error('Supabase init error:', e);
+    supabaseEnabled = false;
+    setSyncStatus('error', '⚠ error cloud · usando local');
+  }
+}
+
+async function loadFromSupabase() {
+  if (!supabaseEnabled) return;
+  try {
+    const { data, error } = await supabase
+      .from('trip_state')
+      .select('state, updated_at, updated_by')
+      .eq('trip_key', TRIP_KEY)
+      .single();
+    if (error && error.code === 'PGRST116') {
+      // No existe el row, lo creamos
+      await supabase.from('trip_state').insert({
+        trip_key: TRIP_KEY,
+        state: STATE,
+        updated_by: WHO
+      });
+      return;
+    }
+    if (error) throw error;
+    if (data && data.state && Object.keys(data.state).length > 0) {
+      // Fusionamos: lo de cloud manda, pero conservamos defaults
+      STATE = Object.assign({}, DEFAULT_STATE, data.state);
+      if (!STATE.missitios) STATE.missitios = {};
+      if (!STATE.maleta) STATE.maleta = {};
+      LS.set('napoles-app-v2', STATE);
+      // Re-renderizar todo
+      rerenderAll();
+    }
+  } catch (e) {
+    console.error('Supabase load error:', e);
+    setSyncStatus('error', '⚠ error · usando local');
+  }
+}
+
+let saveTimer = null;
+let lastSaveAt = 0;
+
+async function saveToSupabase() {
+  if (!supabaseEnabled) return;
+  try {
+    setSyncStatus('saving', '☁ guardando...');
+    const { error } = await supabase
+      .from('trip_state')
+      .upsert({
+        trip_key: TRIP_KEY,
+        state: STATE,
+        updated_by: WHO
+      });
+    if (error) throw error;
+    lastSaveAt = Date.now();
+    setSyncStatus('cloud', '☁ guardado · ' + (WHO !== 'unknown' ? WHO : ''));
+  } catch (e) {
+    console.error('Supabase save error:', e);
+    setSyncStatus('error', '⚠ error · solo local');
+  }
+}
+
+function subscribeRealtime() {
+  if (!supabaseEnabled) return;
+  supabase
+    .channel('trip-' + TRIP_KEY)
+    .on('postgres_changes',
+        { event: 'UPDATE', schema: 'public', table: 'trip_state', filter: 'trip_key=eq.'+TRIP_KEY },
+        payload => {
+          // Otro dispositivo guardó. Si fue muy reciente puede ser nuestro propio cambio
+          if (Date.now() - lastSaveAt < 2000) return;
+          const incoming = payload.new && payload.new.state;
+          if (incoming && Object.keys(incoming).length > 0) {
+            STATE = Object.assign({}, DEFAULT_STATE, incoming);
+            LS.set('napoles-app-v2', STATE);
+            rerenderAll();
+            const by = payload.new.updated_by || 'el otro dispositivo';
+            setSyncStatus('cloud', '☁ ' + by + ' editó · sincronizado');
+          }
+        })
+    .subscribe();
+}
+
+function rerenderAll() {
+  if (typeof renderDays === 'function') renderDays();
+  if (typeof renderHotels === 'function') renderHotels();
+  if (typeof renderItemList === 'function') {
+    renderItemList('comer-list', COMER, 'comer');
+    renderItemList('ver-list', VER, 'ver');
+  }
+  if (typeof renderLogi === 'function') renderLogi();
+  if (typeof renderBudget === 'function') renderBudget();
+  if (typeof renderWishes === 'function') { renderWishes('ale'); renderWishes('lucia'); }
+  if (typeof renderMisSitios === 'function') renderMisSitios();
+  if (typeof renderMaletaList === 'function') {
+    renderMaletaList('maleta-ale', MALETA_ALE, 'ale');
+    renderMaletaList('maleta-lucia', MALETA_LUCIA, 'lucia');
+    renderMaletaList('maleta-comun', MALETA_COMUN, 'comun');
+  }
+  const notesEl = document.getElementById('notes');
+  if (notesEl && document.activeElement !== notesEl) notesEl.value = STATE.notes || '';
+}
+
+function save() {
+  LS.set('napoles-app-v2', STATE);  // siempre guardamos en local
+  if (supabaseEnabled) {
+    // Debounce de 800ms para no spamear Supabase
+    if (saveTimer) clearTimeout(saveTimer);
+    saveTimer = setTimeout(saveToSupabase, 800);
+  }
+}
+
+// ───────────────────────────────────────────────────────────────────
+// "Quién soy" modal · para identificar cambios
+// ───────────────────────────────────────────────────────────────────
+function openWho() { document.getElementById('whoModal').style.display = 'flex'; }
+function closeWho() { document.getElementById('whoModal').style.display = 'none'; }
+function setWho(name) {
+  WHO = name;
+  localStorage.setItem('viaje-who', name);
+  closeWho();
+  setSyncStatus(supabaseEnabled?'cloud':'local',
+    (supabaseEnabled?'☁ sincronizado · ':'📱 local · ') + name);
+}
+window.openWho = openWho;
+window.closeWho = closeWho;
+window.setWho = setWho;
+
+function updateCountdown() {
+  const now = new Date();
+  const diff = TRIP.start - now;
+  if (diff < 0) {
+    const endDiff = TRIP.end - now;
+    if (endDiff > 0) {
+      document.getElementById('cdNum').textContent = '¡En curso!';
+      document.getElementById('cdUnit').textContent = '🇮🇹';
+    } else {
+      document.getElementById('cdNum').textContent = '✓';
+      document.getElementById('cdUnit').textContent = 'qué viaje';
+    }
+    return;
+  }
+  const days = Math.floor(diff/86400000);
+  document.getElementById('cdNum').textContent = days;
+  document.getElementById('cdUnit').textContent = days === 1 ? 'día' : 'días';
+}
+updateCountdown();
+setInterval(updateCountdown, 60000);
+
+document.querySelectorAll('nav.tabs button').forEach(b => {
+  b.addEventListener('click', () => {
+    document.querySelectorAll('nav.tabs button').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('section.tab-content').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    document.getElementById(b.dataset.tab).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
+function renderDays() {
+  const root = document.getElementById('days');
+  root.innerHTML = '';
+  DAYS.forEach(d => {
+    const card = document.createElement('div');
+    card.className = 'day-card';
+    if (STATE.days[d.id]?.open) card.classList.add('open');
+    card.innerHTML = `
+      <div class="day-head">
+        <span class="day-num">${d.emoji} ${d.num}</span>
+        <span class="day-title">${d.title}</span>
+        <span class="day-date">${d.date}</span>
+        <span class="toggle">+</span>
+      </div>
+      <div class="day-body">
+        <h3>Plan del día</h3>
+        <ul>${d.items.map(i => `<li>${i}</li>`).join('')}</ul>
+        <h3 style="margin-top:12px">Tus notas para este día</h3>
+        <textarea data-day="${d.id}" placeholder="Reservas, horarios, ideas...">${(STATE.days[d.id]?.notes)||''}</textarea>
+      </div>
+    `;
+    card.querySelector('.day-head').addEventListener('click', () => {
+      card.classList.toggle('open');
+      STATE.days[d.id] = STATE.days[d.id] || {};
+      STATE.days[d.id].open = card.classList.contains('open');
+      save();
+    });
+    card.querySelector('textarea').addEventListener('input', e => {
+      STATE.days[d.id] = STATE.days[d.id] || {};
+      STATE.days[d.id].notes = e.target.value;
+      save();
+    });
+    root.appendChild(card);
+  });
+}
+
+function escapeHtml(s) { return (s||'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function statusText(s) { return ({no:'Sin reservar', buscando:'Buscando', reservado:'Reservado', pagado:'Pagado'})[s] || s; }
+
+function renderHotels() {
+  const root = document.getElementById('hoteles-list');
+  root.innerHTML = '';
+  HOTELS.forEach(h => {
+    const s = STATE.hotels[h.id] || { status:'no', name:'', price:'' };
+    const card = document.createElement('div');
+    card.className = 'card accent-mar hotel-card';
+    card.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span class="label">${h.label} · ${h.nights} ${h.nights===1?'noche':'noches'}</span>
+        <span class="status ${s.status}" data-h="${h.id}">${statusText(s.status)}</span>
+      </div>
+      <h3>${h.city}</h3>
+      <div class="muted" style="font-size:13px">${h.checkin} → ${h.checkout}</div>
+      <div style="margin-top:10px">
+        <input data-h="${h.id}" data-f="name" placeholder="Nombre del hotel" value="${escapeHtml(s.name)}">
+        <input data-h="${h.id}" data-f="price" type="number" placeholder="€ por noche" value="${s.price}">
+        <select data-h="${h.id}" data-f="status">
+          <option value="no" ${s.status==='no'?'selected':''}>Sin reservar</option>
+          <option value="buscando" ${s.status==='buscando'?'selected':''}>Buscando</option>
+          <option value="reservado" ${s.status==='reservado'?'selected':''}>Reservado</option>
+          <option value="pagado" ${s.status==='pagado'?'selected':''}>Pagado</option>
+        </select>
+        <a class="btn warm sm" href="${h.bookingUrl}" target="_blank">🔍 Buscar en Booking</a>
+        ${s.price ? `<span class="pill mar" style="margin-left:8px">Total: ${(s.price * h.nights).toFixed(0)} €</span>` : ''}
+      </div>
+    `;
+    card.querySelectorAll('input, select').forEach(el => {
+      el.addEventListener('input', e => {
+        const id = e.target.dataset.h;
+        const f = e.target.dataset.f;
+        STATE.hotels[id] = STATE.hotels[id] || {};
+        STATE.hotels[id][f] = e.target.value;
+        save();
+        renderHotels();
+        renderBudget();
+      });
+    });
+    root.appendChild(card);
+  });
+}
+
+function renderItemList(rootId, data, stateKey) {
+  const root = document.getElementById(rootId);
+  root.innerHTML = '';
+  Object.keys(data).forEach(cat => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `<h3>${cat}</h3>`;
+    data[cat].forEach((it, idx) => {
+      const k = `${cat}__${idx}`;
+      const s = STATE[stateKey][k] || {};
+      const row = document.createElement('div');
+      row.className = 'item-row' + (s.done ? ' done' : '');
+      const link = it.map || it.url;
+      const aleBadge = it.aleStar ? `<span class="pill ale">⭐ ALE</span>` : '';
+      row.innerHTML = `
+        <input type="checkbox" data-k="${k}" ${s.done?'checked':''}>
+        <div class="content">
+          <div class="name">${aleBadge} ${link ? `<a href="${link}" target="_blank">${it.name}</a>` : it.name} ${it.tag ? `<span class="pill buga">${it.tag.toUpperCase()}</span>` : ''}</div>
+          <div class="meta">${it.area ? `<span class="pill mar">${it.area}</span> ` : ''}${it.note||''}</div>
+        </div>
+      `;
+      row.querySelector('input').addEventListener('change', e => {
+        STATE[stateKey][k] = { done: e.target.checked };
+        save();
+        row.classList.toggle('done', e.target.checked);
+      });
+      card.appendChild(row);
+    });
+    root.appendChild(card);
+  });
+}
+
+function renderLogi() {
+  const root = document.getElementById('logi-list');
+  root.innerHTML = '';
+  LOGI.forEach((it, idx) => {
+    const k = `logi_${idx}`;
+    const s = STATE.logi[k] || {};
+    const row = document.createElement('div');
+    row.className = 'item-row' + (s.done ? ' done' : '');
+    row.innerHTML = `
+      <input type="checkbox" ${s.done?'checked':''}>
+      <div class="content">
+        <div class="name">${it.url ? `<a href="${it.url}" target="_blank">${it.name}</a>` : it.name}</div>
+        <div class="meta">${it.note||''}</div>
+      </div>
+    `;
+    row.querySelector('input').addEventListener('change', e => {
+      STATE.logi[k] = { done: e.target.checked };
+      save();
+      row.classList.toggle('done', e.target.checked);
+    });
+    root.appendChild(row);
+  });
+}
+
+function renderBudget() {
+  const root = document.getElementById('budget-card');
+  const flights = STATE.budget.flights || '';
+  const hotelTotal = HOTELS.reduce((acc, h) => acc + (Number((STATE.hotels[h.id]||{}).price||0) * h.nights), 0);
+  const meals = STATE.budget.meals || '';
+  const transport = STATE.budget.transport || '';
+  const attractions = STATE.budget.attractions || '';
+  const boat = STATE.budget.boat || '';
+  const other = STATE.budget.other || '';
+  const sum = Number(flights||0) + hotelTotal + Number(meals||0) + Number(transport||0) + Number(attractions||0) + Number(boat||0) + Number(other||0);
+
+  root.innerHTML = `
+    <div class="budget-row"><label>✈ Vuelos Ryanair (2 pax)</label><input type="number" id="bg-flights" placeholder="0" value="${flights}"></div>
+    <div class="budget-row"><label>🏨 Hoteles (auto desde tramos)</label><input type="number" disabled value="${hotelTotal||''}"></div>
+    <div class="budget-row"><label>🍝 Comida + cenas (7 días)</label><input type="number" id="bg-meals" placeholder="estim 350-500€" value="${meals}"></div>
+    <div class="budget-row"><label>⛴ Transporte interno (ferries, buses, taxis)</label><input type="number" id="bg-transport" placeholder="estim 220-280€" value="${transport}"></div>
+    <div class="budget-row"><label>🎟 Atracciones y entradas</label><input type="number" id="bg-attractions" placeholder="estim 120-180€" value="${attractions}"></div>
+    <div class="budget-row"><label>⛵ Boat tour (sáb 20)</label><input type="number" id="bg-boat" placeholder="200-300€" value="${boat}"></div>
+    <div class="budget-row"><label>🛍 Souvenirs / extras</label><input type="number" id="bg-other" placeholder="0" value="${other}"></div>
+    <div class="budget-total"><span>TOTAL viaje (2 pax)</span><span>${sum.toFixed(0)} €</span></div>
+    <div class="budget-total" style="border-top:none;font-size:14px;color:var(--muted);margin-top:0"><span>Por persona</span><span>${(sum/2).toFixed(0)} €</span></div>
+  `;
+  ['flights','meals','transport','attractions','boat','other'].forEach(k => {
+    const el = document.getElementById('bg-'+k);
+    if (!el) return;
+    el.addEventListener('input', e => {
+      STATE.budget[k] = e.target.value;
+      save();
+      renderBudget();
+    });
+  });
+}
+
+function renderAgents() {
+  const root = document.getElementById('agents-list');
+  root.innerHTML = '';
+  AGENTS.forEach(a => {
+    const card = document.createElement('div');
+    card.className = 'agent-card ' + a.cls;
+    card.innerHTML = `
+      <div class="agent-head">
+        <div class="agent-avatar">${a.avatar}</div>
+        <div>
+          <div class="agent-name">${a.name}</div>
+          <div class="agent-bio">${a.bio}</div>
+        </div>
+      </div>
+      <textarea id="ag-${a.id}-q" placeholder="Pregúntame lo que necesites..."></textarea>
+      <div class="agent-quick">${a.quick.map(q => `<button data-q="${escapeHtml(q)}">${q}</button>`).join('')}</div>
+      <button class="btn" id="ag-${a.id}-btn">Preguntar</button>
+      <div class="agent-response" id="ag-${a.id}-r"></div>
+    `;
+    card.querySelectorAll('.agent-quick button').forEach(b => {
+      b.addEventListener('click', () => {
+        const ta = card.querySelector(`#ag-${a.id}-q`);
+        ta.value = b.dataset.q;
+      });
+    });
+    card.querySelector(`#ag-${a.id}-btn`).addEventListener('click', () => askAgent(a));
+    root.appendChild(card);
+  });
+}
+
+async function askAgent(agent) {
+  const q = document.getElementById(`ag-${agent.id}-q`).value.trim();
+  const r = document.getElementById(`ag-${agent.id}-r`);
+  if (!q) { r.textContent = 'Escribe una pregunta primero.'; r.className = 'agent-response show'; return; }
+
+  const isCowork = typeof window.cowork !== 'undefined' && typeof window.cowork.askClaude === 'function';
+
+  if (!isCowork) {
+    r.className = 'agent-response show';
+    r.innerHTML = '<b>⚠️ Asistentes IA solo funcionan dentro de Cowork.</b><br><br>Estás en la versión web pública. Para hablar con ' + agent.name + ', abre esta app en Cowork de Claude.<br><br><b>Tu pregunta:</b> "' + q + '"';
+    return;
+  }
+
+  r.className = 'agent-response show loading';
+  r.textContent = agent.name + ' está pensando...';
+
+  const context = 'PERSONA: ' + agent.sys + '\n\nCONTEXTO DEL VIAJE:\n- Viajeros: Ale + Lucía (pareja española)\n- Fechas: 16-23 jun 2026\n- Vuelos: Ryanair VLC-NAP (mar 16) y NAP-VLC (mar 23, 17:25)\n- Plan: 2 noches Nápoles (Vico Croce) + 3 Meta (Dipintodiblù) + 2 Sorrento centro (MIFRA)\n- Pompeya mié 17, Capri vie 19, sábado relax Meta, Positano+Amalfi+Atrani lun 22\n- Vuelta NAP en Curreri Bus desde Sorrento mar 23\n- Idioma: español\n\nPREGUNTA: ' + q;
+
+  try {
+    const res = await window.cowork.askClaude(context, []);
+    r.className = 'agent-response show';
+    r.textContent = (typeof res === 'string' ? res : (res?.text || JSON.stringify(res)));
+  } catch (err) {
+    r.className = 'agent-response show';
+    r.textContent = 'Ups, no se pudo conectar con el asistente. Detalle: ' + (err.message||err);
+  }
+}
+
+function renderMisSitios() {
+  const root = document.getElementById('missitios-list');
+  if (!root) return;
+  root.innerHTML = '';
+  MISSITIOS_ZONAS.forEach(zona => {
+    const items = STATE.missitios[zona.id] || [];
+    const card = document.createElement('div');
+    card.className = 'card accent-mar';
+    card.innerHTML = `
+      <h3>${zona.name}</h3>
+      <ul style="padding-left:0;list-style:none;margin:8px 0" id="ms-list-${zona.id}"></ul>
+      <div style="display:flex;gap:6px;margin-top:8px">
+        <input id="ms-input-${zona.id}" placeholder="${zona.placeholder}" style="flex:1;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-family:inherit;font-size:13.5px">
+        <button class="btn sm" data-zona="${zona.id}">+ añadir</button>
+      </div>
+      <h3 style="margin-top:14px;font-size:13px;color:var(--muted)">📝 Notas libres de esta zona</h3>
+      <textarea data-zona-notes="${zona.id}" placeholder="Recordatorios, conversaciones, horarios..." style="width:100%;min-height:60px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-family:inherit;font-size:13.5px;resize:vertical;margin-top:4px"></textarea>
+    `;
+    const ul = card.querySelector(`#ms-list-${zona.id}`);
+    items.forEach((it, i) => {
+      const li = document.createElement('li');
+      li.style.cssText = 'padding:8px 10px;background:var(--crema);border:1px solid var(--line);border-radius:8px;margin-bottom:6px;display:flex;align-items:center;gap:8px;font-size:14px';
+      li.innerHTML = `
+        <input type="checkbox" ${it.done?'checked':''} style="margin:0">
+        <span style="flex:1;${it.done?'text-decoration:line-through;opacity:0.55':''}">${escapeHtml(it.text)}</span>
+        <a href="#" style="color:var(--buganvilla);font-size:11px">✕</a>
+      `;
+      li.querySelector('input').addEventListener('change', e => {
+        STATE.missitios[zona.id][i].done = e.target.checked;
+        save(); renderMisSitios();
+      });
+      li.querySelector('a').addEventListener('click', e => {
+        e.preventDefault();
+        STATE.missitios[zona.id].splice(i,1);
+        save(); renderMisSitios();
+      });
+      ul.appendChild(li);
+    });
+    const ta = card.querySelector(`textarea[data-zona-notes="${zona.id}"]`);
+    ta.value = (STATE.missitios[zona.id+'_notes'])||'';
+    ta.addEventListener('input', e => {
+      STATE.missitios[zona.id+'_notes'] = e.target.value; save();
+    });
+    card.querySelector('button[data-zona]').addEventListener('click', () => {
+      const input = card.querySelector(`#ms-input-${zona.id}`);
+      const v = input.value.trim();
+      if (!v) return;
+      STATE.missitios[zona.id] = STATE.missitios[zona.id] || [];
+      STATE.missitios[zona.id].push({ text:v, done:false });
+      save(); renderMisSitios();
+    });
+    card.querySelector(`#ms-input-${zona.id}`).addEventListener('keypress', e => {
+      if (e.key === 'Enter') card.querySelector('button[data-zona]').click();
+    });
+    root.appendChild(card);
+  });
+}
+
+function renderMaletaList(rootId, items, who) {
+  const root = document.getElementById(rootId);
+  if (!root) return;
+  root.innerHTML = '';
+  items.forEach(it => {
+    const k = `${who}_${it.id}`;
+    const s = STATE.maleta[k] || {};
+    const row = document.createElement('div');
+    row.className = 'item-row' + (s.done ? ' done' : '');
+    row.innerHTML = `
+      <input type="checkbox" ${s.done?'checked':''}>
+      <div class="content"><div class="name">${escapeHtml(it.t)}</div></div>
+    `;
+    row.querySelector('input').addEventListener('change', e => {
+      STATE.maleta[k] = { done: e.target.checked };
+      save();
+      row.classList.toggle('done', e.target.checked);
+    });
+    root.appendChild(row);
+  });
+}
+
+const notesEl = document.getElementById('notes');
+notesEl.value = STATE.notes || '';
+notesEl.addEventListener('input', () => { STATE.notes = notesEl.value; save(); });
+
+function renderWishes(who) {
+  const ul = document.getElementById('wish-'+who);
+  ul.innerHTML = '';
+  (STATE.wishes[who]||[]).forEach((w, i) => {
+    const li = document.createElement('li');
+    li.innerHTML = `${w} <a href="#" data-i="${i}" style="color:var(--buganvilla);font-size:11px;margin-left:6px">✕</a>`;
+    li.querySelector('a').addEventListener('click', e => {
+      e.preventDefault();
+      STATE.wishes[who].splice(i, 1);
+      save();
+      renderWishes(who);
+    });
+    ul.appendChild(li);
+  });
+}
+function addWish(who) {
+  const input = document.getElementById('wish-'+who+'-input');
+  const v = input.value.trim();
+  if (!v) return;
+  STATE.wishes[who] = STATE.wishes[who] || [];
+  STATE.wishes[who].push(v);
+  save();
+  input.value = '';
+  renderWishes(who);
+}
+window.addWish = addWish;
+
+renderDays();
+renderHotels();
+renderItemList('comer-list', COMER, 'comer');
+renderItemList('ver-list', VER, 'ver');
+renderLogi();
+renderBudget();
+renderAgents();
+renderWishes('ale');
+renderWishes('lucia');
+renderMisSitios();
+renderMaletaList('maleta-ale', MALETA_ALE, 'ale');
+renderMaletaList('maleta-lucia', MALETA_LUCIA, 'lucia');
+renderMaletaList('maleta-comun', MALETA_COMUN, 'comun');
+
+// Conectar botón "?" para preguntar quién soy
+document.getElementById('whoBtn').addEventListener('click', openWho);
+
+// Cargar mapa solo bajo demanda (evita scroll trapping en iPad)
+const cargarMapaBtn = document.getElementById('cargarMapaBtn');
+if (cargarMapaBtn) {
+  cargarMapaBtn.addEventListener('click', () => {
+    const container = document.getElementById('mapaContainer');
+    container.style.padding = '0';
+    container.style.minHeight = '560px';
+    container.innerHTML = '<iframe src="mapa-dia17-18.html" style="width:100%;height:560px;border:0;display:block" title="Mapa Día 17 + 18" loading="lazy"></iframe>';
+    cargarMapaBtn.textContent = '✓ Mapa cargado';
+    cargarMapaBtn.disabled = true;
+  });
+}
+
+// Si no se ha identificado nadie todavía, abrir modal al cargar
+WHO = localStorage.getItem("viaje-who") || "Ale";
+
+// Arrancar sync con Supabase (si está configurado)
+initSupabase();
+</script>
+</body>
+</html>
