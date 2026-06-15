@@ -213,17 +213,54 @@
 
   .item-row {
     display: flex; align-items: flex-start; gap: 10px;
-    padding: 9px 0;
+    padding: 12px 0;
     border-bottom: 1px solid var(--line);
   }
   .item-row:last-child { border-bottom: none; }
-  .item-row input[type=checkbox] { margin-top: 4px; }
+  .item-row input[type=checkbox] { margin-top: 6px; min-width: 16px; }
   .item-row .content { flex: 1; }
-  .item-row .content .name { font-weight: 600; font-size: 14px; }
+  .item-row .content .name { font-weight: 700; font-size: 14.5px; line-height: 1.35; }
   .item-row .content .name a { color: var(--mar); text-decoration: none; }
   .item-row .content .name a:hover { text-decoration: underline; }
-  .item-row .content .meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .item-row .content .meta { font-size: 12px; color: var(--muted); margin-top: 4px; display: flex; flex-wrap: wrap; gap: 4px; }
+  .item-row .content .note-text { font-size: 12.5px; color: var(--muted); margin-top: 4px; line-height: 1.45; }
   .item-row.done .content .name { text-decoration: line-through; opacity: 0.55; }
+
+  /* Botones de acción (📞 🌐 📷 🗺 🔍 🎫) */
+  .action-btns {
+    display: flex; gap: 6px; flex-wrap: wrap;
+    margin-top: 8px;
+  }
+  .action-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 32px; height: 32px;
+    background: #f7f5f1;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 15px;
+    transition: all 0.15s;
+  }
+  .action-btn:hover { background: var(--mar-light); border-color: var(--mar); transform: translateY(-1px); }
+
+  /* Control de reserva */
+  .reserva-control {
+    display: flex; gap: 6px; margin-top: 8px;
+    flex-wrap: wrap;
+  }
+  .rs-select, .rs-date {
+    padding: 4px 8px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 12px;
+    background: #fff;
+  }
+  .rs-date { flex: 1; min-width: 130px; }
+  .rs-select.rs-pendiente { background: #f3eee5; color: var(--muted); }
+  .rs-select.rs-llamada { background: var(--sol-light); color: #8b4a13; }
+  .rs-select.rs-confirmada { background: #d8eedb; color: #18602a; font-weight: 600; }
+  .rs-select.rs-visitado { background: var(--mar-light); color: var(--mar-dark); }
 
   .btn {
     display: inline-block;
@@ -355,7 +392,7 @@
     <span id="syncText">localStorage</span>
     <button id="whoBtn" style="background:transparent;border:none;color:var(--mar);cursor:pointer;font-size:11.5px;font-weight:600;padding:0 0 0 4px">?</button>
   </div>
-  <div style="position:absolute;bottom:8px;right:14px;font-size:10px;opacity:0.7;font-weight:600">v2026.06.16-SIMPLE</div>
+  <div style="position:absolute;bottom:8px;right:14px;font-size:10px;opacity:0.7;font-weight:600">v2026.06.16-PRO</div>
 </header>
 
 <!-- Modal "Quién soy" -->
@@ -1337,101 +1374,527 @@ const HOTELS = [
 ];
 
 const COMER = {
-  'Nápoles · Pizza (días 16-17 y vuelo)': [
-    { name:'Concettina ai Tre Santi', area:'Sanità', tag:'reservar', note:'Ciro Oliva, creativa, Michelin. La mejor para muchos.', map:'https://maps.app.goo.gl/?q=Concettina+ai+Tre+Santi+Napoli' },
-    { name:'50 Kalò', area:'Mergellina', tag:'reservar', note:'Ciro Salvo. Masa ligera, vistas al mar.', map:'https://maps.app.goo.gl/?q=50+Kalo+Napoli' },
-    { name:'L\'Antica Pizzeria da Michele', area:'Forcella', note:'La mítica. Ir 11:30 o 16:30 para evitar cola.', map:'https://maps.app.goo.gl/?q=Da+Michele+Napoli' },
-    { name:'Gino Sorbillo', area:'Tribunali', note:'Llegar 40 min antes de abrir.', map:'https://maps.app.goo.gl/?q=Sorbillo+Napoli' },
-    { name:'Di Matteo', area:'Tribunali', note:'Pizza a portafoglio en el mostrador de calle, 2€.', map:'https://maps.app.goo.gl/?q=Di+Matteo+Napoli' }
+  '🍕 Nápoles · Pizza & Cena Chiaia (Mié 17 noche)': [
+    { name:'Concettina ai Tre Santi ⭐⭐⭐', area:'Sanità', tag:'reservar', when:'Mié 17 · 21:30',
+      note:'⭐ Ciro Oliva, Michelin Bib Gourmand. Pizza de autor creativa con ingredientes del barrio Sanità.',
+      key:'🍕 Pedir: "Vesuvius" (cráter con scarpariello) y "Margherita 4 Pomodori". Postre: tarta de babà.',
+      tel:'+390812907456', web:'https://www.pizzeriaoliva.it',
+      ig:'concettinaaitresanti',
+      google:'https://www.google.com/search?q=Concettina+ai+Tre+Santi+Napoli+reseñas',
+      map:'https://maps.app.goo.gl/?q=Concettina+ai+Tre+Santi+Napoli', price:'25-35€/p' },
+    { name:'50 Kalò ⭐⭐⭐', area:'Mergellina', tag:'reservar', when:'Mié 17 · 21:30 (alt)',
+      note:'⭐ Ciro Salvo. Masa ligera, fermentación 24h. Top 50 World Pizza.',
+      key:'🍕 Pedir: "50 Kalò Storica" (margherita iconic) y "Maradona". Vino: Lacryma Christi del Vesubio.',
+      tel:'+390819652555', web:'https://www.50kalo.it',
+      ig:'50kalo',
+      google:'https://www.google.com/search?q=50+Kalo+Napoli+resenas',
+      map:'https://maps.app.goo.gl/?q=50+Kalo+Napoli', price:'20-30€/p' },
+    { name:'Umberto ⭐', area:'Chiaia · Via Alabardieri 30', tag:'reservar', when:'Mié 17 · 21:30 ⭐ CHIAIA',
+      note:'⭐ Familiar desde 1916, 4 generaciones. Clásico napolitano en zona Chiaia elegante.',
+      key:'🍝 Pedir: "Tubettoni Don Umberto" (pasta fresca + scampi) o "Pizza Donna Margherita" (extra mozzarella).',
+      tel:'+390814180110', web:'https://umberto.it',
+      ig:'ristoranteumberto1916',
+      google:'https://www.google.com/search?q=Umberto+1916+Chiaia+Napoli+resenas',
+      map:'https://maps.app.goo.gl/?q=Umberto+Chiaia+Napoli', price:'30-45€/p' },
+    { name:'L\'Antica Pizzeria da Michele', area:'Forcella', when:'Si vais a comer rápido',
+      note:'La mítica de "Comer Rezar Amar". Solo 2 pizzas: Margherita o Marinara.',
+      key:'🍕 Pedir: una de cada. Comer rápido (mesa compartida). Cola de 30+ min · ir 11:30 o 16:30.',
+      tel:'+390815539204', web:'http://www.damichele.net',
+      ig:'damicheleworld',
+      google:'https://www.google.com/search?q=Da+Michele+Forcella+Napoli',
+      map:'https://maps.app.goo.gl/?q=Da+Michele+Napoli', price:'6-10€/p' },
+    { name:'Gino Sorbillo', area:'Tribunali', note:'Llegar 40 min antes de abrir.',
+      key:'🍕 Pedir: "Margherita 4 Pomodori" (4 tomates distintos). Tirar de espera.',
+      tel:'+390814460311', web:'https://www.accademiadellapizza.it',
+      ig:'sorbillo_pizzaiolo',
+      google:'https://www.google.com/search?q=Sorbillo+Tribunali+Napoli',
+      map:'https://maps.app.goo.gl/?q=Sorbillo+Napoli', price:'8-12€/p' },
+    { name:'Di Matteo', area:'Tribunali', note:'Pizza a portafoglio en el mostrador de calle, 2€.',
+      key:'🍕 Pedir en la ventana: "fritta portafoglio" (frita doblada) 2€. Bill Clinton la probó aquí.',
+      tel:'+390814455262',
+      ig:'pizzeriadimatteo',
+      google:'https://www.google.com/search?q=Pizzeria+Di+Matteo+Napoli',
+      map:'https://maps.app.goo.gl/?q=Di+Matteo+Napoli', price:'2-8€/p' }
   ],
-  'Nápoles · Trattorias': [
-    { name:'Trattoria da Nennella', area:'Quartieri Spagnoli', note:'Caótica, barata, brutal. Sin reserva, hacer cola. ~15€/p.', map:'https://maps.app.goo.gl/?q=Da+Nennella+Napoli' },
-    { name:'Mimì alla Ferrovia', area:'Cerca Stazione', tag:'reservar', note:'Clásico napoletano desde 1943.', map:'https://maps.app.goo.gl/?q=Mimi+alla+Ferrovia+Napoli' },
-    { name:'Tandem', area:'Centro Storico', note:'Especialistas en ragú napoletano.', map:'https://maps.app.goo.gl/?q=Tandem+Napoli' },
-    { name:'Umberto', area:'Chiaia', tag:'reservar', note:'Familiar desde 1916.', map:'https://maps.app.goo.gl/?q=Umberto+Chiaia+Napoli' }
+  '🍝 Nápoles · Trattorias (cena alternativa)': [
+    { name:'Trattoria da Nennella ⭐', area:'Quartieri Spagnoli', note:'⭐ Caótica, barata, brutal. Sin reserva, hacer cola.',
+      key:'🍝 Pedir el menú degustazione (15€/p, 3 platos). El "frittata di pasta" es iconic.',
+      tel:'+390814143338',
+      ig:'trattoriadanennella',
+      google:'https://www.google.com/search?q=Trattoria+Nennella+Quartieri+Spagnoli',
+      map:'https://maps.app.goo.gl/?q=Da+Nennella+Napoli', price:'12-18€/p' },
+    { name:'Mimì alla Ferrovia', area:'Cerca Stazione', tag:'reservar', note:'Clásico napoletano desde 1943.',
+      key:'🐟 Pedir: pescado del día + "spaghetti vongole verace". Sofia Loren cenaba aquí.',
+      tel:'+390815538525',
+      ig:'mimiallaferrovia',
+      google:'https://www.google.com/search?q=Mimi+alla+Ferrovia+Napoli',
+      map:'https://maps.app.goo.gl/?q=Mimi+alla+Ferrovia+Napoli', price:'25-35€/p' },
+    { name:'Tandem', area:'Via Paladino 51 · Centro Storico', note:'Especialistas en ragú napoletano.',
+      key:'🍝 Pedir: "Ragú della Domenica" (cocción 8h). Solo abren a esa carta. Reservar pre-online.',
+      tel:'+390819763983', web:'https://www.tandem.napoli.it',
+      ig:'tandemnapoli',
+      google:'https://www.google.com/search?q=Tandem+Napoli+ragu',
+      map:'https://maps.app.goo.gl/?q=Tandem+Napoli', price:'15-25€/p' },
+    { name:'Antica Trattoria Vesuvio', area:'Via Toledo · Centro Storico', note:'Family-run, papardelle al ragú espectacular.',
+      key:'🍝 Pedir: "Pappardelle al Ragú Vesuviano". Ambiente clásico, sin postureo.',
+      google:'https://www.google.com/search?q=Antica+Trattoria+Vesuvio+Napoli',
+      map:'https://maps.app.goo.gl/?q=Antica+Trattoria+Vesuvio+Napoli', price:'20-30€/p' }
   ],
-  'Nápoles · Café & Dulces': [
-    { name:'Gran Caffè Gambrinus', area:'Piazza Trieste', note:'Histórico 1860. Sfogliatella + caffè.', map:'https://maps.app.goo.gl/?q=Gambrinus+Napoli' },
-    { name:'Sfogliatella Mary ⭐', area:'Galleria Umberto I', note:'⭐ MIÉ 17 tarde · sfogliatella legendaria justo al lado de Piazza Plebiscito.', map:'https://maps.app.goo.gl/?q=Sfogliatella+Mary+Napoli' },
-    { name:'Scaturchio', area:'San Domenico Maggiore', note:'Sfogliatella + babà desde 1905.', map:'https://maps.app.goo.gl/?q=Scaturchio+Napoli' },
-    { name:'Gay-Odin', area:'Via Toledo', note:'Chocolate artesano. Probad la foresta.', map:'https://maps.app.goo.gl/?q=Gay-Odin+Napoli' },
-    { name:'Friggitoria Vomero', area:'Vomero', note:'Cuoppo de frituras desde 1938.', map:'https://maps.app.goo.gl/?q=Friggitoria+Vomero' }
+  '🥐 Nápoles · Café, Aperitivo & Dulces': [
+    { name:'Gran Caffè Gambrinus ⭐⭐', area:'Piazza Trieste · al lado Plebiscito', when:'Mié 17 · 08:00 desayuno',
+      note:'⭐ Histórico 1860. Sfogliatella + caffè. Tomarlo de pie en barra (mucho más barato que sentado).',
+      key:'🥐 Pedir: "Sfogliatella riccia" calentita + caffè espresso (1,20€ en barra vs 5€ sentado).',
+      tel:'+390814172582', web:'https://grancaffegambrinus.com',
+      ig:'grancaffegambrinus',
+      google:'https://www.google.com/search?q=Gran+Caffe+Gambrinus+Napoli',
+      map:'https://maps.app.goo.gl/?q=Gambrinus+Napoli', price:'4-8€' },
+    { name:'Sfogliatella Mary ⭐⭐⭐', area:'Galleria Umberto I (entrada Via Toledo)', when:'Mié 17 · 17:50',
+      note:'⭐⭐ Sfogliatella legendaria justo al lado de Piazza Plebiscito. Calentita y crujiente.',
+      key:'🥐 Pedir: "Sfogliatella RICCIA caliente" (la frola es la blanda). Mejor pedirla calentita, marcas diferencia.',
+      ig:'sfogliatellamary',
+      google:'https://www.google.com/search?q=Sfogliatella+Mary+Galleria+Umberto+Napoli',
+      map:'https://maps.app.goo.gl/?q=Sfogliatella+Mary+Napoli', price:'2-3€' },
+    { name:'Scaturchio', area:'San Domenico Maggiore', note:'Sfogliatella + babà desde 1905. Comparar con Mary 😉',
+      key:'🍰 Pedir: el "Babà al rum" (mojado en ron) — su especialidad histórica. Sfogliatella decente pero su babà es lo mejor.',
+      tel:'+390815516944',
+      ig:'scaturchionapoli',
+      google:'https://www.google.com/search?q=Scaturchio+Napoli+baba',
+      map:'https://maps.app.goo.gl/?q=Scaturchio+Napoli', price:'3-5€' },
+    { name:'Gay-Odin ⭐', area:'Via Toledo (varias tiendas)', note:'Chocolate artesano. Probad la foresta y el bonbón al Vesubio.',
+      key:'🍫 Pedir: "Foresta" (bombón con tronco de chocolate dentro) y "Cremino al limone". Souvenir top de Nápoles.',
+      tel:'+390814171843',
+      ig:'gay_odin_chocolate',
+      google:'https://www.google.com/search?q=Gay+Odin+Napoli+chocolate',
+      map:'https://maps.app.goo.gl/?q=Gay-Odin+Napoli', price:'3-15€' },
+    { name:'Borgo Marinari ⭐⭐⭐', area:'Junto Castel dell\'Ovo · sobre el mar', when:'Mié 17 · 20:45 Aperol',
+      note:'⭐⭐ Zona perfecta para Aperol Spritz al atardecer viendo el mar. Varias terrazas.',
+      key:'🍹 Cualquier terraza vale. Pedir: Aperol Spritz (8-10€) + tabla de quesos+embutidos. Vista al mar.',
+      google:'https://www.google.com/search?q=Borgo+Marinari+Napoli+aperitivo',
+      map:'https://maps.app.goo.gl/?q=Borgo+Marinari+Napoli', price:'10-18€ aperol+tabla' },
+    { name:'Friggitoria Vomero', area:'Vomero', note:'Cuoppo de frituras desde 1938.',
+      key:'🥘 Pedir: "Cuoppo classico" (frituras mixtas en cono de papel) 4€. Llevar a la calle.',
+      tel:'+390815783130',
+      google:'https://www.google.com/search?q=Friggitoria+Vomero+Napoli',
+      map:'https://maps.app.goo.gl/?q=Friggitoria+Vomero', price:'3-5€' }
   ],
-  'Nápoles · Street food (mié 17 tarde)': [
-    { name:'La Masardona ⭐', area:'Via Capitelli 27 · Spaccanapoli', note:'⭐ MIÉ 17 15:00 · La pizza fritta más famosa de Nápoles. Comer de pie en la calle. ~5€.', map:'https://maps.app.goo.gl/?q=La+Masardona+Napoli' },
-    { name:'Cuoppo napolitano', area:'Spaccanapoli', note:'⭐ MIÉ 17 15:30 · Pescado y frituras en cono de papel. Varios puestos. 6-8€.', map:'https://maps.app.goo.gl/?q=Cuoppo+napoletano+Spaccanapoli' },
-    { name:'Borgo Marinari', area:'Junto Castel dell\'Ovo', note:'⭐ MIÉ 17 20:45 · Zona perfecta para Aperol Spritz al atardecer viendo el mar.', map:'https://maps.app.goo.gl/?q=Borgo+Marinari+Napoli' }
+  '🍕 Nápoles · Street food (Mié 17 tarde)': [
+    { name:'La Masardona ⭐⭐⭐', area:'Via Capitelli 27 · Spaccanapoli', when:'Mié 17 · 15:00 ⭐',
+      note:'⭐⭐ La pizza fritta más famosa de Nápoles. Comer de pie en la calle.',
+      key:'🍕 Pedir: "Pizza Fritta Classica" (ricotta + provola + cicoli + pepper) 5€. Cojita, doblada, brutal.',
+      tel:'+390817012391',
+      ig:'lamasardona',
+      google:'https://www.google.com/search?q=La+Masardona+Napoli+pizza+fritta',
+      map:'https://maps.app.goo.gl/?q=La+Masardona+Napoli', price:'4-6€' },
+    { name:'Cuoppo Napoletano ⭐', area:'Spaccanapoli (varios puestos)', when:'Mié 17 · 15:30',
+      note:'⭐ Pescado y frituras en cono de papel. Mejor en mercados Pignasecca o Vomero.',
+      key:'🥘 Pedir: "Cuoppo mare" (pescado + calamares + gambas fritas). Mucho mejor que el de carne.',
+      google:'https://www.google.com/search?q=Cuoppo+napoletano+street+food',
+      map:'https://maps.app.goo.gl/?q=Cuoppo+napoletano+Spaccanapoli', price:'6-8€' },
+    { name:'Tarallificio Esposito', area:'Centro Storico', note:'Taralli sugna y pepe artesanos. Llévatelos para el tren.',
+      key:'🥨 Pedir: bolsa de "Taralli sugna pepe e mandorle" (con manteca, pimienta y almendras). Perfecto snack para Pompeya.',
+      google:'https://www.google.com/search?q=Tarallificio+Esposito+Napoli',
+      map:'https://maps.app.goo.gl/?q=Tarallificio+Esposito+Napoli', price:'3-5€' }
   ],
-  'Sorrento & Sant\'Agnello (días 18-20)': [
-    { name:'La Cantinaccia del Popolo', area:'Sant\'Agnello', tag:'reservar', note:'Salumeria-trattoria muy local.', map:'https://maps.app.goo.gl/?q=La+Cantinaccia+del+Popolo' },
-    { name:'O Parrucchiano La Favorita', area:'Sorrento', tag:'reservar', note:'Jardín de limoneros bajo techo. Inventores del cannellone.', map:'https://maps.app.goo.gl/?q=Parrucchiano+Sorrento' },
-    { name:'Inn Bufalito', area:'Vico Primo Fuoro', tag:'reservar', note:'Templo de la mozzarella di bufala.', map:'https://maps.app.goo.gl/?q=Inn+Bufalito+Sorrento' },
-    { name:'Trattoria da Emilia', area:'Marina Grande Sorrento', note:'Pescado fresquísimo. Sin reservas, esperar mesa.', map:'https://maps.app.goo.gl/?q=Trattoria+da+Emilia+Sorrento' },
-    { name:'Bagni Delfino', area:'Marina Grande', tag:'reservar', note:'Pies en el agua, pescado del día.', map:'https://maps.app.goo.gl/?q=Bagni+Delfino+Sorrento' },
-    { name:'Il Buco', area:'Sorrento', tag:'reservar', note:'1★ Michelin. Capricho.', map:'https://maps.app.goo.gl/?q=Il+Buco+Sorrento' }
+  '🍋 Sorrento & Meta (Días 18-22)': [
+    { name:'La Cantinaccia del Popolo ⭐⭐', area:'Sant\'Agnello · Vico III Rota 6', tag:'reservar', when:'Jue 18 · 20:30 cena',
+      note:'⭐ Salumeria-trattoria muy local. Carnes excelentes, vinos buenos, ambiente vivo.',
+      key:'🥩 Pedir: tabla de embutidos+quesos + "Tagliata di manzo con rúcula y parmigiano". Vinos a granel.',
+      tel:'+390815333278',
+      ig:'lacantinacciadelpopolo',
+      google:'https://www.google.com/search?q=Cantinaccia+del+Popolo+Sant+Agnello',
+      map:'https://maps.app.goo.gl/?q=La+Cantinaccia+del+Popolo', price:'30-40€/p' },
+    { name:'O Parrucchiano La Favorita ⭐⭐⭐', area:'Sorrento centro · Corso Italia 71', tag:'reservar', when:'Dom 21 · 21:00 cena',
+      note:'⭐⭐ Jardín de limoneros bajo techo. Inventores del cannellone (1868). Iconic.',
+      key:'🍝 Pedir: "Cannelloni alla Parrucchiano" (creación de la casa). Postre: "Delizia al limone".',
+      tel:'+390818781321', web:'https://parrucchiano.com',
+      ig:'parrucchianolafavorita',
+      google:'https://www.google.com/search?q=Parrucchiano+La+Favorita+Sorrento',
+      map:'https://maps.app.goo.gl/?q=Parrucchiano+Sorrento', price:'35-50€/p' },
+    { name:'Inn Bufalito ⭐', area:'Vico Fuoro 21 · Sorrento', tag:'reservar',
+      note:'Templo de la mozzarella di bufala campana. Productos del Vesubio.',
+      key:'🧀 Pedir: tabla de 5 mozzarellas DOP. "Hamburger di bufala" si quieres algo distinto.',
+      tel:'+390818771962',
+      ig:'innbufalito',
+      google:'https://www.google.com/search?q=Inn+Bufalito+Sorrento',
+      map:'https://maps.app.goo.gl/?q=Inn+Bufalito+Sorrento', price:'25-35€/p' },
+    { name:'Trattoria da Emilia ⭐⭐', area:'Marina Grande Sorrento', when:'Dom 21 · 13:00 comida',
+      note:'⭐⭐ Pescado fresquísimo. Sin reservas, esperar mesa. Pies casi en el agua, vista del pueblo de pescadores.',
+      key:'🐟 Pedir: "Gnocchi alla sorrentina" + "Frittura di paranza" (mix de pescado pequeño frito). Vino: Falanghina.',
+      tel:'+390818072720',
+      google:'https://www.google.com/search?q=Trattoria+Emilia+Marina+Grande+Sorrento',
+      map:'https://maps.app.goo.gl/?q=Trattoria+da+Emilia+Sorrento', price:'25-35€/p' },
+    { name:'Bagni Delfino ⭐⭐', area:'Marina Grande Sorrento', tag:'reservar', when:'Dom 21 · 13:00 (alt)',
+      note:'⭐ Pies en el agua, pescado del día. Reservar mesa terraza con días.',
+      key:'🐟 Pedir: pescado al horno con limón sorrentino. "Linguine ai ricci di mare" (con erizos) si hay.',
+      tel:'+390818782038',
+      ig:'bagnidelfino',
+      google:'https://www.google.com/search?q=Bagni+Delfino+Sorrento',
+      map:'https://maps.app.goo.gl/?q=Bagni+Delfino+Sorrento', price:'40-60€/p' },
+    { name:'Il Buco ⭐⭐⭐', area:'II Rampa Marina Piccola 5 · Sorrento', tag:'reservar',
+      note:'⭐⭐⭐ 1★ Michelin. Capricho gastronómico. Cueva antigua.',
+      key:'🍽 Pedir: menú degustación (90€/p · 7 platos). Reservar 2 semanas antes. Capricho.',
+      tel:'+390818782354', web:'https://ilbucoristorante.it',
+      ig:'ilbucoristorante',
+      google:'https://www.google.com/search?q=Il+Buco+Sorrento+Michelin',
+      map:'https://maps.app.goo.gl/?q=Il+Buco+Sorrento', price:'90-130€/p' },
+    { name:'Bollicine Wine Bar ⭐', area:'Sorrento · Via Accademia 9', when:'Dom 21 · 20:00 aperitivo',
+      note:'⭐ Aperitivo de vinos artesanos. Tapas italianas. Ambiente local.',
+      key:'🍷 Pedir: copa de Falanghina + tabla de quesos campanos. Buen pre-cena.',
+      tel:'+390818784616',
+      ig:'bollicinesorrento',
+      google:'https://www.google.com/search?q=Bollicine+Sorrento+wine',
+      map:'https://maps.app.goo.gl/?q=Bollicine+Sorrento', price:'10-18€' },
+    { name:'Fauno Bar', area:'Sorrento · Piazza Tasso', note:'Aperitivo histórico en la plaza principal. Más turístico pero buen people-watching.',
+      key:'🍹 Pedir: "Spritz al limoncello" (variante local). Café a media tarde con vista de la plaza.',
+      tel:'+390818781135',
+      ig:'faunobarsorrento',
+      google:'https://www.google.com/search?q=Fauno+Bar+Sorrento',
+      map:'https://maps.app.goo.gl/?q=Fauno+Bar+Sorrento', price:'8-15€' },
+    { name:'Gelateria David ⭐', area:'Sorrento · Via Marziale 19', when:'Sáb 20 · 16:30',
+      note:'⭐ Helado mítico de Sorrento. Producción artesana.',
+      key:'🍦 Pedir: "Profumi di Sorrento" (limón + naranja + lima) y "Stracciatella ai 4 cioccolati".',
+      ig:'gelateriadavidsorrento',
+      google:'https://www.google.com/search?q=Gelateria+David+Sorrento',
+      map:'https://maps.app.goo.gl/?q=Gelateria+David+Sorrento', price:'3-5€' }
   ],
-  'Capri (vie 19)': [
-    { name:'Da Gelsomina', area:'Anacapri', tag:'reservar', note:'Agroturismo familiar con vista. Reservar con 3 días.', map:'https://maps.app.goo.gl/?q=Da+Gelsomina+Anacapri' },
-    { name:'Columbus', area:'Anacapri', note:'Producto local, polpette de pulpo.', map:'https://maps.app.goo.gl/?q=Columbus+Anacapri' },
-    { name:'Pulalli Wine Bar', area:'Piazzetta Capri', note:'Encima del campanario. Aperitivo con vista de la plaza.', map:'https://maps.app.goo.gl/?q=Pulalli+Capri' },
-    { name:'Le Arcate', area:'Anacapri', note:'Pizza y pasta honesta, precio razonable.', map:'https://maps.app.goo.gl/?q=Le+Arcate+Anacapri' }
+  '🏝 Capri (Vie 19)': [
+    { name:'Da Gelsomina ⭐⭐⭐', area:'Anacapri · Via Migliera 72', tag:'reservar', when:'(plan B si cambia Andrea)',
+      note:'⭐⭐ Agroturismo familiar con vista panorámica. Producción propia.',
+      key:'🍝 Pedir: "Ravioli capresi" + "Coniglio all\'ischitana". Vino propio.',
+      tel:'+390818371499', web:'https://dagelsomina.com',
+      ig:'ristorantedagelsomina',
+      google:'https://www.google.com/search?q=Da+Gelsomina+Anacapri',
+      map:'https://maps.app.goo.gl/?q=Da+Gelsomina+Anacapri', price:'40-55€/p' },
+    { name:'Pulalli Wine Bar ⭐⭐⭐', area:'Piazza Umberto 4 · sobre el campanario Piazzetta', when:'Vie 19 · 18:30 aperitivo',
+      note:'⭐⭐ Encima del campanario de la Piazzetta. Aperitivo con vista mágica.',
+      key:'🍷 Pedir: "Tagliere di salumi" + copa Greco di Tufo. Llegar 18:00 para mesa terraza.',
+      tel:'+390818374108',
+      ig:'pulalliwinebar',
+      google:'https://www.google.com/search?q=Pulalli+Wine+Bar+Capri',
+      map:'https://maps.app.goo.gl/?q=Pulalli+Capri', price:'15-25€ aperol+tabla' },
+    { name:'Buonocore Gelateria ⭐⭐', area:'Capri · Via Vittorio Emanuele 35', when:'Vie 19 · 18:30 (alt)',
+      note:'⭐⭐ Helado mítico. Tartas caseras. Los limoneros frescos.',
+      key:'🍦 Pedir: "Cornetto Capri" (cucurucho hecho ahí caliente) + helado limón. Iconic.',
+      ig:'buonocorecapri',
+      google:'https://www.google.com/search?q=Buonocore+Capri+gelato',
+      map:'https://maps.app.goo.gl/?q=Buonocore+Capri', price:'4-7€' },
+    { name:'Columbus', area:'Anacapri', note:'Producto local, polpette de pulpo.',
+      key:'🐟 Pedir: "Polpette di polpo" + "Pasta cu\'a\'\'nduja".',
+      tel:'+390818371441',
+      google:'https://www.google.com/search?q=Columbus+Anacapri+restaurant',
+      map:'https://maps.app.goo.gl/?q=Columbus+Anacapri', price:'30-45€/p' },
+    { name:'Le Arcate', area:'Anacapri', note:'Pizza y pasta honesta, precio razonable.',
+      key:'🍕 Pedir: pizza margherita simple + caprese. Para no arruinarse.',
+      google:'https://www.google.com/search?q=Le+Arcate+Anacapri',
+      map:'https://maps.app.goo.gl/?q=Le+Arcate+Anacapri', price:'15-25€/p' }
   ],
-  'Positano (lun 22 comida)': [
-    { name:'Da Vincenzo', area:'Viale Pasitea', tag:'reservar', note:'Local de verdad, no atrapaturistas.', map:'https://maps.app.goo.gl/?q=Da+Vincenzo+Positano' },
-    { name:'Lo Guarracino', area:'Camino a Fornillo', tag:'reservar', note:'Terraza colgada espectacular.', map:'https://maps.app.goo.gl/?q=Lo+Guarracino+Positano' },
-    { name:'Da Adolfo', area:'Spiaggia di Laurito', tag:'reservar', note:'Pescado a la teja. Barca gratis desde el muelle. Reserva con 3-4 días.', map:'https://maps.app.goo.gl/?q=Da+Adolfo+Positano' }
+  '🌺 Positano (Lun 22 comida)': [
+    { name:'Da Vincenzo ⭐⭐⭐', area:'Viale Pasitea 172 · Positano', tag:'reservar', when:'Lun 22 · 13:00 ⭐',
+      note:'⭐⭐⭐ Local de verdad, no atrapaturistas. Pesce all\'acqua pazza, terraza con vista.',
+      key:'🐟 Pedir: "Pesce all\'acqua pazza" + "Spaghetti alle vongole". Vino Falanghina.',
+      tel:'+39089875128', web:'https://davincenzo.it',
+      ig:'davincenzopositano',
+      google:'https://www.google.com/search?q=Da+Vincenzo+Positano',
+      map:'https://maps.app.goo.gl/?q=Da+Vincenzo+Positano', price:'45-65€/p' },
+    { name:'Lo Guarracino ⭐⭐', area:'Via Positanesi d\'America 12 · camino Fornillo', tag:'reservar', when:'Lun 22 · 13:00 (alt)',
+      note:'⭐⭐ Terraza colgada espectacular sobre el mar.',
+      key:'🍝 Pedir: "Linguine al limone" (especialidad) + bruschette. Reservar mesa con vista.',
+      tel:'+39089875794',
+      ig:'loguarracinoristorante',
+      google:'https://www.google.com/search?q=Lo+Guarracino+Positano',
+      map:'https://maps.app.goo.gl/?q=Lo+Guarracino+Positano', price:'45-65€/p' },
+    { name:'Da Adolfo ⭐⭐⭐', area:'Spiaggia di Laurito · solo en barca', tag:'reservar', when:'Lun 22 · 13:00 ⭐ MUY ESPECIAL',
+      note:'⭐⭐⭐ Pescado a la teja. Barca pez-rojo gratis desde Spiaggia Grande. Reserva 3-4 días.',
+      key:'🐟 Pedir: "Pesce alla piastra di legno" (a la teja) + "Mozzarella alla foglia di limone".',
+      tel:'+39089875022', web:'https://daadolfo.com',
+      ig:'daadolfopositano',
+      google:'https://www.google.com/search?q=Da+Adolfo+Positano+Laurito',
+      map:'https://maps.app.goo.gl/?q=Da+Adolfo+Positano', price:'50-70€/p' },
+    { name:'Casa e Bottega', area:'Positano centro · Via Pasitea 100', note:'Café/zumos de día. Insta-foto + brunch saludable.',
+      key:'🥤 Pedir: zumo limón fresco + tostada aguacate. Foto top del interior blanco.',
+      ig:'casaebottegapositano',
+      google:'https://www.google.com/search?q=Casa+e+Bottega+Positano',
+      map:'https://maps.app.goo.gl/?q=Casa+e+Bottega+Positano', price:'10-20€' },
+    { name:'La Sponda (Le Sirenuse) ⭐⭐⭐', area:'Hotel Le Sirenuse · Via Cristoforo Colombo 30', tag:'reservar', when:'Capricho top',
+      note:'⭐⭐⭐ 1★ Michelin. Hotel iconic de Positano. 400 velas. Capricho top.',
+      key:'🍽 Menú degustación. Vinos campanos. Reservar 1 mes antes. No shorts.',
+      web:'https://sirenuse.it/lasponda',
+      ig:'lesirenuse',
+      google:'https://www.google.com/search?q=La+Sponda+Le+Sirenuse+Positano',
+      map:'https://maps.app.goo.gl/?q=La+Sponda+Positano', price:'150-200€/p' }
   ],
-  'Amalfi · Atrani (dom 21 - lun 22)': [
-    { name:'A\'Paranza', area:'Atrani', tag:'reservar', note:'⭐ Última cena. Mariscos finos en callejuela. Reservar.', map:'https://maps.app.goo.gl/?q=A+Paranza+Atrani' },
-    { name:'Marina Grande', area:'Amalfi puerto', tag:'reservar', note:'En la playa, pescado.', map:'https://maps.app.goo.gl/?q=Marina+Grande+Amalfi' },
-    { name:'Da Maria', area:'Amalfi centro', note:'Clásico amalfitano. Buena pasta.', map:'https://maps.app.goo.gl/?q=Da+Maria+Amalfi' },
-    { name:'Il Pirata', area:'Praiano', tag:'reservar', note:'Pegado al acantilado. Mejor aperitivo-sunset si tenéis tiempo.', map:'https://maps.app.goo.gl/?q=Il+Pirata+Praiano' }
+  '⛪ Amalfi · Atrani (Lun 22 cena ÚLTIMA)': [
+    { name:'A\'Paranza ⭐⭐⭐', area:'Atrani · Traversa Dragone 1 · 7 min a pie Amalfi', tag:'reservar', when:'Lun 22 · 21:00 ⭐⭐⭐ ÚLTIMA CENA',
+      note:'⭐⭐⭐ Última cena del viaje. Mariscos finos en callejuela escondida.',
+      key:'🐟 Pedir: degustación de pescado crudo + "Paccheri al ragú di pesce". Vino Falanghina o Greco.',
+      tel:'+390898716840', web:'https://ristoranteparanza.com',
+      ig:'aparanzatrani',
+      google:'https://www.google.com/search?q=Paranza+Atrani+Amalfi',
+      map:'https://maps.app.goo.gl/?q=A+Paranza+Atrani', price:'45-65€/p' },
+    { name:'Marina Grande ⭐', area:'Amalfi puerto · Viale della Regione 4', tag:'reservar', when:'Lun 22 · 13:00 (si comemos Amalfi)',
+      note:'⭐ En la playa, pescado. Más turístico pero buen producto.',
+      key:'🐟 Pedir: "Spaghetti alle vongole veraci" + "Pesce all\'acqua pazza". Mesa terraza al mar.',
+      tel:'+39089871129', web:'https://www.ristorantemarinagrande.com',
+      ig:'marinagrandeamalfi',
+      google:'https://www.google.com/search?q=Marina+Grande+Amalfi+restaurant',
+      map:'https://maps.app.goo.gl/?q=Marina+Grande+Amalfi', price:'40-60€/p' },
+    { name:'Da Maria', area:'Amalfi centro · Piazza Spirito Santo 4', note:'Clásico amalfitano. Buena pasta, ambiente local.',
+      key:'🍝 Pedir: "Scialatielli ai frutti di mare" (pasta amalfitana típica). Vino blanco frizzante.',
+      tel:'+39089871880',
+      google:'https://www.google.com/search?q=Da+Maria+Amalfi+restaurant',
+      map:'https://maps.app.goo.gl/?q=Da+Maria+Amalfi', price:'30-45€/p' },
+    { name:'Il Pirata ⭐⭐', area:'Praiano · Via Terramare 2', tag:'reservar', when:'Si tenéis tiempo',
+      note:'⭐⭐ Pegado al acantilado en cueva. Aperitivo-sunset top.',
+      key:'🍹 Aperol + tabla. Bajar las escaleras desde Praiano hasta la cueva. Atardecer espectacular.',
+      tel:'+39089874377',
+      ig:'ilpiratapraiano',
+      google:'https://www.google.com/search?q=Il+Pirata+Praiano',
+      map:'https://maps.app.goo.gl/?q=Il+Pirata+Praiano', price:'12-25€ aperol' },
+    { name:'Pansa Pasticceria ⭐⭐', area:'Amalfi · Piazza Duomo 40', when:'Lun 22 · 16:30 dulce',
+      note:'⭐⭐ Desde 1830. Pasticceria histórica del Duomo de Amalfi.',
+      key:'🍰 Pedir: "Delizia al limone" (postre icónico amalfitano) + caffè.',
+      ig:'pansaamalfi',
+      google:'https://www.google.com/search?q=Pansa+Amalfi+pasticceria',
+      map:'https://maps.app.goo.gl/?q=Pansa+Amalfi', price:'3-5€' }
   ]
 };
 
 const VER = {
-  'Nápoles · Mar 16 + Mié 17 + Mar 23': [
-    { name:'Cappella Sansevero / Cristo Velato', tag:'reservar', note:'⭐ 10€. Reservar 60 días antes en museosansevero.it. Mejor 12-14h.', url:'https://www.museosansevero.it/en/online-tickets' },
-    { name:'Museo Archeologico Nazionale (MANN)', note:'⭐ 22€. Mosaicos y frescos originales de Pompeya. Ver ANTES de Pompeya idealmente.' },
-    { name:'Spaccanapoli + Via San Gregorio Armeno', note:'⭐ MIÉ 17 16:00 · La calle de los belenes y la columna vertebral de Nápoles. 30-40 min.' },
-    { name:'Piazza del Gesù Nuovo + Monastero di Santa Chiara', note:'⭐ MIÉ 17 16:45 · Una de las plazas más bonitas. Claustro Santa Chiara 6€/p (uno de los rincones más bonitos).' },
-    { name:'Duomo di Napoli (Catedral)', note:'⭐ MIÉ 17 17:30 · La iglesia más importante de la ciudad. Gratis. 15-20 min.' },
-    { name:'Piazza del Plebiscito + Palazzo Reale', note:'⭐ MIÉ 17 18:30 · LA plaza más impresionante. Palazzo Reale (exterior) + Basilica Reale San Francesco di Paola.' },
-    { name:'Castel Nuovo', note:'⭐ MIÉ 17 19:00 · El castillo medieval emblemático. Foto desde fuera suficiente.' },
-    { name:'Castel dell\'Ovo + Lungomare Caracciolo', note:'⭐ MIÉ 17 19:30 · Imprescindible al atardecer. Sunset 20:34 · vistas Vesubio + Capri + bahía. EL paseo más bonito.' },
-    { name:'Via Chiaia + Piazza dei Martiri', note:'⭐ MIÉ 17 22:30 · Zona elegante de Nápoles. Pasear después de la cena en Chiaia.' },
-    { name:'Catacombe di San Gennaro', tag:'reservar', note:'9€. Visita guiada. Lleva jersey ligero.' },
-    { name:'Rione Sanità + Palazzo dello Spagnolo', note:'El barrio más auténtico ahora.' }
+  '🏛 Nápoles · Mar 16 + Mié 17 + Mar 23': [
+    { name:'Cappella Sansevero · Cristo Velato ⭐⭐⭐', tag:'reservar', when:'Mié 17 · 16:30',
+      note:'⭐⭐⭐ 10€. Reservar 60 días antes. Mejor 12-14h. Slot fijo.',
+      key:'🎭 La estatua del "Cristo Velato" de Sanmartino (1753). Mármol que parece tela. Imprescindible.',
+      url:'https://www.museosansevero.it/en/online-tickets',
+      ig:'museocappellasansevero',
+      google:'https://www.google.com/search?q=Cappella+Sansevero+Cristo+Velato',
+      map:'https://maps.app.goo.gl/?q=Cappella+Sansevero+Napoli',
+      duration:'30 min · 10€/p' },
+    { name:'Museo Archeologico Nazionale (MANN) ⭐⭐', when:'Mié 17 · si tenéis tiempo',
+      note:'⭐ 22€. Mosaicos y frescos originales de Pompeya. Ver ANTES de Pompeya idealmente.',
+      key:'🏺 Buscar: Mosaico de Alejandro (Casa del Fauno) + Hércules Farnesio + Sala Secreta (eróticos).',
+      url:'https://mann-napoli.it',
+      ig:'museoarcheologiconazionale',
+      google:'https://www.google.com/search?q=MANN+Museo+Archeologico+Napoli',
+      map:'https://maps.app.goo.gl/?q=MANN+Napoli',
+      duration:'2-3h · 22€/p' },
+    { name:'Spaccanapoli + Via San Gregorio Armeno ⭐⭐⭐', when:'Mié 17 · 16:00',
+      note:'⭐⭐⭐ La columna vertebral de Nápoles + calle de los belenes.',
+      key:'🛍 Buscar: figuras de belén con cara de famosos (Maradona, Messi, Papa). Talleres artesanos en vivo.',
+      google:'https://www.google.com/search?q=Spaccanapoli+San+Gregorio+Armeno',
+      map:'https://maps.app.goo.gl/?q=Spaccanapoli+Napoli',
+      duration:'30-40 min · gratis' },
+    { name:'Piazza Gesù Nuovo + Claustro Santa Chiara ⭐⭐', when:'Mié 17 · 16:45',
+      note:'⭐ Plaza preciosa + claustro 6€/p (uno de los rincones más bonitos).',
+      key:'🎨 Buscar: claustro con mayólicas pintadas (s.XVIII) en bancos y columnas. Foto imprescindible.',
+      url:'http://www.monasterodisantachiara.it',
+      google:'https://www.google.com/search?q=Monastero+Santa+Chiara+Napoli+claustro',
+      map:'https://maps.app.goo.gl/?q=Santa+Chiara+Napoli',
+      duration:'45 min · 6€/p claustro' },
+    { name:'Duomo di Napoli ⭐', when:'Mié 17 · 17:30',
+      note:'⭐ La catedral. Gratis. 15-20 min.',
+      key:'⛪ Buscar: Capilla del Tesoro de San Gennaro (oro real). Reliquias de la sangre del santo.',
+      google:'https://www.google.com/search?q=Duomo+Napoli',
+      map:'https://maps.app.goo.gl/?q=Duomo+Napoli',
+      duration:'15-20 min · gratis' },
+    { name:'Piazza del Plebiscito + Palazzo Reale ⭐⭐⭐', when:'Mié 17 · 18:30',
+      note:'⭐⭐⭐ LA plaza más impresionante de Nápoles.',
+      key:'🏛 Buscar: cierra los ojos y camina entre las 2 estatuas de caballos (challenge napolitano · casi imposible).',
+      google:'https://www.google.com/search?q=Piazza+del+Plebiscito+Napoli',
+      map:'https://maps.app.goo.gl/?q=Piazza+del+Plebiscito',
+      duration:'30 min · gratis exterior' },
+    { name:'Castel Nuovo (Maschio Angioino) ⭐', when:'Mié 17 · 19:00',
+      note:'⭐ Castillo medieval emblemático. Foto exterior.',
+      key:'🏰 Buscar: arco de triunfo aragonés (s.XV) en mármol blanco. Iconic.',
+      google:'https://www.google.com/search?q=Castel+Nuovo+Napoli',
+      map:'https://maps.app.goo.gl/?q=Castel+Nuovo+Napoli',
+      duration:'15 min exterior · 6€ interior' },
+    { name:'Castel dell\'Ovo + Lungomare Caracciolo ⭐⭐⭐', when:'Mié 17 · 19:30',
+      note:'⭐⭐⭐ Imprescindible al atardecer. Sunset 20:34 · vistas Vesubio + Capri + bahía.',
+      key:'🌅 Buscar: Subir al castillo (gratis, hasta 19:30) para vista de la bahía. Borgo Marinari abajo.',
+      google:'https://www.google.com/search?q=Castel+dell+Ovo+Napoli',
+      map:'https://maps.app.goo.gl/?q=Castel+dell+Ovo+Napoli',
+      duration:'1h · gratis' },
+    { name:'Via Chiaia + Piazza dei Martiri ⭐', when:'Mié 17 · 22:30',
+      note:'⭐ Zona elegante de Nápoles. Pasear después de cena.',
+      key:'👜 Shopping de marcas + bares de cocktails. Donde sale la juventud napolitana.',
+      google:'https://www.google.com/search?q=Via+Chiaia+Napoli',
+      map:'https://maps.app.goo.gl/?q=Via+Chiaia+Napoli',
+      duration:'30 min paseo · gratis' },
+    { name:'Catacombe di San Gennaro ⭐⭐', tag:'reservar',
+      note:'⭐ 9€. Visita guiada. Lleva jersey ligero.',
+      key:'⚰ Catacumbas paleocristianas s.II. Frescos antiguos. 1h guiada.',
+      url:'https://www.catacombedinapoli.it',
+      ig:'catacombedinapoli',
+      google:'https://www.google.com/search?q=Catacombe+San+Gennaro+Napoli',
+      duration:'1h · 9€/p' },
+    { name:'Rione Sanità + Palazzo dello Spagnolo',
+      note:'El barrio más auténtico ahora · descubrimiento reciente.',
+      key:'🏚 Buscar: escalera helicoidal del Palazzo Spagnolo (gratis, en patio). Sanità autentica.',
+      google:'https://www.google.com/search?q=Rione+Sanita+Napoli',
+      map:'https://maps.app.goo.gl/?q=Rione+Sanita+Napoli',
+      duration:'2-3h paseo · gratis' }
   ],
-  'Pompeya · Mié 17': [
-    { name:'Pompeya · Apertura 9:00', tag:'reservar', note:'22€. Reservar vivaticket.com. Llegar 8:45 a Porta Marina.', url:'https://www.vivaticket.com' },
-    { name:'Casa del Fauno', note:'3.000 m². Mosaico de Alejandro (réplica — original en MANN).' },
-    { name:'Lupanare', note:'Ir muy temprano (cola corta antes de 9:30).' },
-    { name:'Villa de los Misterios', note:'Lejos al final del recorrido. Frescos dionisíacos imprescindibles.' },
-    { name:'Anfiteatro y Foro', note:'Centros sociales del Pompeya antiguo.' }
+  '🌋 Pompeya · Mié 17 mañana': [
+    { name:'Pompeya · Civitatis 10:00 ⭐⭐⭐', tag:'reservar', when:'Mié 17 · 10:00 ⭐ RESERVAR',
+      note:'⭐⭐⭐ 60€ los 2. Civitatis guiado español. Punto encuentro: Porta Marina Superiore.',
+      key:'⏰ Llegar 09:18 (tren 08:41 desde Porta Nolana). Cancelación 24h gratis.',
+      url:'https://www.civitatis.com/es/pompeya/visita-guiada-pompeya/',
+      google:'https://www.google.com/search?q=Pompeya+sitio+arqueologico',
+      map:'https://maps.app.goo.gl/?q=Pompei+Scavi',
+      duration:'2h guía + libre · 30€/p' },
+    { name:'Casa del Fauno ⭐⭐⭐',
+      note:'3.000 m². Mosaico de Alejandro (réplica — original en MANN).',
+      key:'🏛 Buscar: mosaico "Cave canem" (cuidado con el perro) + mosaico de Alejandro Magno.',
+      google:'https://www.google.com/search?q=Casa+del+Fauno+Pompeya',
+      duration:'20 min · incluido' },
+    { name:'Lupanare ⭐⭐',
+      note:'⭐ Ir muy temprano (cola corta antes de 9:30).',
+      key:'🎭 Buscar: frescos eróticos pintados en paredes (catálogo de servicios romano). Pequeñito pero icónico.',
+      google:'https://www.google.com/search?q=Lupanare+Pompeya',
+      duration:'10 min · incluido' },
+    { name:'Villa de los Misterios ⭐⭐⭐',
+      note:'⭐⭐ Lejos al final del recorrido. Frescos dionisíacos imprescindibles.',
+      key:'🎨 Buscar: ciclo de frescos rojo pompeyano (s.I a.C.). Iniciación a misterios. Único en el mundo.',
+      google:'https://www.google.com/search?q=Villa+Misteri+Pompeya',
+      duration:'30 min · ⚠ verificar si incluida (ver entrada Plus)' },
+    { name:'Anfiteatro y Foro ⭐',
+      note:'Centros sociales del Pompeya antiguo.',
+      key:'🏛 Anfiteatro: el más antiguo de Roma intacto (80 a.C.). Foro: centro político/comercial.',
+      google:'https://www.google.com/search?q=Anfiteatro+Pompeya',
+      duration:'20 min · incluido' },
+    { name:'Teatro Grande',
+      note:'Si tiempo extra, el teatro de 5.000 espectadores.',
+      google:'https://www.google.com/search?q=Teatro+Grande+Pompeya',
+      duration:'10 min · incluido' }
   ],
-  'Sorrento · Jue 18 - Sáb 20': [
-    { name:'Bagni della Regina Giovanna', note:'⭐ Piscina natural triangular entre rocas + ruinas romanas. Gratis. 30 min andando.' },
-    { name:'Villa Comunale (mirador)', note:'Gratis. Sunset sobre el puerto y el Vesubio.' },
-    { name:'Marina Grande de Sorrento', note:'Pueblo de pescadores al pie del acantilado.' },
-    { name:'Centro storico + Piazza Tasso', note:'Compras, café, paseo.' }
+  '🍋 Sorrento · Jue 18 - Sáb 20': [
+    { name:'Bagni della Regina Giovanna ⭐⭐⭐', when:'Sáb 20 · mañana',
+      note:'⭐⭐⭐ Piscina natural triangular entre rocas + ruinas romanas. Gratis. 30 min andando.',
+      key:'🏊 Llevar bañador + zapatos goma (rocas afiladas). Llegar 9:00 vacío. Foto cliff.',
+      google:'https://www.google.com/search?q=Bagni+Regina+Giovanna+Sorrento',
+      map:'https://maps.app.goo.gl/?q=Bagni+della+Regina+Giovanna',
+      duration:'2h · gratis' },
+    { name:'Villa Comunale (mirador) ⭐⭐', when:'Dom 21 · 18:30 sunset',
+      note:'⭐ Gratis. Sunset sobre el puerto y el Vesubio.',
+      key:'🌅 Banco "Bench of Lovers" al final del paseo (lugar de tantas fotos).',
+      google:'https://www.google.com/search?q=Villa+Comunale+Sorrento+mirador',
+      map:'https://maps.app.goo.gl/?q=Villa+Comunale+Sorrento',
+      duration:'30 min · gratis' },
+    { name:'Marina Grande de Sorrento ⭐⭐', when:'Dom 21 · 13:00',
+      note:'⭐ Pueblo de pescadores al pie del acantilado.',
+      key:'🐟 Pasear playa de piedras + ver barcas. Comer Trattoria da Emilia (sin reservas, hacer cola).',
+      google:'https://www.google.com/search?q=Marina+Grande+Sorrento',
+      map:'https://maps.app.goo.gl/?q=Marina+Grande+Sorrento',
+      duration:'2-3h · gratis' },
+    { name:'Centro storico + Piazza Tasso ⭐', when:'Sáb 20 + Dom 21',
+      note:'⭐ Compras, café, paseo.',
+      key:'🛍 Buscar: limoncello artesano en bodegas (no en tiendas), Acquedotto Romano y Sedil Dominova.',
+      google:'https://www.google.com/search?q=Sorrento+centro+storico',
+      map:'https://maps.app.goo.gl/?q=Piazza+Tasso+Sorrento',
+      duration:'2h · gratis' },
+    { name:'Sedil Dominova',
+      note:'Edificio veneciano único en el centro.',
+      key:'🏛 La estructura abovedada con frescos. Gratis exterior. 5 min.',
+      google:'https://www.google.com/search?q=Sedil+Dominova+Sorrento',
+      duration:'5 min · gratis' },
+    { name:'Cloister San Francesco',
+      note:'Claustro precioso con triple arco gótico-renacentista.',
+      key:'⛪ Conciertos clásicos a veces por la noche. Foto del arco con bouganvillas.',
+      google:'https://www.google.com/search?q=Chiostro+San+Francesco+Sorrento',
+      duration:'15 min · gratis' }
   ],
-  'Capri · Vie 19': [
-    { name:'Monte Solaro (silla desde Anacapri)', note:'⭐ 14€ ida-vuelta. Apertura 9:15. Vista 360° brutal.' },
-    { name:'Villa San Michele (Anacapri)', note:'12€. Jardines colgantes de Axel Munthe.' },
-    { name:'Punta Tragara + mirador Faraglioni', note:'⭐ Gratis. La caminata más bonita de Capri.' },
-    { name:'Piazzetta de Capri pueblo', note:'A última hora cuando los cruceros se van.' },
-    { name:'Vía Krupp', note:'Si está abierta, senda en zigzag espectacular.' },
-    { name:'❌ Gruta Azul', note:'EVITAR. Overrated. Trampa turística. Si interesa, meter en boat tour del sábado.' }
+  '🏝 Capri · Vie 19': [
+    { name:'Monte Solaro (silla Anacapri) ⭐⭐⭐', when:'Vie 19 · 10:00',
+      note:'⭐⭐⭐ 14€ ida-vuelta. Apertura 9:15. Vista 360° brutal.',
+      key:'🚠 Silla individual abierta (sin barras), 13 min subida. Trae jersey · arriba 5°C menos.',
+      url:'https://www.capriseggiovia.it',
+      google:'https://www.google.com/search?q=Monte+Solaro+seggiovia+Capri',
+      map:'https://maps.app.goo.gl/?q=Monte+Solaro+Capri',
+      duration:'1h · 14€/p' },
+    { name:'Villa San Michele (Anacapri) ⭐⭐', when:'Vie 19 · 11:00 si tiempo',
+      note:'⭐ 12€. Jardines colgantes de Axel Munthe.',
+      key:'🏛 Jardines con vista al mar + Esfinge egipcia del s.X a.C. Frescos antiguos.',
+      url:'http://www.villasanmichele.eu',
+      ig:'villasanmichele.capri',
+      google:'https://www.google.com/search?q=Villa+San+Michele+Anacapri',
+      duration:'1h · 12€/p' },
+    { name:'Punta Tragara + Faraglioni ⭐⭐⭐', when:'Vie 19 · 17:45',
+      note:'⭐⭐⭐ Gratis. La caminata más bonita de Capri.',
+      key:'📸 Mirador con vista a los Faraglioni desde tierra. Banco perfecto para foto.',
+      google:'https://www.google.com/search?q=Punta+Tragara+Capri+Faraglioni',
+      map:'https://maps.app.goo.gl/?q=Punta+Tragara+Capri',
+      duration:'30 min ida · gratis' },
+    { name:'Piazzetta de Capri ⭐', when:'Vie 19 · 17:15',
+      note:'⭐ A última hora cuando los cruceros se van.',
+      key:'☕ Mejor a partir de las 17:00. Tomar café (caro) y ver el ambiente.',
+      google:'https://www.google.com/search?q=Piazzetta+Capri',
+      map:'https://maps.app.goo.gl/?q=Piazzetta+Capri',
+      duration:'20 min · gratis' },
+    { name:'Vía Krupp',
+      note:'Si está abierta, senda en zigzag espectacular.',
+      key:'⚠ A menudo cerrada por desprendimientos. Si abre, bajada en zigzag a Marina Piccola.',
+      google:'https://www.google.com/search?q=Via+Krupp+Capri',
+      duration:'30 min · gratis' },
+    { name:'Giardini di Augusto ⭐⭐',
+      note:'Jardines con vista a los Faraglioni desde arriba.',
+      key:'🌺 1€ entrada. Vista alternativa de Faraglioni con buganvillas. Spot foto.',
+      google:'https://www.google.com/search?q=Giardini+Augusto+Capri',
+      duration:'20 min · 1€/p' },
+    { name:'❌ Gruta Azul',
+      note:'EVITAR. Overrated. Trampa turística.',
+      key:'❌ 18€/p, esperas 1h+, te meten en barca 5 min. Si interesa, ya estará en el boat tour de Andrea.',
+      google:'https://www.google.com/search?q=Grotta+Azzurra+Capri+resenas' }
   ],
-  'Costa Amalfitana · Dom 21 - Lun 22': [
-    { name:'Villa Cimbrone (Ravello) · Terrazza dell\'Infinito', tag:'reservar', note:'⭐ La vista más fotografiada. Mejor al atardecer.' },
-    { name:'Villa Rufolo (Ravello)', note:'7€. Si hay concierto del Ravello Festival, plus.' },
-    { name:'Duomo di Sant\'Andrea + Chiostro del Paradiso (Amalfi)', note:'5€. Imprescindible.' },
-    { name:'Museo della Carta (Amalfi)', note:'4€. Papel hecho a mano desde s.XIII.' },
-    { name:'Atrani · pueblo + plaza', note:'⭐ La joya escondida pegada a Amalfi. 7 min andando.' },
-    { name:'Positano · Spiaggia Grande + foto cúpula', note:'Ir temprano (mañana) sin maletas.' },
-    { name:'Fornillo (Positano)', note:'15 min andando desde Spiaggia Grande. Mucho menos masa.' }
+  '🌺 Costa Amalfitana · Dom 21 - Lun 22': [
+    { name:'Villa Cimbrone (Ravello) · Terrazza dell\'Infinito ⭐⭐⭐', tag:'reservar', when:'Dom 21 · 17:00 sunset',
+      note:'⭐⭐⭐ La vista más fotografiada de la Costa Amalfitana. 7€/p.',
+      key:'📸 La fila de bustos mirando al mar es THE foto del viaje. Llegar 17:00 antes de que cierren.',
+      url:'https://hotelvillacimbrone.com',
+      ig:'villacimbrone',
+      google:'https://www.google.com/search?q=Villa+Cimbrone+Terrazza+Infinito',
+      map:'https://maps.app.goo.gl/?q=Villa+Cimbrone+Ravello',
+      duration:'1h · 10€/p' },
+    { name:'Villa Rufolo (Ravello) ⭐⭐', when:'Dom 21 · 16:00',
+      note:'⭐⭐ 7€. Vista al mar + jardines + concha musical donde se hace el Ravello Festival.',
+      key:'🌳 Si hay concierto del Ravello Festival ese día, sumar +. Wagner se inspiró aquí (Klingsor).',
+      url:'https://villarufolo.com',
+      ig:'villarufolo',
+      google:'https://www.google.com/search?q=Villa+Rufolo+Ravello',
+      duration:'1h · 7€/p' },
+    { name:'Duomo Sant\'Andrea + Chiostro del Paradiso (Amalfi) ⭐⭐', when:'Lun 22 · 16:30',
+      note:'⭐⭐ 5€. Imprescindible. Arquitectura árabe-normanda única.',
+      key:'⛪ Subir las 62 escaleras del Duomo. Cripta de San Andrés Apóstol. Cloister con palmeras.',
+      google:'https://www.google.com/search?q=Duomo+Amalfi+Sant+Andrea',
+      map:'https://maps.app.goo.gl/?q=Duomo+Amalfi',
+      duration:'45 min · 5€/p' },
+    { name:'Museo della Carta (Amalfi) ⭐',
+      note:'4€. Papel hecho a mano desde s.XIII.',
+      key:'📜 Papel artesano amalfitano. Pueden hacerse demos en vivo.',
+      google:'https://www.google.com/search?q=Museo+Carta+Amalfi',
+      duration:'45 min · 4€/p' },
+    { name:'Atrani · pueblo + plaza ⭐⭐⭐', when:'Lun 22 · 17:30',
+      note:'⭐⭐⭐ La joya escondida pegada a Amalfi. 7 min andando por el túnel.',
+      key:'🏖 El pueblo italiano más pequeño (650 hab). Cena en A\'Paranza imprescindible.',
+      google:'https://www.google.com/search?q=Atrani+Costa+Amalfitana',
+      map:'https://maps.app.goo.gl/?q=Atrani',
+      duration:'1-2h paseo · gratis' },
+    { name:'Positano · Spiaggia Grande + foto cúpula ⭐⭐⭐', when:'Lun 22 · 10:00',
+      note:'⭐⭐⭐ Ir temprano (mañana) sin maletas. Después está reventado.',
+      key:'📸 LA foto: Santa Maria Assunta cúpula amarilla + casas escalonadas. 09:30-10:00 sin gente.',
+      google:'https://www.google.com/search?q=Positano+Spiaggia+Grande+Santa+Maria',
+      map:'https://maps.app.goo.gl/?q=Spiaggia+Grande+Positano',
+      duration:'2h · gratis' },
+    { name:'Fornillo (Positano) ⭐⭐', when:'Lun 22 · 11:30 baño',
+      note:'⭐ 15 min andando desde Spiaggia Grande. Mucho menos masa.',
+      key:'🏊 Cala más íntima. Beach club Pupetto o tumbonas libres a la derecha. Aguas turquesa.',
+      google:'https://www.google.com/search?q=Spiaggia+Fornillo+Positano',
+      map:'https://maps.app.goo.gl/?q=Spiaggia+Fornillo+Positano',
+      duration:'2h · gratis playa libre / 25€ tumbona' },
+    { name:'Path of the Gods (Sentiero degli Dei)',
+      note:'Si vais activos, ruta brutal Agerola → Nocelle.',
+      key:'🥾 3h, dificultad media-baja, vistas espectaculares. Empezar Bomerano (bus SITA). Solo si tenéis día extra.',
+      google:'https://www.google.com/search?q=Sentiero+degli+Dei+Amalfi',
+      duration:'3h · gratis' }
   ]
 };
 
@@ -1869,19 +2332,79 @@ function renderItemList(rootId, data, stateKey) {
       const s = STATE[stateKey][k] || {};
       const row = document.createElement('div');
       row.className = 'item-row' + (s.done ? ' done' : '');
-      const link = it.map || it.url;
+
+      // Construir título · click va a Google Maps si existe, sino a Google
+      const titleLink = it.map || it.url || it.google;
+      const titleHtml = titleLink ? `<a href="${titleLink}" target="_blank" rel="noopener">${escapeHtml(it.name)}</a>` : escapeHtml(it.name);
+
+      // Pills de info
+      const pills = [];
+      if (it.area) pills.push(`<span class="pill mar">📍 ${escapeHtml(it.area)}</span>`);
+      if (it.when) pills.push(`<span class="pill sol">🕐 ${escapeHtml(it.when)}</span>`);
+      if (it.price) pills.push(`<span class="pill green">💰 ${escapeHtml(it.price)}</span>`);
+      if (it.duration) pills.push(`<span class="pill green">⏱ ${escapeHtml(it.duration)}</span>`);
+
+      // Comentario clave destacado
+      const keyHtml = it.key ? `<div style="background:#fdf4e3;border-left:3px solid var(--sol);padding:6px 10px;margin:6px 0 4px;border-radius:6px;font-size:13px;line-height:1.45">${escapeHtml(it.key)}</div>` : '';
+
+      // Botones de acción
+      const btns = [];
+      if (it.tel) btns.push(`<a class="action-btn" href="tel:${it.tel.replace(/\s/g,'')}" title="Llamar">📞</a>`);
+      if (it.web) btns.push(`<a class="action-btn" href="${it.web}" target="_blank" rel="noopener" title="Web oficial">🌐</a>`);
+      if (it.ig) btns.push(`<a class="action-btn" href="https://instagram.com/${it.ig}" target="_blank" rel="noopener" title="Instagram">📷</a>`);
+      if (it.map) btns.push(`<a class="action-btn" href="${it.map}" target="_blank" rel="noopener" title="Google Maps">🗺</a>`);
+      if (it.google) btns.push(`<a class="action-btn" href="${it.google}" target="_blank" rel="noopener" title="Buscar Google">🔍</a>`);
+      if (it.url) btns.push(`<a class="action-btn" href="${it.url}" target="_blank" rel="noopener" title="Reservar">🎫</a>`);
+      const btnsHtml = btns.length ? `<div class="action-btns">${btns.join('')}</div>` : '';
+
+      // Reserva editable
+      const resStatus = s.resStatus || 'pendiente';
+      const resDate = s.resDate || '';
+      const reservableTag = it.tag === 'reservar';
+      const resControl = reservableTag ? `
+        <div class="reserva-control">
+          <select data-rs="${k}" class="rs-select rs-${resStatus}">
+            <option value="pendiente" ${resStatus==='pendiente'?'selected':''}>📋 Pendiente</option>
+            <option value="llamada" ${resStatus==='llamada'?'selected':''}>📞 Llamada</option>
+            <option value="confirmada" ${resStatus==='confirmada'?'selected':''}>✅ Confirmada</option>
+            <option value="visitado" ${resStatus==='visitado'?'selected':''}>✓ Visitado</option>
+          </select>
+          <input type="text" data-rd="${k}" placeholder="Día/hora reserva" value="${escapeHtml(resDate)}" class="rs-date">
+        </div>
+      ` : '';
+
       const aleBadge = it.aleStar ? `<span class="pill ale">⭐ ALE</span>` : '';
+      const reservarTag = it.tag ? `<span class="pill buga">${escapeHtml(it.tag.toUpperCase())}</span>` : '';
+
       row.innerHTML = `
         <input type="checkbox" data-k="${k}" ${s.done?'checked':''}>
         <div class="content">
-          <div class="name">${aleBadge} ${link ? `<a href="${link}" target="_blank">${it.name}</a>` : it.name} ${it.tag ? `<span class="pill buga">${it.tag.toUpperCase()}</span>` : ''}</div>
-          <div class="meta">${it.area ? `<span class="pill mar">${it.area}</span> ` : ''}${it.note||''}</div>
+          <div class="name">${aleBadge} ${titleHtml} ${reservarTag}</div>
+          <div class="meta">${pills.join(' ')}</div>
+          ${keyHtml}
+          ${it.note ? `<div class="note-text">${escapeHtml(it.note)}</div>` : ''}
+          ${btnsHtml}
+          ${resControl}
         </div>
       `;
-      row.querySelector('input').addEventListener('change', e => {
-        STATE[stateKey][k] = { done: e.target.checked };
+      row.querySelector('input[type=checkbox]').addEventListener('change', e => {
+        STATE[stateKey][k] = STATE[stateKey][k] || {};
+        STATE[stateKey][k].done = e.target.checked;
         save();
         row.classList.toggle('done', e.target.checked);
+      });
+      const rsSel = row.querySelector('select[data-rs]');
+      if (rsSel) rsSel.addEventListener('change', e => {
+        STATE[stateKey][k] = STATE[stateKey][k] || {};
+        STATE[stateKey][k].resStatus = e.target.value;
+        e.target.className = 'rs-select rs-' + e.target.value;
+        save();
+      });
+      const rsDate = row.querySelector('input[data-rd]');
+      if (rsDate) rsDate.addEventListener('input', e => {
+        STATE[stateKey][k] = STATE[stateKey][k] || {};
+        STATE[stateKey][k].resDate = e.target.value;
+        save();
       });
       card.appendChild(row);
     });
